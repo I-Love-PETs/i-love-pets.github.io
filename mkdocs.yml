@@ -109,3 +109,9 @@ nav:
       - Inference Attacks: threat-models/inference-attacks.md
       - Membership Inference: threat-models/membership-inference.md
       - Side Channels: threat-models/side-channels.md
+  - Benchmarks:
+      - Overview: benchmarks/index.md
+      - Privacy: benchmarks/privacy.md
+      - Utility: benchmarks/utility.md
+      - Cost: benchmarks/cost.md
+      - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
