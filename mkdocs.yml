@@ -1,8 +1,8 @@
 site_name: I ❤️ PETs
 site_description: A practical field guide to Privacy-Enhancing Technologies.
-site_url: https://ilovepets.github.io/
-repo_url: https://github.com/ilovepets/ilovepets.github.io
-repo_name: ilovepets/ilovepets.github.io
+site_url: https://i-love-pets.github.io/
+repo_url: https://github.com/I-Love-PETs/i-love-pets.github.io
+repo_name: I-Love-PETs/i-love-pets.github.io
 
 theme:
   name: material
