@@ -81,3 +81,11 @@ nav:
       - Advertising: use-cases/advertising.md
       - Public Sector: use-cases/public-sector.md
       - AI: use-cases/ai.md
+  - PET Architectures:
+      - Overview: pet-architectures/index.md
+      - FL + Secure Aggregation: pet-architectures/fl-secure-aggregation.md
+      - FL + Differential Privacy: pet-architectures/fl-differential-privacy.md
+      - MPC Analytics Pipeline: pet-architectures/mpc-analytics-pipeline.md
+      - HE Private Inference API: pet-architectures/he-private-inference-api.md
+      - Confidential RAG: pet-architectures/confidential-rag.md
+      - Synthetic Data Release Pipeline: pet-architectures/synthetic-data-release-pipeline.md
