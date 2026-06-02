@@ -64,3 +64,20 @@ nav:
       - By Threat Model: pet-compass/by-threat-model.md
       - By ML Task: pet-compass/by-ml-task.md
       - Decision Tree: pet-compass/decision-tree.md
+  - PET Patterns:
+      - Overview: pet-patterns/index.md
+      - Federated Analytics: pet-patterns/federated-analytics.md
+      - Cross-Silo Federated Learning: pet-patterns/cross-silo-federated-learning.md
+      - DP Synthetic Data Release: pet-patterns/dp-synthetic-data-release.md
+      - Private Set Intersection: pet-patterns/private-set-intersection.md
+      - Private Inference: pet-patterns/private-inference.md
+      - Confidential Inference: pet-patterns/confidential-inference.md
+      - Federated RAG: pet-patterns/federated-rag.md
+      - Private LLM Fine-Tuning: pet-patterns/private-llm-finetuning.md
+  - Use Cases:
+      - Overview: use-cases/index.md
+      - Healthcare: use-cases/healthcare.md
+      - Finance: use-cases/finance.md
+      - Advertising: use-cases/advertising.md
+      - Public Sector: use-cases/public-sector.md
+      - AI: use-cases/ai.md
