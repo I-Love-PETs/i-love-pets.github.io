@@ -57,3 +57,10 @@ nav:
       - What Are PETs?: start-here/what-are-pets.md
       - PET Taxonomy: start-here/pet-taxonomy.md
       - Glossary: start-here/glossary.md
+  - PET Compass:
+      - Overview: pet-compass/index.md
+      - Choose a PET: pet-compass/choose-a-pet.md
+      - By Data Movement: pet-compass/by-data-movement.md
+      - By Threat Model: pet-compass/by-threat-model.md
+      - By ML Task: pet-compass/by-ml-task.md
+      - Decision Tree: pet-compass/decision-tree.md
