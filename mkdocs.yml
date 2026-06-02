@@ -81,3 +81,37 @@ nav:
       - Advertising: use-cases/advertising.md
       - Public Sector: use-cases/public-sector.md
       - AI: use-cases/ai.md
+  - PET Architectures:
+      - Overview: pet-architectures/index.md
+      - FL + Secure Aggregation: pet-architectures/fl-secure-aggregation.md
+      - FL + Differential Privacy: pet-architectures/fl-differential-privacy.md
+      - MPC Analytics Pipeline: pet-architectures/mpc-analytics-pipeline.md
+      - HE Private Inference API: pet-architectures/he-private-inference-api.md
+      - Confidential RAG: pet-architectures/confidential-rag.md
+      - Synthetic Data Release Pipeline: pet-architectures/synthetic-data-release-pipeline.md
+  - Fix My Itch:
+      - Overview: fix-my-itch/index.md
+      - Good First Research Problems: fix-my-itch/good-first-research-problems.md
+      - Industry Pain Points: fix-my-itch/industry-pain-points.md
+      - Federated Learning: fix-my-itch/federated-learning.md
+      - Differential Privacy: fix-my-itch/differential-privacy.md
+      - MPC: fix-my-itch/mpc.md
+      - Homomorphic Encryption: fix-my-itch/homomorphic-encryption.md
+      - TEEs: fix-my-itch/tees.md
+      - Synthetic Data: fix-my-itch/synthetic-data.md
+      - PET Composition: fix-my-itch/pet-composition.md
+      - Benchmarks Needed: fix-my-itch/benchmarks-needed.md
+  - Threat Models:
+      - Overview: threat-models/index.md
+      - Honest-But-Curious: threat-models/honest-but-curious.md
+      - Malicious Adversary: threat-models/malicious-adversary.md
+      - Collusion: threat-models/collusion.md
+      - Inference Attacks: threat-models/inference-attacks.md
+      - Membership Inference: threat-models/membership-inference.md
+      - Side Channels: threat-models/side-channels.md
+  - Benchmarks:
+      - Overview: benchmarks/index.md
+      - Privacy: benchmarks/privacy.md
+      - Utility: benchmarks/utility.md
+      - Cost: benchmarks/cost.md
+      - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
