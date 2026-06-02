@@ -121,3 +121,10 @@ nav:
       - Finance: deployments/finance.md
       - Advertising: deployments/advertising.md
       - Public Sector: deployments/public-sector.md
+  - Contributing:
+      - Overview: contributing/index.md
+      - Pattern Template: contributing/pattern-template.md
+      - Use Case Template: contributing/use-case-template.md
+      - Architecture Template: contributing/architecture-template.md
+      - Fix My Itch Template: contributing/fix-my-itch-template.md
+      - Tool Template: contributing/tool-template.md
