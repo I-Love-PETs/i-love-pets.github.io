@@ -52,6 +52,12 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Project Standards:
+      - Overview: project-standards/index.md
+      - Primary Reader: project-standards/primary-reader.md
+      - Evidence Policy: project-standards/evidence-policy.md
+      - Claim Register: project-standards/claim-register.md
+      - Review Cadence: project-standards/review-cadence.md
   - Start Here:
       - Overview: start-here/index.md
       - What Are PETs?: start-here/what-are-pets.md
