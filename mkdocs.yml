@@ -101,3 +101,11 @@ nav:
       - Synthetic Data: fix-my-itch/synthetic-data.md
       - PET Composition: fix-my-itch/pet-composition.md
       - Benchmarks Needed: fix-my-itch/benchmarks-needed.md
+  - Threat Models:
+      - Overview: threat-models/index.md
+      - Honest-But-Curious: threat-models/honest-but-curious.md
+      - Malicious Adversary: threat-models/malicious-adversary.md
+      - Collusion: threat-models/collusion.md
+      - Inference Attacks: threat-models/inference-attacks.md
+      - Membership Inference: threat-models/membership-inference.md
+      - Side Channels: threat-models/side-channels.md
