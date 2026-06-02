@@ -115,3 +115,9 @@ nav:
       - Utility: benchmarks/utility.md
       - Cost: benchmarks/cost.md
       - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
+  - Deployments:
+      - Overview: deployments/index.md
+      - Healthcare: deployments/healthcare.md
+      - Finance: deployments/finance.md
+      - Advertising: deployments/advertising.md
+      - Public Sector: deployments/public-sector.md
