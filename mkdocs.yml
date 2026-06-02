@@ -89,3 +89,15 @@ nav:
       - HE Private Inference API: pet-architectures/he-private-inference-api.md
       - Confidential RAG: pet-architectures/confidential-rag.md
       - Synthetic Data Release Pipeline: pet-architectures/synthetic-data-release-pipeline.md
+  - Fix My Itch:
+      - Overview: fix-my-itch/index.md
+      - Good First Research Problems: fix-my-itch/good-first-research-problems.md
+      - Industry Pain Points: fix-my-itch/industry-pain-points.md
+      - Federated Learning: fix-my-itch/federated-learning.md
+      - Differential Privacy: fix-my-itch/differential-privacy.md
+      - MPC: fix-my-itch/mpc.md
+      - Homomorphic Encryption: fix-my-itch/homomorphic-encryption.md
+      - TEEs: fix-my-itch/tees.md
+      - Synthetic Data: fix-my-itch/synthetic-data.md
+      - PET Composition: fix-my-itch/pet-composition.md
+      - Benchmarks Needed: fix-my-itch/benchmarks-needed.md
