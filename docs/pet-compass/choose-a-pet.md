@@ -1,5 +1,10 @@
 # Choose a PET
 
+!!! info "Review status"
+    Last reviewed: 2026-06-02
+    Evidence level: Expert judgment
+    Snapshot scope: Qualitative shortlist guidance. Validate cost, maturity, and utility against current benchmarks before production decisions.
+
 ## If Data Cannot Move
 
 Use **federated learning** when the output is a trained model and participants can run local training.
@@ -32,7 +37,9 @@ Use **synthetic data** when downstream users need data-like artifacts for testin
 
 Use **DP synthetic data** when the release needs a formal individual privacy claim.
 
-## Tradeoff Table
+## Starter Tradeoff Table
+
+This table is for shortlisting. It is not a substitute for workload-specific benchmarks, deployment evidence, or threat-model review.
 
 | PET | Privacy Strength | Utility Risk | Cost | Operational Complexity |
 | --- | --- | --- | --- | --- |
@@ -44,3 +51,10 @@ Use **DP synthetic data** when the release needs a formal individual privacy cla
 | PSI | High for nonmatches | Low | Low to medium | Medium |
 | Synthetic data | Low to high depending on method | Medium | Medium | Medium |
 | Clean room | Governance-dependent | Low to medium | Medium | Medium |
+
+## Evidence Needed Before Committing
+
+- Benchmark latency and cost for the target workload.
+- State the adversary and collusion assumptions.
+- Identify what the output intentionally reveals.
+- Check whether the claim is measured, deployment-backed, literature-backed, expert judgment, or still needs evidence.

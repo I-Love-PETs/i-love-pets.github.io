@@ -2,7 +2,9 @@
 
 A practical field guide to Privacy-Enhancing Technologies.
 
-I ❤️ PETs helps builders, researchers, privacy engineers, architects, product teams, policy teams, and students decide which privacy-enhancing technology fits a real problem.
+I ❤️ PETs helps privacy engineers, platform engineers, and architects decide which privacy-enhancing technology fits a real system they may need to scope in the next few weeks.
+
+Researchers, product teams, policy teams, and students are welcome secondary readers, but the editorial center is the builder responsible for a PET decision.
 
 This is not another awesome list. Existing repositories already collect papers, frameworks, tools, datasets, tutorials, and links. This project focuses on guidance: decision support, architecture patterns, threat models, real-world deployment lessons, open research problems, and implementation tradeoffs.
 
@@ -12,7 +14,7 @@ This is not another awesome list. Existing repositories already collect papers, 
 - What architecture fits the trust boundaries?
 - What tradeoffs should I expect across privacy, utility, cost, latency, and complexity?
 - What can still go wrong after a PET is deployed?
-- Which open research problems are concrete enough to work on?
+- What evidence should I collect before committing to a design?
 
 ## Main Sections
 
@@ -29,6 +31,20 @@ This is not another awesome list. Existing repositories already collect papers, 
 ## Fix My Itch
 
 Fix My Itch is the project's catalog of meaningful open problems. Each problem should explain the pain, why it matters, what is unsolved, plausible directions, difficulty, and who it is good for. The goal is to turn vague "future work" into concrete work someone can start.
+
+## Trust And Currency
+
+Decision support is only useful if readers can see why a claim should be trusted and whether it may be stale. Fast-moving claims about cost, performance, tooling maturity, and production readiness should be dated and backed by evidence wherever possible.
+
+The project uses evidence levels:
+
+- **Measured**: benchmarked with stated workload, environment, and date.
+- **Deployment-backed**: supported by a named deployment, postmortem, or case study.
+- **Literature-backed**: supported by papers, standards, or technical reports.
+- **Expert judgment**: editorial judgment that needs review and may change.
+- **Needs evidence**: useful claim, but not yet trustworthy enough for decision support.
+
+See the Project Standards section in the site for the full evidence and review policy.
 
 ## Run Locally
 

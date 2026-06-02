@@ -1,6 +1,13 @@
 # PET Compass
 
+!!! info "Review status"
+    Last reviewed: 2026-06-02
+    Evidence level: Expert judgment
+    Snapshot scope: Starter decision guidance. Cost, maturity, and tooling claims need stronger sourced evidence before production use.
+
 The PET Compass helps you choose a short list of candidate technologies before designing an architecture.
+
+For the project's evidence standard, see [Evidence Policy](../project-standards/evidence-policy.md). For claims that need sourcing or measurement, see [Claim Register](../project-standards/claim-register.md).
 
 ## Decision Inputs
 
@@ -13,7 +20,7 @@ The PET Compass helps you choose a short list of candidate technologies before d
 | Is hardware trust acceptable? | TEEs are practical when hardware and attestation are acceptable assumptions. |
 | What latency and cost are tolerable? | HE and MPC may be excellent but too expensive for some workloads. |
 
-## Recommendation Matrix
+## Starter Recommendation Matrix
 
 | Constraint | Start With | Often Combine With |
 | --- | --- | --- |
@@ -27,3 +34,5 @@ The PET Compass helps you choose a short list of candidate technologies before d
 ## Do Not Stop At The Matrix
 
 The matrix produces candidates, not an architecture. After choosing a candidate PET, move to patterns and threat models.
+
+Before committing to a design, collect evidence for the target workload: expected latency, utility, privacy guarantee, adversary model, deployment complexity, and output leakage.
