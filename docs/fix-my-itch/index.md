@@ -1,28 +1,43 @@
 # Fix My Itch
 
-Fix My Itch is a catalog of practical open problems in PETs. The goal is to replace vague future work with problems a researcher, builder, maintainer, or funder can act on.
+Fix My Itch is the part of I Love PETs for problems that practitioners keep hitting and researchers can actually make progress on.
 
-## Submission Standard
+The goal is not to list research areas. Each entry should describe a specific itch, the workaround people use today, why that workaround is not good enough, and what good progress would look like.
 
-Every problem should state:
+## Card Standard
 
-- The itch
-- Why it matters
-- Current state
-- What is unsolved
-- Possible directions
-- Difficulty
-- Good for
-- Related patterns
+Every problem card should answer:
+
+| Field | Standard |
+| --- | --- |
+| Problem | A concrete problem a team can recognize in the field |
+| The itch | What is frustrating, brittle, expensive, or missing today |
+| Why it matters | Who is blocked or harmed while this remains unsolved |
+| Current workaround | What teams actually do now |
+| Why the workaround is insufficient | The specific failure, not "more research is needed" |
+| What good progress would look like | A measurable improvement or usable artifact |
+| Difficulty | Good first research problem, medium, hard, or moonshot |
+| Good for | The kind of contributor who can make progress |
+| Related PETs | The PET families involved |
+| Possible first contribution | A small starting point that could be published, shipped, or benchmarked |
 
 ## Problem Map
 
-| Area | Representative Itches |
-| --- | --- |
-| Federated learning | Non-IID learning, personalization, poisoning resistance, communication efficiency, gradient leakage |
-| Differential privacy | DP for LLMs, accounting usability, auditing, utility optimization |
-| MPC | Developer experience, malicious security, large-scale deployment |
-| Homomorphic encryption | Modern-model inference, abstractions, cost reduction |
-| TEEs | Side-channel resilience, attestation usability, multi-cloud portability |
-| Synthetic data | Privacy auditing, utility measurement, memorization detection |
-| PET composition | FL + DP + MPC, FL + TEE, HE + DP, end-to-end guarantees |
+| Area | Strong starting point | Typical output |
+| --- | --- | --- |
+| [Federated learning](federated-learning.md) | Realistic non-IID benchmarks and update safety | Benchmark suites, poisoning tests, lightweight tooling |
+| [Differential privacy](differential-privacy.md) | Budget selection and claim auditing | Decision aids, audits, DP fine-tuning baselines |
+| [MPC](mpc.md) | Developer usability and deployment cost prediction | Cost estimators, backend abstractions, malicious-security examples |
+| [Homomorphic encryption](homomorphic-encryption.md) | Practical HE inference boundaries | Model/operator benchmarks, debugging tools |
+| [TEEs](tees.md) | Attestation and side-channel reasoning | Risk checklists, portability tests, developer explanations |
+| [Synthetic data](synthetic-data.md) | Memorization, utility, and residual-risk communication | Evaluation harnesses, model cards, release reviews |
+| [PET composition](pet-composition.md) | End-to-end guarantees across PET stacks | Trust-boundary diagrams, composition tests |
+| [Benchmarks needed](benchmarks-needed.md) | Cost/privacy/utility suites for realistic deployments | Reproducible benchmark tasks and scorecards |
+
+## What Counts As A Good Itch
+
+- A hospital, bank, public agency, platform team, or model provider would recognize the problem.
+- The problem has a clear failure mode.
+- A first contribution can be done without building a full production system.
+- Success can be measured by more than citations.
+- The card says when the PET does not solve the problem.
