@@ -1,33 +1,63 @@
 # Homomorphic Encryption
 
-## The Itch
+HE is compelling when a service must compute over encrypted inputs, but practical ML workloads are bounded by operator support, latency, ciphertext size, and model design.
 
-HE is compelling for private inference, but modern models are still difficult to run cheaply and ergonomically.
+## Practical HE Model Architectures
 
-## Why It Matters
+| Field | Card |
+| --- | --- |
+| Problem | What model architectures are actually practical for HE inference? |
+| The itch | Teams hear that encrypted inference is possible, then discover their model uses layers, activations, or precision that are painful under HE. |
+| Why it matters | Product teams need to know whether to redesign the model, switch PETs, or abandon private inference. |
+| Current workaround | Use toy models, vendor demos, or late-stage prototypes. |
+| Why the workaround is insufficient | It hides accuracy loss, batching constraints, and deployment cost. |
+| What good progress would look like | A model catalog with supported operators, latency, accuracy, ciphertext size, and parameter choices for common tasks. |
+| Difficulty | Medium |
+| Good for | ML researcher, systems builder, cryptographer, benchmark maintainer |
+| Related PETs | HE, private inference, TEEs |
+| Possible first contribution | Benchmark three small architectures for tabular or image inference under one HE library and publish unsupported operations. |
 
-Input confidentiality during inference is valuable for health, finance, identity, and enterprise AI.
+## Debugging Encrypted Computation
 
-## Current State
+| Field | Card |
+| --- | --- |
+| Problem | How can developers debug encrypted computation? |
+| The itch | When encrypted inference returns the wrong answer, developers cannot inspect intermediate plaintext values in the deployed path. |
+| Why it matters | Debuggability affects trust, incident response, and adoption by normal ML engineering teams. |
+| Current workaround | Compare against plaintext simulations or ask cryptography specialists to inspect parameters. |
+| Why the workaround is insufficient | It misses production-only failures such as encoding mistakes, scale drift, key handling bugs, and data distribution shifts. |
+| What good progress would look like | Debug tooling that links encrypted traces to safe plaintext simulations, parameter warnings, and reproducible test vectors. |
+| Difficulty | Hard |
+| Good for | Systems builder, cryptographer, ML engineer |
+| Related PETs | HE |
+| Possible first contribution | Build a test harness that runs a plaintext shadow computation and reports where HE approximation error diverges. |
 
-HE works best for constrained models and carefully optimized workloads.
+## HE Inference Benchmarks That Matter
 
-## What Is Unsolved
+| Field | Card |
+| --- | --- |
+| Problem | How can HE inference be benchmarked across latency, cost, and accuracy? |
+| The itch | Benchmarks often report one impressive latency number without deployment context. |
+| Why it matters | Buyers need to compare HE with TEEs, client-side inference, or standard hosted inference. |
+| Current workaround | Vendor-specific demos and single-model papers. |
+| Why the workaround is insufficient | It rarely captures batching, key setup, ciphertext transfer, accuracy loss, and cloud cost. |
+| What good progress would look like | A benchmark format that reports end-to-end latency, throughput, ciphertext size, accuracy, parameter choices, and cost. |
+| Difficulty | Good first research problem |
+| Good for | Benchmark maintainer, systems builder, ML researcher |
+| Related PETs | HE, TEEs, private inference |
+| Possible first contribution | Create a reproducible benchmark for one tabular classifier comparing plaintext, TEE, and HE inference. |
 
-Modern-model inference, programming abstractions, cost reduction, and model design for encrypted computation.
+## Explaining HE Failure Early
 
-## Possible Directions
-
-Measure model-operation compatibility, build developer-friendly compilers, evaluate hybrid HE/TEE designs, and publish latency/cost baselines.
-
-## Difficulty
-
-Advanced.
-
-## Good For
-
-Cryptography engineers, ML systems researchers, and inference platform teams.
-
-## Related Patterns
-
-Private inference, HE private inference API, cost benchmarks.
+| Field | Card |
+| --- | --- |
+| Problem | How can tools tell teams early that HE is the wrong PET for a workload? |
+| The itch | Engineers may spend weeks adapting a model before realizing the latency or operator set will not work. |
+| Why it matters | Honest rejection criteria save time and reduce overclaiming. |
+| Current workaround | Ask experts to review the model manually. |
+| Why the workaround is insufficient | Expert review does not scale and may happen after sales or architecture commitments. |
+| What good progress would look like | A preflight analyzer that flags unsupported layers, expensive operations, precision risks, and expected latency bands. |
+| Difficulty | Medium |
+| Good for | Systems builder, cryptographer, ML engineer |
+| Related PETs | HE, private inference |
+| Possible first contribution | Write a model-inspection script for one framework that maps layers to HE support and warnings. |
