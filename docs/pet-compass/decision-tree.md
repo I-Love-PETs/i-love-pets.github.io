@@ -1,54 +1,72 @@
 # Decision Tree
 
-This tree gives a first candidate, not a final architecture. Use it to avoid obvious mismatches, then validate the recommendation with a threat model and workload benchmark.
+This page gives a first candidate, not a final architecture. It is intentionally text-first so the decision path remains readable on phones, laptops, and printed reviews.
 
-```mermaid
-flowchart TD
-  A[What output is allowed?] --> B{Is the output a model?}
-  A --> C{Is the output an aggregate metric?}
-  A --> D{Is the output a match set?}
-  A --> E{Is the output an inference result?}
-  A --> F{Is the output a data-like artifact?}
+## Start With The Allowed Output
 
-  B --> B1{Can raw training data centralize?}
-  B1 -->|Yes| B2[Centralized training + minimization]
-  B1 -->|No| B3[Cross-silo federated learning]
-  B3 --> B4{Should coordinator see client updates?}
-  B4 -->|No| B5[Add secure aggregation]
-  B4 -->|Yes| B6[Treat updates as sensitive anyway]
-  B3 --> B7{Need formal record-level privacy?}
-  B7 -->|Yes| B8[Add differential privacy]
+Most privacy failures happen after a PET successfully protects inputs. Begin with the output you are allowed to reveal.
 
-  C --> C1{Can one operator be trusted?}
-  C1 -->|Yes| C2[Clean room or governed analytics]
-  C1 -->|No| C3[MPC or federated analytics]
-  C2 --> C4{Could small cells reveal facts?}
-  C3 --> C4
-  C4 -->|Yes| C5[Add DP, thresholds, and output review]
+| Allowed output | Start with | Add when needed | Watch for |
+| --- | --- | --- | --- |
+| A trained model | Federated learning if raw training data cannot centralize | Secure aggregation, DP, robust aggregation | Update leakage, poisoning, non-IID data, model memorization |
+| Aggregate metrics | Federated analytics, MPC, or a clean room | DP, thresholds, output review | Small-cell leakage, repeated queries, inconsistent metric definitions |
+| A match set | Private set intersection | DP counts, clean-room controls, audit logs | The intersection itself may be sensitive |
+| An inference result | TEE confidential inference or HE | Attestation, model compression, output controls | Latency, unsupported operators, side channels, prediction leakage |
+| A data-like release | DP synthetic data when a formal release claim is needed | Memorization tests, utility benchmarks | Synthetic data copying real records or losing useful signal |
 
-  D --> D1[Private set intersection]
-  D1 --> D2{Is the intersection itself sensitive?}
-  D2 -->|Yes| D3[Restrict outputs, add thresholds, audit use]
+## Decision Ladders
 
-  E --> E1{Can the service use hardware trust?}
-  E1 -->|Yes| E2[TEE confidential inference]
-  E1 -->|No| E3[Homomorphic encryption]
-  E3 --> E4{Does the model fit HE constraints?}
-  E4 -->|No| E5[Change model, use TEE, or run locally]
+### If the output is a model
 
-  F --> F1{Need formal release claim?}
-  F1 -->|Yes| F2[DP synthetic data]
-  F1 -->|No| F3[Synthetic data + memorization audit]
-  F2 --> F4[Measure utility and privacy]
-  F3 --> F4
-```
+| Question | If yes | If no |
+| --- | --- | --- |
+| Can raw training data centralize safely? | Centralized training with minimization, access control, and release review | Cross-silo federated learning |
+| Should the coordinator see individual updates? | Treat updates as sensitive and audit access | Add secure aggregation |
+| Is formal record-level privacy required? | Add differential privacy and budget accounting | Still test memorization and inference risk |
+| Can participants run local training reliably? | Continue to FL architecture review | Consider governed centralization, a clean room, or a narrower analytics task |
 
-## How To Read The Tree
+Primary recommendation: **FL + secure aggregation + optional DP** when data cannot centralize and the output is a model.
 
-1. Start with the allowed output. Most privacy failures happen after the PET successfully protects inputs.
-2. Mark every artifact that still moves: updates, embeddings, identifiers, prompts, logs, metrics, model weights, and final outputs.
-3. Add the adversary: curious coordinator, malicious participant, colluding parties, platform operator, inference attacker, side-channel attacker, or external attacker.
-4. Write the reversal condition: the result that would make you pick a different PET.
+### If the output is an aggregate metric
+
+| Question | If yes | If no |
+| --- | --- | --- |
+| Can one operator be trusted to run the computation? | Clean room or governed analytics | MPC or federated analytics |
+| Could small cells reveal people, sites, or businesses? | Add DP, thresholds, grouping, and output review | Still track repeated queries |
+| Do parties define the metric the same way? | Continue | Fix schema and semantics before choosing a PET |
+
+Primary recommendation: **federated analytics** for simple distributed metrics; **MPC** when no single operator should see intermediate values.
+
+### If the output is a match set
+
+| Question | If yes | If no |
+| --- | --- | --- |
+| Is revealing the intersection allowed? | Private set intersection | Do not release the match set |
+| Is only the count needed? | PSI with count-only output or MPC | Restrict match use and audit downstream actions |
+| Can parties repeat queries freely? | Add query limits and review | Continue |
+
+Primary recommendation: **PSI** when parties may learn the agreed overlap. If the overlap is sensitive, use a stricter output policy or a different computation.
+
+### If the output is an inference result
+
+| Question | If yes | If no |
+| --- | --- | --- |
+| Is hardware trust acceptable? | TEE confidential inference | Homomorphic encryption or local inference |
+| Does the model fit HE constraints? | Benchmark HE end to end | Redesign the model, use a TEE, or run locally |
+| Can the output reveal sensitive facts? | Add output controls, rate limits, and review | Continue |
+| Can clients verify attestation? | Continue with TEE design | Do not rely on confidential inference claims |
+
+Primary recommendation: **TEE first for broad model support** when hardware trust is acceptable; **HE only after model-fit and latency benchmarking**.
+
+### If the output is a data-like artifact
+
+| Question | If yes | If no |
+| --- | --- | --- |
+| Is a formal release claim required? | DP synthetic data | Synthetic data with explicit residual-risk labeling |
+| Is downstream utility measurable? | Benchmark the intended tasks | Do not release as a useful substitute |
+| Does the generator memorize rare records? | Stop, tune, or use a stricter release path | Continue with release review |
+
+Primary recommendation: **DP synthetic data** for broad release claims. Non-DP synthetic data may still be useful, but it should not be described as anonymous.
 
 ## When The Recommendation Changes
 
@@ -65,7 +83,7 @@ flowchart TD
 
 ## Worked Example: Hospitals Training A Model
 
-Path through the tree:
+Path through the ladders:
 
 1. Output is a model.
 2. Raw training data cannot centralize.
@@ -86,7 +104,7 @@ Measure before launch: per-site performance, subgroup performance, privacy budge
 
 ## Worked Example: Private Inference
 
-Path through the tree:
+Path through the ladders:
 
 1. Output is an inference result.
 2. The service should not see plaintext inputs.

@@ -110,7 +110,7 @@ High. Private fine-tuning touches data governance, ML training, privacy accounti
 
 ## Related Pages
 
-- [By ML task](../pet-compass/by-ml-task.md#fine-tuning)
+- [By ML task](../pet-compass/by-ml-task.md#private-llm-fine-tuning)
 - [Differential privacy problems](../fix-my-itch/differential-privacy.md)
 - [Federated learning problems](../fix-my-itch/federated-learning.md)
 - [Synthetic data problems](../fix-my-itch/synthetic-data.md)
