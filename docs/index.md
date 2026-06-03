@@ -4,48 +4,44 @@ A practical field guide to Privacy-Enhancing Technologies.
 
 ## This Is Not Another Awesome List
 
-Existing repositories catalog papers and tools.
+Existing repositories catalog papers and tools. This site is for the moment after
+someone asks, "What should we actually build, buy, evaluate, or research?"
 
 I ❤️ PETs focuses on:
 
-- Choosing the right PET
-- Designing architectures
-- Understanding tradeoffs
-- Evaluating threats
-- Finding meaningful research problems
+- choosing the right PET for a constraint, not a buzzword;
+- drawing architectures with explicit trust boundaries;
+- spotting privacy claims that are missing a threat model;
+- turning vague "future work" into concrete research problems;
+- learning from deployments without pretending every pilot is production.
 
-## Start Here
+## How To Use This Site
 
-Use this project when you need to make a decision, explain an architecture, evaluate a privacy claim, or turn a fuzzy research direction into a concrete problem.
+Use the site as a field guide, not a textbook.
 
-## PET Compass
+| If you need to... | Start with... | You should leave with... |
+| --- | --- | --- |
+| Pick a PET for a real system | [PET Compass](pet-compass/index.md) | A primary candidate, likely supporting PETs, and reasons to reject the wrong options |
+| Explain how a PET design works | [PET Architectures](pet-architectures/index.md) | Actors, data flows, trust boundaries, assumptions, and failure modes |
+| Compare recurring designs | [PET Patterns](pet-patterns/index.md) | When to use a pattern, when not to use it, and what to measure |
+| Check whether a privacy claim is credible | [Threat Models](threat-models/index.md) | The adversary, the protected asset, and what the PET does not protect |
+| Find a useful research problem | [Fix My Itch](fix-my-itch/index.md) | A concrete problem, current workaround, success criteria, and a first contribution |
+| Judge whether a deployment claim is meaningful | [Deployments](deployments/index.md) | Deployment maturity, source quality, lessons, and unresolved caveats |
 
-The compass helps map problem constraints to PET families. Start with data movement, threat model, output type, privacy guarantee, and deployment constraints.
+## Opinionated Defaults
 
-## PET Patterns
+- Federated learning does not provide privacy by itself.
+- Synthetic data is not automatically safe to release.
+- TEEs reduce exposure but add hardware, attestation, and side-channel assumptions.
+- Homomorphic encryption protects data during computation but is constrained by latency, operators, and model design.
+- MPC can be powerful, but many teams underestimate protocol, identity, and operations work.
+- Differential privacy is the clearest formal privacy tool, but the utility cost and budget accounting must be measured.
 
-Patterns describe recurring designs such as federated analytics, private set intersection, confidential inference, and private LLM fine-tuning.
+## Main Sections
 
-## PET Architectures
-
-Architecture pages show actors, data flow, trust boundaries, PET stacks, tradeoffs, and failure modes.
-
-## Use Cases
-
-Use cases translate PET choices into domain-specific constraints for healthcare, finance, advertising, public sector, and AI.
-
-## Threat Models
-
-Privacy claims are meaningless without a threat model. These pages explain what adversaries can do and what each PET does or does not protect.
-
-## Fix My Itch
-
-Fix My Itch turns practical pain points into actionable research and engineering problems.
-
-## Benchmarks
-
-Benchmarks focus on measurement: privacy, utility, cost, latency, scalability, robustness, and developer effort.
-
-## Deployments
-
-Deployment pages summarize what worked, what failed, and what teams should watch for in real systems.
+- [Start Here](start-here/index.md): shared vocabulary and taxonomy.
+- [PET Compass](pet-compass/index.md): decision support by data movement, threat model, and ML task.
+- [PET Patterns](pet-patterns/index.md): reusable designs such as federated analytics, private inference, and private RAG.
+- [Use Cases](use-cases/index.md): domain constraints in healthcare, finance, advertising, public sector, and AI.
+- [Benchmarks](benchmarks/index.md): how to measure privacy, utility, cost, latency, scalability, and developer effort.
+- [Contributing](contributing/index.md): quality bar for improving the guide.
