@@ -111,4 +111,4 @@ High. The hardest work is usually not model serving; it is permission modeling, 
 
 - [Confidential RAG architecture](../pet-architectures/confidential-rag.md)
 - [Private RAG benchmark problems](../fix-my-itch/benchmarks-needed.md)
-- [By ML task](../pet-compass/by-ml-task.md#rag)
+- [By ML task](../pet-compass/by-ml-task.md#private-rag)
