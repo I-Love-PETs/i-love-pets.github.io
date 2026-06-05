@@ -123,6 +123,7 @@ nav:
       - Side Channels: threat-models/side-channels.md
   - Benchmarks:
       - Overview: benchmarks/index.md
+      - Scorecards: benchmarks/scorecards.md
       - Privacy: benchmarks/privacy.md
       - Utility: benchmarks/utility.md
       - Cost: benchmarks/cost.md
