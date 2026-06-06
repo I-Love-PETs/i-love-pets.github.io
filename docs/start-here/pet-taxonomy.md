@@ -1,5 +1,21 @@
 # PET Taxonomy
 
+Use this taxonomy to understand PET families. Use [PET Compass](../pet-compass/index.md) when you need to choose between them.
+
+## Quick Comparison
+
+| PET | Primarily protects | Usually reveals | Hidden cost |
+| --- | --- | --- | --- |
+| Federated learning | Raw training data location | Updates, metrics, final model | Distributed ML operations |
+| Differential privacy | Individual contribution to an output | Noisy output | Utility and accounting |
+| MPC | Party inputs during computation | Agreed output | Protocol operations |
+| Homomorphic encryption | Plaintext inputs during computation | Encrypted output to key holder | Model/operator constraints |
+| TEEs | Runtime plaintext from some operators | Output from runtime | Hardware and attestation trust |
+| PSI | Nonmatching set elements | Match set or count | Repeated-query governance |
+| Synthetic data | Raw data release | Generated artifact | Memorization and utility review |
+| Clean rooms | Direct dataset access | Approved query outputs | Platform and policy trust |
+| ZKPs | Private witness | Verified statement | Circuit and proof engineering |
+
 ## Federated Learning
 
 **What it is:** A way to train models across multiple data holders while raw training data stays local.
