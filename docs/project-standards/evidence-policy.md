@@ -25,6 +25,10 @@ Use these labels when reviewing pages:
 | Too broad | Claim is true only in some settings | Narrow the claim before sourcing |
 | Remove | Claim is generic, unsupported, or not decision-relevant | Delete it |
 
+## Resolved and Unresolved Claim Status
+
+Each entry in the [Claim Register](claim-register.md) carries a **Resolved** or **Unresolved** status. A claim is **Resolved** when sufficient evidence has been identified or the claim has been narrowed and labelled so readers can calibrate their confidence (inline notes are in place on the relevant pages). A claim is **Unresolved** when it remains too broad, too vague, or unsourced for decision use. The register records a dated note explaining what evidence was found or what is still missing. Status is re-evaluated on each editorial pass; inline evidence notes on content pages use the form `*(Evidence: <level>, <date> — <one-line note>.)*`.
+
 ## Claims That Need Evidence
 
 Add evidence or mark uncertainty for claims about:
