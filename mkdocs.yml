@@ -135,6 +135,12 @@ nav:
       - Finance: deployments/finance.md
       - Advertising: deployments/advertising.md
       - Public Sector: deployments/public-sector.md
+  - Tool Reviews:
+      - Overview: tool-reviews/index.md
+      - FL: Flower: tool-reviews/flower-fl.md
+      - DP: OpenDP: tool-reviews/opendp.md
+      - HE: Microsoft SEAL: tool-reviews/microsoft-seal.md
+      - Confidential Computing: tool-reviews/confidential-computing-platform.md
   - Contributing:
       - Overview: contributing/index.md
       - Pattern Template: contributing/pattern-template.md
