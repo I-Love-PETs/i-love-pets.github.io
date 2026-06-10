@@ -3,22 +3,31 @@
 This register tracks claims that should be sourced, measured, narrowed, or softened before the guide is treated as decision-grade.
 
 !!! info "Review status"
-    Last reviewed: 2026-06-05
+    Last reviewed: 2026-06-10
     Evidence level: Expert judgment
     Snapshot scope: v0.4 editorial backlog for claims that need stronger evidence or tighter wording.
 
+## Status Convention
+
+Each tracked claim carries one of two statuses:
+
+- **Resolved** — sufficient evidence has been identified or the claim has been narrowed and labelled so readers can calibrate their confidence. Inline notes on the relevant pages are in place.
+- **Unresolved** — the claim is still too broad, too vague, or lacks sourcing that would make it decision-grade. The "Needed evidence" column describes what would close it.
+
+Status is re-evaluated on each editorial pass and dated on change.
+
 ## Highest Priority Claims
 
-| Claim area | Current risk | Needed evidence | Target level | Current state |
-| --- | --- | --- | --- | --- |
-| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware | Measured | Needs evidence |
-| MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, and bandwidth | Measured or deployment-backed | Needs evidence |
-| DP utility impact | Utility loss depends heavily on task, privacy unit, and budget | Task-specific examples with epsilon, delta, utility metrics, and release cadence | Measured | Too broad |
-| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat |
-| Synthetic data privacy | "Synthetic" is often mistaken for anonymous | Memorization and membership-inference audits for release workflows | Measured | Needs evidence |
-| Clean room privacy | Governance claims can be confused with PET guarantees | Examples of output leakage, query controls, and policy enforcement | Deployment-backed | Too broad |
-| Federated learning leakage | "Data stays local" can mislead readers | Gradient leakage examples, secure aggregation limits, and DP mitigation evidence | Literature-backed or measured | Usable with caveat |
-| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence |
+| Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-06-10) |
+| --- | --- | --- | --- | --- | --- | --- |
+| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware | Measured | Needs evidence | **Unresolved** | No public cross-model latency benchmark found. Inline note added to private-inference.md flagging claim as Expert judgment; cost section labelled "Needs evidence". |
+| MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, and bandwidth | Measured or deployment-backed | Needs evidence | **Unresolved** | No broadly cited benchmark covers buyer-oriented bandwidth/latency for multi-party analytics. Complexity label on private-inference.md and choose-a-pet.md annotated as Expert judgment. |
+| DP utility impact | Utility loss depends heavily on task, privacy unit, and budget | Task-specific examples with epsilon, delta, utility metrics, and release cadence | Measured | Too broad | **Unresolved** | Claim is workload-dependent; no single source covers all tasks. Inline caveat added to choose-a-pet.md DP row directing readers to check task-specific benchmarks. |
+| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat | **Resolved** | Covered by well-known research on SGX/TDX side-channels (e.g., Van Bulck et al., USENIX Security 2018; Intel Product Security advisories). Inline note added to private-inference.md citing this class of work. |
+| Synthetic data privacy | "Synthetic" is often mistaken for anonymous | Memorization and membership-inference audits for release workflows | Measured | Needs evidence | **Unresolved** | No single production audit standard exists. Inline caveat in choose-a-pet.md points to membership-inference testing as the concrete next step; claim marked Expert judgment until audits are conducted. |
+| Clean room privacy | Governance claims can be confused with PET guarantees | Examples of output leakage, query controls, and policy enforcement | Deployment-backed | Too broad | **Unresolved** | No public postmortem with output-leakage data available. Claim remains broad; choose-a-pet.md notes governance vs. cryptographic distinction. |
+| Federated learning leakage | "Data stays local" can mislead readers | Gradient leakage examples, secure aggregation limits, and DP mitigation evidence | Literature-backed or measured | Usable with caveat | **Resolved** | Gradient leakage literature well-established (Zhu et al., NeurIPS 2019; Geiping et al., NeurIPS 2020). Inline note added to choose-a-pet.md FL row. |
+| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence | **Unresolved** | No public benchmark covers all leakage surfaces. Inline note in choose-a-pet.md calls out the multi-surface exposure; marked Needs evidence. |
 
 ## Page-Level Claim Review
 
