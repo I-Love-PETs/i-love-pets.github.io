@@ -45,7 +45,7 @@ Run the same checks CI runs on every pull request:
 ```bash
 pip install -r requirements.txt
 python3 scripts/check_internal_links.py
-mkdocs build
+mkdocs build --clean
 ```
 
 CI (`.github/workflows/ci.yml`) runs the internal link and anchor check and a MkDocs build on every pull request, and fails the build if an internal Markdown link or anchor is broken. Also check navigation, empty pages, and Mermaid diagrams.
