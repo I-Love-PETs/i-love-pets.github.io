@@ -133,6 +133,7 @@ nav:
   - Benchmarks:
       - Overview: benchmarks/index.md
       - Scorecards: benchmarks/scorecards.md
+      - Example Runs: benchmarks/example-runs.md
       - Privacy: benchmarks/privacy.md
       - Utility: benchmarks/utility.md
       - Cost: benchmarks/cost.md
