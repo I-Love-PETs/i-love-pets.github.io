@@ -17,9 +17,9 @@ Private inference protects sensitive inputs during prediction. The main design c
 
 ## When Not To Use
 
-- Do not use HE for arbitrary modern ML workloads without checking latency and operator support.
-- Do not use TEEs without understanding attestation and side-channel assumptions.
-- Do not use private inference if the prediction itself reveals the sensitive fact and no output policy exists.
+- Do not use HE for arbitrary modern ML workloads without checking latency and operator support. *(Evidence: Expert judgment, 2026-06-10 — HE support for transformer-style operators is still limited; no cross-model public benchmark is available. Needs evidence for any specific architecture.)*
+- Do not use TEEs without understanding attestation and side-channel assumptions. *(Evidence: Literature-backed, 2026-06-10 — SGX/TDX side-channel vulnerabilities are well-documented; see Van Bulck et al., "Foreshadow", USENIX Security 2018 (https://foreshadowattack.eu/); attestation bypass risks covered in Intel Product Security Advisory INTEL-SA-00161.)*
+- Do not use private inference if the prediction itself reveals the sensitive fact and no output policy exists. *(Evidence: Expert judgment, 2026-06-10 — output-leakage risk through confidence scores and repeated queries is documented in model-extraction literature; see Tramèr et al., "Stealing Machine Learning Models via Prediction APIs", USENIX Security 2016 (https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/tramer). Needs evidence for production mitigation effectiveness.)*
 - Do not ignore client-side inference when the model can run locally and IP risk is acceptable.
 
 ## Architecture
@@ -43,14 +43,14 @@ Private inference protects sensitive inputs during prediction. The main design c
 
 ## Privacy Properties
 
-- HE can keep inputs encrypted during computation.
+- HE can keep inputs encrypted during computation. *(Evidence: Literature-backed, 2026-06-10 — semantic security of HE schemes is formally established; see Brakerski-Vaikuntanathan (BV/BGV) and CKKS scheme definitions. Practical deployment guarantees also depend on correct parameterisation; see Albrecht et al., Homomorphic Encryption Security Standard, HomomorphicEncryption.org 2021 (https://homomorphicencryption.org/standard/).)*
 - TEEs can restrict plaintext exposure to an attested runtime.
 - Client-side inference keeps inputs local but exposes more model material.
 - Output controls can reduce leakage from returned predictions.
 
 ## What This Does Not Protect Against
 
-- Leakage through outputs, explanations, confidence scores, or repeated queries.
+- Leakage through outputs, explanations, confidence scores, or repeated queries. *(Evidence: Literature-backed, 2026-06-10 — model extraction via prediction APIs is demonstrated in Tramèr et al., USENIX Security 2016; membership inference via confidence scores is shown in Shokri et al., IEEE S&P 2017.)*
 - Poor client key handling.
 - Model extraction by adversarial clients.
 - TEE side channels or invalid attestation workflows.
@@ -66,7 +66,7 @@ Private inference protects sensitive inputs during prediction. The main design c
 
 ## Operational Complexity
 
-Medium to high. HE is often harder to debug and optimize. TEEs are easier for model support but add attestation, runtime hardening, and hardware trust review.
+Medium to high. HE is often harder to debug and optimize. TEEs are easier for model support but add attestation, runtime hardening, and hardware trust review. *(Evidence: Expert judgment, 2026-06-10 — "medium to high" is based on practitioner reports and tool-ecosystem assessments; no common operational-effort benchmark exists. Needs evidence for specific toolchains.)*
 
 ## Cost Drivers
 

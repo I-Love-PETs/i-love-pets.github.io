@@ -1,7 +1,7 @@
 # Choose a PET
 
 !!! info "Review status"
-    Last reviewed: 2026-06-03
+    Last reviewed: 2026-06-10
     Evidence level: Expert judgment
     Snapshot scope: Practical shortlisting guidance. Validate cost, maturity, and utility against the target workload before production decisions.
 
@@ -23,6 +23,8 @@ Use this page to create a shortlist. Then write the threat model, benchmark the 
 ## Tradeoff Scoring
 
 Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the score when your workload evidence disagrees.
+
+*(Evidence: Expert judgment, 2026-06-10 — scores are editorial estimates across representative workloads; no single benchmark covers all PETs on a common task. Treat as a starting shortlist, not a precise ranking.)*
 
 | PET | Input confidentiality | Output privacy | Utility retention | Latency/cost | Operational ease | Best first question |
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
@@ -49,6 +51,8 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 | What to measure | Per-site utility, subgroup performance, round size, dropout rate, update leakage risk, privacy budget if DP is used, cost of local operations. |
 | When it changes | Use centralized training with governance if data sharing is legally and operationally acceptable. Use MPC or TEEs if the task is analytics rather than training. |
 
+*(Evidence: Literature-backed, 2026-06-10 — gradient leakage from FL updates is well-documented; see Zhu et al., "Deep Leakage from Gradients", NeurIPS 2019 (https://papers.nips.cc/paper/2019/hash/60a6c4002cc7b29142def8871531281a-Abstract.html) and Geiping et al., "Inverting Gradients", NeurIPS 2020. The claim that "data stays local" is accurate for raw data but not for derived information; the "What can go wrong" row above captures the residual risk.)*
+
 ### Banks want to detect fraud across institutions
 
 | Recommendation | Guidance |
@@ -71,6 +75,8 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 | What to measure | Retrieval precision, authorization failures, prompt/log retention, answer leakage rate, attestation coverage, incident response path. |
 | When it changes | Use ordinary RAG with governance if all users and systems are in one trusted boundary. Use HE only for narrow inference, not full RAG pipelines. |
 
+*(Evidence: Needs evidence, 2026-06-10 — no public benchmark covers the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
+
 ### A company wants to release a synthetic dataset
 
 | Recommendation | Guidance |
@@ -81,6 +87,8 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 | What can go wrong | Utility evaporates under DP; non-DP generators copy training examples; users overtrust the release; documentation hides residual risk. |
 | What to measure | Downstream task utility, nearest-neighbor similarity, membership inference risk, privacy budget, rare subgroup behavior. |
 | When it changes | Use query access with DP if users only need statistics. Use restricted sharing if high-fidelity individual-level data is required. |
+
+*(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Statistical Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
 
 ### Two organizations want to find overlapping users
 
@@ -104,12 +112,14 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 | What to measure | End-to-end latency, ciphertext size, accuracy loss, supported operators, attestation verification, output leakage. |
 | When it changes | Use client-side inference if the model can run locally. Use standard hosted inference if the input is not sensitive enough to justify PET overhead. |
 
+*(Evidence: Expert judgment, 2026-06-10 — the latency and operator-support constraints on HE are widely noted in literature (e.g., Boura et al., "TFHE: Fast Fully Homomorphic Encryption Over the Torus", JoC 2020) but no single cross-workload benchmark for HE vs. TEE vs. client-side inference is publicly available. Needs evidence for specific model families.)*
+
 ## Anti-Patterns
 
 - Choosing FL because data cannot move, when the real blocker is governance, liability, or incentives.
 - Adding DP after launch without defining the privacy unit, budget owner, and accounting process.
-- Using HE as a default for modern ML without checking model architecture, operator support, batching, and latency.
-- Treating a TEE as a magic secure box while ignoring attestation, supply chain, logs, side channels, and output leakage.
+- Using HE as a default for modern ML without checking model architecture, operator support, batching, and latency. *(Evidence: Expert judgment, 2026-06-10 — HE operator support for transformer-style layers remains limited; treat as Needs evidence for any specific architecture until benchmarked.)*
+- Treating a TEE as a magic secure box while ignoring attestation, supply chain, logs, side channels, and output leakage. *(Evidence: Literature-backed, 2026-06-10 — TEE side-channel attacks are well-documented; see Van Bulck et al., "Foreshadow", USENIX Security 2018 (https://foreshadowattack.eu/) and Intel Product Security Advisory INTEL-SA-00161.)*
 - Releasing synthetic data without a privacy evaluation and a clear statement of residual risk.
 - Publishing aggregate outputs without minimum thresholds or review for small-group leakage.
 
