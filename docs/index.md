@@ -2,6 +2,54 @@
 
 A practical field guide to Privacy-Enhancing Technologies.
 
+## Find Your Path
+
+<div class="grid cards" markdown>
+
+- :material-compass-outline: **I need to choose a PET**
+
+    ---
+
+    You have a real system and a privacy constraint. Start with the guided chooser.
+
+    [:octicons-arrow-right-24: Choose a PET](pet-compass/choose-a-pet.md)
+
+- :material-vector-square: **I need to design an architecture**
+
+    ---
+
+    You know your PET candidate and need actors, data flows, and trust boundaries.
+
+    [:octicons-arrow-right-24: PET Architectures](pet-architectures/index.md)
+
+- :material-magnify: **I need to evaluate a claim**
+
+    ---
+
+    A vendor or paper makes a privacy claim. Check it against the evidence policy and the claim register.
+
+    [:octicons-arrow-right-24: Evidence Policy](project-standards/evidence-policy.md) &nbsp;·&nbsp; [Claim Register](project-standards/claim-register.md)
+
+- :material-flask-outline: **I need a research problem**
+
+    ---
+
+    You want a concrete open problem with success criteria and a first contribution.
+
+    [:octicons-arrow-right-24: Fix My Itch](fix-my-itch/index.md)
+
+- :material-database-search-outline: **I need evidence from deployments**
+
+    ---
+
+    You want deployment maturity, source quality, and lessons from real production use.
+
+    [:octicons-arrow-right-24: Deployments](deployments/index.md)
+
+</div>
+
+Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
+
 ## This Is Not Another Awesome List
 
 Existing repositories catalog papers and tools. This site is for the moment after

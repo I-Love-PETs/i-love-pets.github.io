@@ -67,6 +67,7 @@ nav:
       - v0.4 Release Notes: project-standards/v0.4-release-notes.md
   - Start Here:
       - Overview: start-here/index.md
+      - Reader Paths: start-here/reader-paths.md
       - What Are PETs?: start-here/what-are-pets.md
       - PET Taxonomy: start-here/pet-taxonomy.md
       - Glossary: start-here/glossary.md
