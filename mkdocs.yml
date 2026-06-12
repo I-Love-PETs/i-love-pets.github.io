@@ -145,6 +145,12 @@ nav:
       - Finance: deployments/finance.md
       - Advertising: deployments/advertising.md
       - Public Sector: deployments/public-sector.md
+      - Deep Dives:
+          - Overview: deployments/deep-dives/index.md
+          - US Census Differential Privacy: deployments/deep-dives/us-census-dp.md
+          - Boston Wage-Gap MPC: deployments/deep-dives/boston-wage-gap-mpc.md
+          - Ads Data Hub & Clean Rooms: deployments/deep-dives/ads-data-hub-clean-rooms.md
+          - MELLODDY Federated Learning: deployments/deep-dives/melloddy-fl.md
   - Contributing:
       - Overview: contributing/index.md
       - Pattern Template: contributing/pattern-template.md
