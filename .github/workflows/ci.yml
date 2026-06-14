@@ -33,3 +33,6 @@ jobs:
 
       - name: Build site
         run: mkdocs build --strict --clean
+
+      - name: Check rendered shortcode output
+        run: python3 scripts/check_rendered_shortcodes.py
