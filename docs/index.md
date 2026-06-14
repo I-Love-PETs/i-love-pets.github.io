@@ -46,6 +46,22 @@ A practical field guide to Privacy-Enhancing Technologies.
 
     [:octicons-arrow-right-24: Deployments](deployments/index.md)
 
+- :material-clipboard-check-outline: **I need a worked decision**
+
+    ---
+
+    You want to see a PET choice made under realistic constraints before you copy the pattern.
+
+    [:octicons-arrow-right-24: Worked Decisions](worked-decisions/index.md)
+
+- :material-tools: **I need to evaluate a PET tool**
+
+    ---
+
+    You want to know whether a library or platform fits a threat model, architecture, and first benchmark.
+
+    [:octicons-arrow-right-24: Tool Reviews](tool-reviews/index.md)
+
 </div>
 
 Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
@@ -72,7 +88,10 @@ Use the site as a field guide, not a textbook.
 | Pick a PET for a real system | [PET Compass](pet-compass/index.md) | A primary candidate, likely supporting PETs, and reasons to reject the wrong options |
 | Explain how a PET design works | [PET Architectures](pet-architectures/index.md) | Actors, data flows, trust boundaries, assumptions, and failure modes |
 | Compare recurring designs | [PET Patterns](pet-patterns/index.md) | When to use a pattern, when not to use it, and what to measure |
+| See a decision worked through end to end | [Worked Decisions](worked-decisions/index.md) | A recommended PET stack, what can go wrong, what to measure, and when the choice changes |
 | Check whether a privacy claim is credible | [Threat Models](threat-models/index.md) | The adversary, the protected asset, and what the PET does not protect |
+| Evaluate a tool or platform | [Tool Reviews](tool-reviews/index.md) | Fit, evidence level, operational risks, first benchmark, and when not to use it |
+| Exercise a benchmark scorecard | [Benchmark Example Runs](benchmarks/example-runs.md) | A hypothetical workload, scorecard fields, failure modes, and measurement plan |
 | Find a useful research problem | [Fix My Itch](fix-my-itch/index.md) | A concrete problem, current workaround, success criteria, and a first contribution |
 | Judge whether a deployment claim is meaningful | [Deployments](deployments/index.md) | Deployment maturity, source quality, lessons, and unresolved caveats |
 
@@ -89,7 +108,9 @@ Use the site as a field guide, not a textbook.
 
 - [Start Here](start-here/index.md): shared vocabulary and taxonomy.
 - [PET Compass](pet-compass/index.md): decision support by data movement, threat model, and ML task.
+- [Worked Decisions](worked-decisions/index.md): end-to-end PET choices for common scenarios.
 - [PET Patterns](pet-patterns/index.md): reusable designs such as federated analytics, private inference, and private RAG.
 - [Use Cases](use-cases/index.md): domain constraints in healthcare, finance, advertising, public sector, and AI.
 - [Benchmarks](benchmarks/index.md): how to measure privacy, utility, cost, latency, scalability, and developer effort.
+- [Tool Reviews](tool-reviews/index.md): tool evaluations tied to concrete architectures, threat models, and first benchmarks.
 - [Contributing](contributing/index.md): quality bar for improving the guide.

@@ -20,12 +20,14 @@ This is not another awesome list. Existing repositories already collect papers, 
 
 - **Start Here**: a practical taxonomy of PETs and the problems they solve.
 - **PET Compass**: decision matrices and tradeoff guides for choosing a PET.
+- **Worked Decisions**: end-to-end PET choices for realistic scenarios.
 - **PET Patterns**: reusable implementation patterns with failure modes.
 - **PET Architectures**: end-to-end architecture sketches with trust boundaries.
 - **Use Cases**: domain-specific guidance for healthcare, finance, advertising, public sector, and AI.
 - **Threat Models**: practical adversary models and privacy attack examples.
 - **Fix My Itch**: actionable research and engineering problems worth solving.
 - **Benchmarks**: ways to measure privacy, utility, cost, latency, and developer effort.
+- **Tool Reviews**: evaluations of tools against concrete architectures, threat models, and first benchmarks.
 - **Deployments**: lessons from real-world PET deployments.
 
 ## Fix My Itch

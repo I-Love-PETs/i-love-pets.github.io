@@ -28,5 +28,8 @@ jobs:
       - name: Check internal Markdown links
         run: python3 scripts/check_internal_links.py
 
+      - name: Check MkDocs navigation coverage
+        run: python3 scripts/check_nav_coverage.py
+
       - name: Build site
-        run: mkdocs build --clean
+        run: mkdocs build --strict --clean
