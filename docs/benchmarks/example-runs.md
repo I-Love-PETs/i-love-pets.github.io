@@ -1,10 +1,21 @@
 # Example Benchmark Runs
 
 These are worked examples of the [scorecard templates](scorecards.md) applied to concrete workloads.
-Each example fills in the shared reporting template from `scorecards.md` and adds illustrative figures, explicit tradeoffs, what to measure, and known failure modes.
+Each example fills in the shared reporting template from `scorecards.md` and adds hypothetical values, explicit tradeoffs, what to measure, and known failure modes.
 
-!!! warning "Evidence levels"
-    Figures marked **Illustrative** are plausible ranges constructed from public literature and expert judgment as of 2026-06-10. They are NOT measured results from a specific deployment. Where a figure is grounded in a specific published study it is marked **Literature-backed**. Nothing on this page should be treated as a measured production benchmark without independent replication.
+!!! warning "Hypothetical scorecard exercises"
+    The values on this page are **not measured production results**. They are hypothetical scorecard exercises created to show what a useful benchmark report should contain: workload, protected asset, threat model, metric, evidence level, and failure mode. Do not cite these numbers as evidence that a PET, tool, or architecture performs this way. Replace them with measured or literature-backed values before using a scorecard for procurement, deployment, publication, or policy.
+
+## How To Read The Values
+
+| Label | Meaning | Safe use |
+| --- | --- | --- |
+| Hypothetical example | A plausible value chosen to exercise the scorecard format. | Use it to understand what should be measured, not as evidence. |
+| Needs evidence | A metric the scorecard should include, but this example does not supply defensible evidence. | Treat as a gap to close before decision-making. |
+| Literature-backed | A value tied to a specific cited study or standard. | Use only with the cited workload and assumptions. |
+| Measured | A value from a named benchmark run with workload, environment, and date. | Use after checking reproducibility and fit to your system. |
+
+For v0.6, the examples below intentionally keep their concrete shape but downgrade all unsourced quantitative values to **Hypothetical example**. The next useful improvement is replacing the most important values with sourced measurements.
 
 ---
 
@@ -16,13 +27,13 @@ A legal or HR team runs a RAG system over a document corpus that is partitioned 
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Illustrative result |
+| Category | What was measured | Evidence level | Example value |
 | --- | --- | --- | --- |
-| Privacy claim | Prompt logging, retrieved-snippet exposure, citation leakage, answer leakage | Expert judgment | 0 leaked snippets in 200 adversarial probes when hard-filter applied pre-LLM; soft-filter (LLM instruction) leaked in ~4 % of cases (2026-06-10) |
-| Utility | Answer quality (RAGAS faithfulness + answer relevance) by access tier | Expert judgment | Authorised-tier: faithfulness 0.82, relevance 0.79; no degradation vs. unfiltered baseline for same-tier queries (2026-06-10) |
-| Cost | p50 / p95 / p99 end-to-end latency; cloud cost per 1 000 queries | Expert judgment | Hard-filter adds ~40 ms p50 overhead vs. unfiltered; TEE-based confidential retrieval adds ~200–400 ms p50 (2026-06-10) |
-| Robustness | Prompt injection inside authorised documents; stale-permission cache; deleted-document residual | Expert judgment | Injection success rate drops from ~30 % (no defence) to < 2 % with structured output parsing + input sanitisation (2026-06-10) |
-| Operations | Policy debugging trace; incident-response drill (answer sourced from restricted doc) | Expert judgment | Teams without traceable policy decisions took 3–5× longer to reproduce an unsafe-answer incident (2026-06-10) |
+| Privacy claim | Prompt logging, retrieved-snippet exposure, citation leakage, answer leakage | Hypothetical example | 0 leaked snippets in 200 adversarial probes when hard-filter applied pre-LLM; soft-filter (LLM instruction) leaked in ~4 % of cases |
+| Utility | Answer quality (RAGAS faithfulness + answer relevance) by access tier | Hypothetical example | Authorised-tier: faithfulness 0.82, relevance 0.79; no degradation vs. unfiltered baseline for same-tier queries |
+| Cost | p50 / p95 / p99 end-to-end latency; cloud cost per 1 000 queries | Hypothetical example | Hard-filter adds ~40 ms p50 overhead vs. unfiltered; TEE-based confidential retrieval adds ~200–400 ms p50 |
+| Robustness | Prompt injection inside authorised documents; stale-permission cache; deleted-document residual | Hypothetical example | Injection success rate drops from ~30 % (no defence) to < 2 % with structured output parsing + input sanitisation |
+| Operations | Policy debugging trace; incident-response drill (answer sourced from restricted doc) | Hypothetical example | Teams without traceable policy decisions took 3–5× longer to reproduce an unsafe-answer incident |
 
 ### Tradeoffs
 
@@ -60,14 +71,14 @@ A bank scores loan applications using a gradient-boosted tree model. The applica
 
 | Category | HE approach | TEE approach | Evidence level |
 | --- | --- | --- | --- |
-| Privacy claim — client inputs | Client inputs are encrypted under client key; server never sees plaintext | Client inputs are plaintext inside TEE; platform operator cannot observe if attestation holds | Expert judgment |
-| Privacy claim — model weights | Model weights evaluated in HE ciphertext domain; client cannot extract them | Weights loaded inside TEE; no hardware-level extraction (assuming no microarchitectural side channel) | Expert judgment |
-| Utility — accuracy vs. plaintext | GBDT accuracy drops ~0 % if model is adapted to HE-friendly operators; severe degradation if not (2026-06-10, Expert judgment) | Accuracy identical to plaintext baseline — TEE executes unmodified model (2026-06-10, Expert judgment) |
-| Cost — latency (100-feature record) | ~2–30 s per record depending on GBDT depth and HE scheme (CKKS/BFV) (2026-06-10, Expert judgment) | ~5–50 ms per record; TEE overhead ~10–30 % vs. vanilla CPU (2026-06-10, Expert judgment) |
-| Cost — throughput | Low; HE is compute-intensive on server | High; TEE supports batch scoring at near-native speed |
-| Cost — operational | HE library integration; key management; parameter tuning | TEE platform selection; attestation infrastructure; hardware procurement / cloud availability |
-| Robustness — repeated-query leakage | HE is stateless per query; no membership signal from computation itself | Microarchitectural side channels (cache timing) are a known risk on co-hosted TEEs |
-| Operations | Complex: HE parameters must match model structure; debugging is opaque | Moderate: standard MLOps pipelines work inside TEE; attestation adds a new failure path |
+| Privacy claim — client inputs | Client inputs are encrypted under client key; server never sees plaintext | Client inputs are plaintext inside TEE; platform operator cannot observe if attestation holds | Hypothetical example |
+| Privacy claim — model weights | Model weights evaluated in HE ciphertext domain; client cannot extract them | Weights loaded inside TEE; no hardware-level extraction (assuming no microarchitectural side channel) | Hypothetical example |
+| Utility — accuracy vs. plaintext | GBDT accuracy drops ~0 % if model is adapted to HE-friendly operators; severe degradation if not | Accuracy identical to plaintext baseline because the TEE executes an unmodified model | Hypothetical example |
+| Cost — latency (100-feature record) | ~2–30 s per record depending on GBDT depth and HE scheme (CKKS/BFV) | ~5–50 ms per record; TEE overhead ~10–30 % vs. vanilla CPU | Hypothetical example |
+| Cost — throughput | Low; HE is compute-intensive on server | High; TEE supports batch scoring at near-native speed | Hypothetical example |
+| Cost — operational | HE library integration; key management; parameter tuning | TEE platform selection; attestation infrastructure; hardware procurement / cloud availability | Hypothetical example |
+| Robustness — repeated-query leakage | HE is stateless per query; no membership signal from computation itself | Microarchitectural side channels (cache timing) are a known risk on co-hosted TEEs | Hypothetical example |
+| Operations | Complex: HE parameters must match model structure; debugging is opaque | Moderate: standard MLOps pipelines work inside TEE; attestation adds a new failure path | Hypothetical example |
 
 ### Tradeoffs
 
@@ -79,7 +90,7 @@ A bank scores loan applications using a gradient-boosted tree model. The applica
 | Cryptographic guarantee | Unconditional under scheme assumptions | Conditional on hardware + microcode integrity |
 | Side-channel resistance | Strong (computation on ciphertext) | Needs careful mitigation |
 
-**Decision rule (from [Scorecards](scorecards.md)):** Use HE when the model is shallow and fits HE-supported operators and latency is acceptable. Use TEE when model flexibility matters and hardware trust is acceptable. For this GBDT workload with a latency SLA under 100 ms, TEE is the practical choice as of 2026-06-10.
+**Decision rule (from [Scorecards](scorecards.md)):** Use HE when the model is shallow and fits HE-supported operators and latency is acceptable. Use TEE when model flexibility matters and hardware trust is acceptable. For this hypothetical GBDT workload with a latency SLA under 100 ms, TEE is the practical choice.
 
 ### What to Measure
 
@@ -106,22 +117,22 @@ Six hospital sites collaboratively train a chest X-ray classification model (bin
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Illustrative result |
+| Category | What was measured | Evidence level | Example value |
 | --- | --- | --- | --- |
-| Privacy claim | Gradient leakage (DLG attack); membership inference on final model; DP accounting | Expert judgment | DLG attack reconstructed no recognisable images after secure aggregation + DP (δ=10⁻⁵, ε tracked per round); membership inference AUC 0.53 (near random) (2026-06-10) |
-| Utility — global | AUROC on held-out global test set | Expert judgment | FL + DP: 0.86 AUROC; centralised baseline: 0.89 AUROC; gap narrows with more rounds (2026-06-10) |
-| Utility — per-site | AUROC on each site's own test set | Expert judgment | Largest site (4 000 images): 0.88; smallest site (500 images): 0.79; local-only smallest-site: 0.71 (2026-06-10) |
+| Privacy claim | Gradient leakage (DLG attack); membership inference on final model; DP accounting | Hypothetical example | DLG attack reconstructed no recognisable images after secure aggregation + DP (δ=10⁻⁵, ε tracked per round); membership inference AUC 0.53 (near random) |
+| Utility — global | AUROC on held-out global test set | Hypothetical example | FL + DP: 0.86 AUROC; centralised baseline: 0.89 AUROC; gap narrows with more rounds |
+| Utility — per-site | AUROC on each site's own test set | Hypothetical example | Largest site (4 000 images): 0.88; smallest site (500 images): 0.79; local-only smallest-site: 0.71 |
 | Utility — subgroup | Demographic subgroup parity gap | Needs evidence | Not measured in this run — flagged as gap |
-| Cost | Rounds to convergence; communication per round; local GPU time | Expert judgment | 40 rounds to convergence; ~120 MB per round (FP32 ResNet-50 gradients); ~45 min local training per round per site (2026-06-10) |
-| Robustness | Non-IID label skew; one site dropout; one poisoned update (label flip) | Expert judgment | Dropout of one mid-size site: +2 rounds to convergence; Byzantine-robust aggregation (Krum) neutralised single poisoned update (2026-06-10) |
-| Operations | Participant onboarding time; monitoring dashboard | Expert judgment | Onboarding a new site required ~8 hours of data-engineering effort; training-code provenance logged per round (2026-06-10) |
+| Cost | Rounds to convergence; communication per round; local GPU time | Hypothetical example | 40 rounds to convergence; ~120 MB per round (FP32 ResNet-50 gradients); ~45 min local training per round per site |
+| Robustness | Non-IID label skew; one site dropout; one poisoned update (label flip) | Hypothetical example | Dropout of one mid-size site: +2 rounds to convergence; Byzantine-robust aggregation (Krum) neutralised single poisoned update |
+| Operations | Participant onboarding time; monitoring dashboard | Hypothetical example | Onboarding a new site required ~8 hours of data-engineering effort; training-code provenance logged per round |
 
 ### Tradeoffs
 
 | Axis | With DP (ε ≈ 8 per training run) | Without DP |
 | --- | --- | --- |
 | Privacy formal guarantee | Yes — bounded per-record contribution | No formal bound |
-| Utility (AUROC) | ~0.86 | ~0.88 (Expert judgment) |
+| Utility (AUROC) | ~0.86 | ~0.88 (Hypothetical example) |
 | Compute overhead | +5–10 % for noise injection | None |
 | Auditability | DP budget must be tracked and communicated | No budget to track |
 
@@ -152,16 +163,16 @@ A national statistics office releases a DP synthetic version of a household inco
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Illustrative result |
+| Category | What was measured | Evidence level | Example value |
 | --- | --- | --- | --- |
-| Privacy claim | Nearest-neighbour distance ratio (NNDR); membership inference; DP accounting | Expert judgment | NNDR median 0.94 (synthetic records not close to real records); membership inference AUC 0.51; DP: ε = 3, δ = 10⁻⁶, Gaussian mechanism, zCDP composition (2026-06-10) |
-| Privacy claim — rare records | Rare-region subgroup (n < 50 in real data) memorisation probe | Expert judgment | No rare record reproduced verbatim; two rare combinations appeared in synthetic data but with plausible frequency distortion (2026-06-10) |
-| Utility — regression | Coefficients and standard errors for income ~ age + employment + region OLS | Expert judgment | Coefficient estimates within 8 % of real-data estimates; standard errors inflated ~15 % (synthetic variance is higher) (2026-06-10) |
-| Utility — cross-tabulations | Chi-squared statistics for key categorical pairs | Expert judgment | 18 / 20 cross-tabulations within acceptable range; 2 involving rare regions showed > 20 % relative error (flagged) (2026-06-10) |
-| Utility — rare subgroup | Income distribution for smallest region | Expert judgment | Distribution shape preserved; cell counts distorted by DP noise — not suitable for precise rare-group analysis (2026-06-10) |
-| Cost | Generation compute; parameter tuning iterations; privacy review | Expert judgment | ~4 hours training on A100; 6 tuning iterations; ~3 days reviewer time for release card (2026-06-10) |
-| Robustness | Distribution shift if real data updated; misuse outside intended tasks | Expert judgment | Longitudinal use (year-over-year comparison) explicitly flagged as out-of-scope in release card (2026-06-10) |
-| Operations | Release card completeness; residual-risk statement | Expert judgment | Release card covers: DP parameters, memorisation tests run, utility results, intended uses, prohibited uses, contact for questions (2026-06-10) |
+| Privacy claim | Nearest-neighbour distance ratio (NNDR); membership inference; DP accounting | Hypothetical example | NNDR median 0.94 (synthetic records not close to real records); membership inference AUC 0.51; DP: ε = 3, δ = 10⁻⁶, Gaussian mechanism, zCDP composition |
+| Privacy claim — rare records | Rare-region subgroup (n < 50 in real data) memorisation probe | Hypothetical example | No rare record reproduced verbatim; two rare combinations appeared in synthetic data but with plausible frequency distortion |
+| Utility — regression | Coefficients and standard errors for income ~ age + employment + region OLS | Hypothetical example | Coefficient estimates within 8 % of real-data estimates; standard errors inflated ~15 % (synthetic variance is higher) |
+| Utility — cross-tabulations | Chi-squared statistics for key categorical pairs | Hypothetical example | 18 / 20 cross-tabulations within acceptable range; 2 involving rare regions showed > 20 % relative error (flagged) |
+| Utility — rare subgroup | Income distribution for smallest region | Hypothetical example | Distribution shape preserved; cell counts distorted by DP noise — not suitable for precise rare-group analysis |
+| Cost | Generation compute; parameter tuning iterations; privacy review | Hypothetical example | ~4 hours training on A100; 6 tuning iterations; ~3 days reviewer time for release card |
+| Robustness | Distribution shift if real data updated; misuse outside intended tasks | Hypothetical example | Longitudinal use (year-over-year comparison) explicitly flagged as out-of-scope in release card |
+| Operations | Release card completeness; residual-risk statement | Hypothetical example | Release card covers: DP parameters, memorisation tests run, utility results, intended uses, prohibited uses, contact for questions |
 
 ### Release Gate Check
 
@@ -171,10 +182,10 @@ Following the gate from [Scorecards](scorecards.md): this release states whether
 
 | ε (privacy budget) | Utility (regression R²) | Rare-group fidelity | Evidence level |
 | --- | --- | --- | --- |
-| ε = 1 | ~0.61 (Expert judgment, 2026-06-10) | Very poor | Expert judgment |
-| ε = 3 | ~0.74 (Expert judgment, 2026-06-10) | Poor for cells < 50 | Expert judgment |
-| ε = 10 | ~0.81 (Expert judgment, 2026-06-10) | Moderate | Expert judgment |
-| No DP (governance only) | ~0.83 | Good | Expert judgment |
+| ε = 1 | ~0.61 | Very poor | Hypothetical example |
+| ε = 3 | ~0.74 | Poor for cells < 50 | Hypothetical example |
+| ε = 10 | ~0.81 | Moderate | Hypothetical example |
+| No DP (governance only) | ~0.83 | Good | Hypothetical example |
 
 ### What to Measure
 
@@ -201,16 +212,16 @@ Two ad platforms and a retailer compute a joint conversion-rate metric (ad impre
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Illustrative result |
+| Category | What was measured | Evidence level | Example value |
 | --- | --- | --- | --- |
-| Privacy claim — input hiding | No party learns another party's raw impression or purchase records | Expert judgment | Verified by protocol audit; semi-honest threat model with no collusion assumed (2026-06-10) |
-| Privacy claim — output leakage | Small-cell suppression for cells with fewer than k records | Expert judgment | k = 50 applied; 3 of 24 campaign-week cells suppressed (2026-06-10) |
-| Privacy claim — differencing | Repeated queries with slightly shifted time windows | Expert judgment | No output-differential analysis run — flagged as gap (2026-06-10) |
-| Utility — metric accuracy | Conversion count vs. trusted centralised baseline (synthetic validation) | Expert judgment | Within 0.5 % of baseline for unsuppressed cells; suppressed cells represent ~8 % of total conversions (2026-06-10) |
-| Utility — decision impact | Campaign budget reallocation decisions made using MPC output vs. centralised | Expert judgment | Decision outcomes identical in 11 / 12 test scenarios; 1 borderline scenario affected by cell suppression (2026-06-10) |
-| Cost | End-to-end query time; coordinator effort; schema negotiation | Expert judgment | ~18 min for a weekly batch query over 3 parties; schema negotiation required ~6 hours at setup; ongoing governance ~2 hours per query cycle (2026-06-10) |
-| Robustness | One party unavailable; malformed input record; schema drift | Expert judgment | Protocol halts cleanly if a party is unavailable — no partial result leaked; malformed records rejected at ingestion; schema drift requires manual reconciliation (2026-06-10) |
-| Operations | Query governance log; allowed-output schema; incident path | Expert judgment | Every query logged with requesting party, timestamp, output schema, suppression count; incident path defined but untested (2026-06-10) |
+| Privacy claim — input hiding | No party learns another party's raw impression or purchase records | Hypothetical example | Verified by protocol audit; semi-honest threat model with no collusion assumed |
+| Privacy claim — output leakage | Small-cell suppression for cells with fewer than k records | Hypothetical example | k = 50 applied; 3 of 24 campaign-week cells suppressed |
+| Privacy claim — differencing | Repeated queries with slightly shifted time windows | Needs evidence | No output-differential analysis run — flagged as gap |
+| Utility — metric accuracy | Conversion count vs. trusted centralised baseline (synthetic validation) | Hypothetical example | Within 0.5 % of baseline for unsuppressed cells; suppressed cells represent ~8 % of total conversions |
+| Utility — decision impact | Campaign budget reallocation decisions made using MPC output vs. centralised | Hypothetical example | Decision outcomes identical in 11 / 12 test scenarios; 1 borderline scenario affected by cell suppression |
+| Cost | End-to-end query time; coordinator effort; schema negotiation | Hypothetical example | ~18 min for a weekly batch query over 3 parties; schema negotiation required ~6 hours at setup; ongoing governance ~2 hours per query cycle |
+| Robustness | One party unavailable; malformed input record; schema drift | Hypothetical example | Protocol halts cleanly if a party is unavailable — no partial result leaked; malformed records rejected at ingestion; schema drift requires manual reconciliation |
+| Operations | Query governance log; allowed-output schema; incident path | Hypothetical example | Every query logged with requesting party, timestamp, output schema, suppression count; incident path defined but untested |
 
 ### Tradeoffs
 
@@ -250,5 +261,5 @@ The table below maps each example to the shared reporting template from [Scoreca
 | Adversary | Curious platform operator; injection attacker | Curious server (HE) / curious host OS (TEE) | Curious coordinator; single Byzantine site | Reconstruction / membership inference attacker | Curious co-participant; differencing attacker |
 | Allowed output | Answers citing only authorised documents | Score value only | Global + per-site AUROC; no raw gradients | Aggregate statistics, regression coefficients | Aggregate conversion counts (k-suppressed) |
 | PET stack | Hard ACL filter + optional TEE retrieval | HE (CKKS/BFV) or TEE (Intel TDX / AMD SEV) | Federated SGD + secure aggregation + DP | DP generative model (Gaussian mechanism, ε = 3) | 2-party MPC secret sharing |
-| Evidence level | Expert judgment | Expert judgment | Expert judgment | Expert judgment | Expert judgment |
+| Evidence level | Hypothetical example | Hypothetical example | Hypothetical example | Hypothetical example | Hypothetical example |
 | Key failure mode | Soft-filter bypass; citation side-channel | HE: parameter mismatch; TEE: attestation skipped | DP destroys small-site utility | Rare-subgroup utility loss; ε inflation | Collusion not modelled; differencing via repeated queries |

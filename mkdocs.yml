@@ -64,7 +64,7 @@ nav:
       - Evidence Policy: project-standards/evidence-policy.md
       - Claim Register: project-standards/claim-register.md
       - Review Cadence: project-standards/review-cadence.md
-      - v0.4 Release Notes: project-standards/v0.4-release-notes.md
+      - Version History: project-standards/version-history.md
   - Start Here:
       - Overview: start-here/index.md
       - Reader Paths: start-here/reader-paths.md
@@ -139,6 +139,12 @@ nav:
       - Utility: benchmarks/utility.md
       - Cost: benchmarks/cost.md
       - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
+  - Tool Reviews:
+      - Overview: tool-reviews/index.md
+      - Flower FL: tool-reviews/flower-fl.md
+      - OpenDP: tool-reviews/opendp.md
+      - Microsoft SEAL: tool-reviews/microsoft-seal.md
+      - Confidential Computing Platform: tool-reviews/confidential-computing-platform.md
   - Deployments:
       - Overview: deployments/index.md
       - Healthcare: deployments/healthcare.md

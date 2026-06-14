@@ -5,7 +5,7 @@ This register tracks claims that should be sourced, measured, narrowed, or softe
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
-    Snapshot scope: v0.4 editorial backlog for claims that need stronger evidence or tighter wording.
+    Snapshot scope: Current decision-support backlog after v0.5. Claims listed here are useful but still need stronger evidence, narrower wording, or more explicit uncertainty labels before v1.0.
 
 ## Status Convention
 
@@ -37,8 +37,9 @@ Status is re-evaluated on each editorial pass and dated on change.
 | PET Patterns | Operational complexity labels | Complexity depends on tooling and deployment scale | Tie complexity to observable cost drivers |
 | PET Architectures | Trust-boundary assumptions | Diagrams can imply stronger protection than text supports | Keep assumptions and non-protections next to data flows |
 | Deployments | Production maturity | Vendor and consortium materials can overclaim maturity | Keep pilot/production/research/unclear labels visible |
-| Benchmarks | Scorecard completeness | A scorecard can become a checklist theater | Add example benchmark runs in future versions |
+| Benchmarks | Scorecard completeness | A scorecard can become checklist theater, and hypothetical example numbers can look like measured results | Label illustrative values clearly, or replace them with sourced measured runs |
 | Use Cases | Domain recommendations | Domain rules can become too broad | Anchor recommendations to named scenarios |
+| Tool Reviews | Tool maturity and version facts | Release, maintenance, and performance details drift quickly | Date each review, label uncertain facts, and re-check before procurement or adoption |
 
 ## Claim Rewrite Examples
 
@@ -67,5 +68,5 @@ When improving a page:
 | Add anchored quantitative or dated claims | Source-backed inline notes on Compass, Patterns, and Benchmarks pages |
 | Add named deployment summaries or postmortems | Deployment entries with maturity and limitations |
 | Add source-backed "when not to use" statements | Pattern-page caveats linked to evidence or incidents |
-| Add benchmark examples | One worked scorecard each for HE inference, MPC analytics, DP synthetic data, and private RAG |
+| Replace hypothetical benchmark values with sourced measurements | One measured or literature-backed scorecard each for HE inference, MPC analytics, DP synthetic data, and private RAG |
 | Add stale-claim sweeps | Quarterly review of AI, RAG, tool maturity, and cost claims |

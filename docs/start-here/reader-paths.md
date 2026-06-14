@@ -13,7 +13,7 @@ You have a real system, a data constraint, and a privacy requirement. You need a
 3. [Choose a PET](../pet-compass/choose-a-pet.md) — the primary guided chooser; answers depend on data movement and adversary.
 4. [By Data Movement](../pet-compass/by-data-movement.md) — filter by where data lives and moves.
 5. [By Threat Model](../pet-compass/by-threat-model.md) — filter by who must not learn what.
-6. [Decision Tree](../pet-compass/decision-tree.md) — a single branching diagram to confirm or challenge your shortlist.
+6. [Decision Tree](../pet-compass/decision-tree.md) — a readable branching checklist to confirm or challenge your shortlist.
 
 ---
 
