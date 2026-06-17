@@ -12,6 +12,7 @@
 | Problem | Let competing pharma companies jointly improve molecular-activity (QSAR-style) predictive models using their highly proprietary chemical and bioactivity data, without pooling or revealing that data |
 | PETs used | Federated learning, orchestrated via the Substra framework (distributed-ledger-based task orchestration), plus secure aggregation of model updates |
 | Deployment maturity | Completed consortium project (three-year IMI-funded effort, concluded 2022) |
+| Source quality | Primary / official plus peer-reviewed / academic |
 | Source | [MELLODDY Year 3 announcement](https://www.melloddy.eu/y3announcement); [JCIM 2023 paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC11005050/) |
 
 ## What Was Actually Deployed

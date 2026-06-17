@@ -1,11 +1,24 @@
 # Version History
 
 !!! info "Release status"
-    Status: Current through the v0.6 cleanup release
-    Last updated: 2026-06-14
+    Status: Current through the v0.7 evidence-backed guidance release
+    Last updated: 2026-06-17
     Scope: Shipped milestones and near-term cleanup work for decision-ready PET guidance.
 
 This page tracks what each site version is meant to change. It is not a changelog for every line edit; it is the editorial map readers and contributors can use to understand the maturity of the guide.
+
+## v0.7 — Evidence-Backed Guidance
+
+v0.7 moves deployment and benchmark guidance from strong editorial advice toward sourced field-guide evidence. The goal is to help readers distinguish measured deployments, pilots, vendor case studies, proposed use cases, and illustrative examples before they make decisions.
+
+| Area | Shipped improvement |
+| --- | --- |
+| Evidence policy | Add source-quality labels and clearer deployment maturity labels. |
+| Deployments | Separate production/recurring deployments, pilots, vendor case studies, and proposed use cases on domain pages. |
+| Deep dives | Add source-backed studies for EXAM COVID-19 federated learning and Japanese bank fraud-detection FL. |
+| Existing deep dives | Add source-quality fields to the snapshot tables. |
+| Benchmarks | Add benchmark source-quality labels and mark illustrative values as Unsourced / illustrative. |
+| Claim register | Refresh the claim snapshot around deployment maturity, benchmark evidence, and remaining unresolved claims. |
 
 ## v0.6 — Consistency And Evidence Hygiene
 
@@ -54,6 +67,7 @@ v0.4 made I ❤️ PETs more usable as a decision kit: clearer use cases, reusab
 - Decision pages include at least one concrete table, checklist, worked example, or scorecard.
 - No page claims a PET solves privacy without naming assumptions and outputs.
 - Illustrative examples cannot be mistaken for measured production evidence.
+- Deployment and benchmark claims carry source-quality labels when they affect a decision.
 
 ## Known Follow-Ups
 

@@ -12,6 +12,7 @@
 | Problem | Let an advertiser join its first-party data with a platform's event-level ad logs for measurement and analytics, without either party exposing raw user-level records to the other |
 | PETs used | Output-side **aggregation thresholds**, **difference checks**, optional **noise injection**, plus **query restrictions** (allowed-SQL controls). A clean room is primarily an access-control and output-control pattern, not strong cryptographic input privacy |
 | Deployment maturity | Commercial production, widely used |
+| Source quality | Primary / official vendor documentation |
 | Source | [Ads Data Hub methodology](https://developers.google.com/ads-data-hub/resources/description-of-methodology); [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks) |
 
 ## What Was Actually Deployed

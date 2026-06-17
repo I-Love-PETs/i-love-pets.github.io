@@ -12,6 +12,7 @@
 | Problem | Measure the Greater Boston gender and racial wage gap from real employer payroll data without any party seeing an individual company's confidential payroll |
 | PETs used | Secure multi-party computation (secret-sharing based secure summation / vector addition) |
 | Deployment maturity | Ongoing program, run six times (2015, 2016, 2017, 2019, 2021, 2023) |
+| Source quality | Primary / official plus third-party case study |
 | Source | [UN Statistics Wiki case study](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020); [BWWC data privacy page](https://thebwwc.org/mpc) |
 
 ## What Was Actually Deployed

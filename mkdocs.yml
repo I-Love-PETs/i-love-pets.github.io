@@ -160,6 +160,8 @@ nav:
           - Boston Wage-Gap MPC: deployments/deep-dives/boston-wage-gap-mpc.md
           - Ads Data Hub & Clean Rooms: deployments/deep-dives/ads-data-hub-clean-rooms.md
           - MELLODDY Federated Learning: deployments/deep-dives/melloddy-fl.md
+          - EXAM COVID-19 Federated Learning: deployments/deep-dives/exam-covid-fl.md
+          - Japanese Banks Federated Fraud Detection: deployments/deep-dives/japanese-banks-fl-fraud.md
   - Contributing:
       - Overview: contributing/index.md
       - Pattern Template: contributing/pattern-template.md

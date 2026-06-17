@@ -1,21 +1,23 @@
 # Example Benchmark Runs
 
 These are worked examples of the [scorecard templates](scorecards.md) applied to concrete workloads.
-Each example fills in the shared reporting template from `scorecards.md` and adds hypothetical values, explicit tradeoffs, what to measure, and known failure modes.
+Each example fills in the shared reporting template from `scorecards.md` and adds illustrative values, explicit tradeoffs, what to measure, and known failure modes.
 
 !!! warning "Hypothetical scorecard exercises"
-    The values on this page are **not measured production results**. They are hypothetical scorecard exercises created to show what a useful benchmark report should contain: workload, protected asset, threat model, metric, evidence level, and failure mode. Do not cite these numbers as evidence that a PET, tool, or architecture performs this way. Replace them with measured or literature-backed values before using a scorecard for procurement, deployment, publication, or policy.
+    The values on this page are **not measured production results**. They are hypothetical scorecard exercises created to show what a useful benchmark report should contain: workload, protected asset, threat model, metric, evidence level, source quality, and failure mode. Source quality for these values is **Unsourced / illustrative** unless a row explicitly names a source. Do not cite these numbers as evidence that a PET, tool, or architecture performs this way. Replace them with measured or literature-backed values before using a scorecard for procurement, deployment, publication, or policy.
 
 ## How To Read The Values
 
-| Label | Meaning | Safe use |
-| --- | --- | --- |
-| Hypothetical example | A plausible value chosen to exercise the scorecard format. | Use it to understand what should be measured, not as evidence. |
-| Needs evidence | A metric the scorecard should include, but this example does not supply defensible evidence. | Treat as a gap to close before decision-making. |
-| Literature-backed | A value tied to a specific cited study or standard. | Use only with the cited workload and assumptions. |
-| Measured | A value from a named benchmark run with workload, environment, and date. | Use after checking reproducibility and fit to your system. |
+| Label | Source quality | Meaning | Safe use |
+| --- | --- | --- | --- |
+| Hypothetical example | Unsourced / illustrative | A plausible value chosen to exercise the scorecard format. | Use it to understand what should be measured, not as evidence. |
+| Needs evidence | Unsourced / illustrative | A metric the scorecard should include, but this example does not supply defensible evidence. | Treat as a gap to close before decision-making. |
+| Literature-backed | Peer-reviewed measurement or formal source | A value tied to a specific cited study or standard. | Use only with the cited workload and assumptions. |
+| Measured | Reproducible benchmark package, operator measurement, or independent replication | A value from a named benchmark run with workload, environment, and date. | Use after checking reproducibility and fit to your system. |
 
-For v0.6, the examples below intentionally keep their concrete shape but downgrade all unsourced quantitative values to **Hypothetical example**. The next useful improvement is replacing the most important values with sourced measurements.
+For v0.7, the examples below intentionally keep their concrete shape but label all unsourced quantitative values as **Hypothetical example** with **Unsourced / illustrative** source quality. The next useful improvement is replacing the most important values with sourced measurements.
+
+*(Evidence: Expert judgment. Source quality: Project standard. Reviewed 2026-06-17 — the numbers are retained only to show how a completed scorecard reads.)*
 
 ---
 
@@ -262,4 +264,5 @@ The table below maps each example to the shared reporting template from [Scoreca
 | Allowed output | Answers citing only authorised documents | Score value only | Global + per-site AUROC; no raw gradients | Aggregate statistics, regression coefficients | Aggregate conversion counts (k-suppressed) |
 | PET stack | Hard ACL filter + optional TEE retrieval | HE (CKKS/BFV) or TEE (Intel TDX / AMD SEV) | Federated SGD + secure aggregation + DP | DP generative model (Gaussian mechanism, ε = 3) | 2-party MPC secret sharing |
 | Evidence level | Hypothetical example | Hypothetical example | Hypothetical example | Hypothetical example | Hypothetical example |
+| Source quality | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative |
 | Key failure mode | Soft-filter bypass; citation side-channel | HE: parameter mismatch; TEE: attestation skipped | DP destroys small-site utility | Rare-subgroup utility loss; ε inflation | Collusion not modelled; differencing via repeated queries |

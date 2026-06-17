@@ -3,7 +3,7 @@
 !!! warning "Deployment evidence"
     Healthcare PET claims often mix research studies, clinical pilots, and vendor platform stories. Do not assume clinical production use unless the source clearly says so.
 
-## Documented Real Deployments And Studies
+## Published Studies And Pilots
 
 ### EXAM federated learning for COVID-19 oxygen prediction
 
@@ -13,11 +13,14 @@
 | Domain | Healthcare |
 | Problem | Train a model to predict future oxygen requirements for symptomatic COVID-19 patients using EMR, labs, vital signs, and chest X-rays without centralizing all institutional data. |
 | PETs used | Federated learning |
-| Deployment maturity | Research prototype |
-| What worked | The study demonstrated multi-institution FL on real healthcare partners and reported model performance across institutions. |
+| Deployment maturity | Research prototype / demonstration experiment |
+| Source quality | Peer-reviewed / academic |
+| What worked | The study demonstrated multi-institution FL across 20 institutions and reported performance across sites. |
 | Challenges | Research success does not prove clinical workflow integration, privacy from updates, poisoning resistance, or ongoing operations. |
 | Lessons for builders | FL can coordinate real healthcare institutions, but clinical utility, local data quality, update leakage, and governance must be evaluated separately. |
 | Source | [Nature Medicine: Federated learning for predicting clinical outcomes in patients with COVID-19](https://www.nature.com/articles/s41591-021-01506-3) |
+
+*(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. Reviewed 2026-06-17 — the paper reports a 20-institution study and AUC results, but it is evidence for research feasibility rather than routine clinical production.)*
 
 ### MELLODDY cross-pharma federated learning
 
@@ -27,11 +30,14 @@
 | Domain | Healthcare / life sciences |
 | Problem | Let pharmaceutical companies improve QSAR models using sensitive proprietary chemical and bioactivity data without pooling data. |
 | PETs used | Federated learning, privacy-preserving platform controls |
-| Deployment maturity | Research prototype / consortium pilot |
+| Deployment maturity | Completed consortium pilot / demonstration experiment |
+| Source quality | Primary / official plus peer-reviewed / academic |
 | What worked | The project ran a large cross-company FL experiment and reported aggregated model improvements for participating companies. |
 | Challenges | The result is strong evidence for cross-company feasibility, not a generic proof that FL protects all proprietary information or works for every discovery task. |
 | Lessons for builders | Cross-silo FL needs shared task definitions, platform trust, data harmonization, and agreement about what model improvements can reveal. |
 | Source | [MELLODDY paper in Journal of Chemical Information and Modeling](https://pmc.ncbi.nlm.nih.gov/articles/PMC11005050/) |
+
+*(Evidence: Deployment-backed / literature-backed. Source quality: Primary / official plus peer-reviewed / academic. Reviewed 2026-06-17 — MELLODDY is strong feasibility evidence for cross-pharma FL; ongoing production after the consortium remains unverified.)*
 
 ## Common Proposed Use Cases
 
