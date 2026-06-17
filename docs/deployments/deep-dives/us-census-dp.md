@@ -12,6 +12,7 @@
 | Problem | Publish detailed population tables down to the census-block level while provably limiting what any attacker can reconstruct about individual respondents |
 | PETs used | Differential privacy via the TopDown Algorithm (TDA), using zero-concentrated differential privacy (zCDP) for privacy-loss accounting |
 | Deployment maturity | Production, single decennial release (one-off cadence, repeats each decade) |
+| Source quality | Primary / official plus independent analysis |
 | Source | [Census Bureau working paper: The 2020 Census DAS TopDown Algorithm](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html) |
 
 ## What Was Actually Deployed

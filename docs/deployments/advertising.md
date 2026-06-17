@@ -3,7 +3,7 @@
 !!! warning "Deployment evidence"
     Advertising PET deployments are often platform-controlled. They may be production systems, but the privacy and utility evidence can still be difficult for outsiders to inspect.
 
-## Documented Real Deployments
+## Production Platform Deployments
 
 ### Google Ads Data Hub
 
@@ -14,10 +14,13 @@
 | Problem | Let advertisers run customized analysis on Google advertising data while enforcing privacy checks on query outputs. |
 | PETs used | Data clean room, privacy checks, controlled query environment |
 | Deployment maturity | Production |
+| Source quality | Primary / official vendor documentation |
 | What worked | Ads Data Hub is a documented Google product with UI/API workflows and privacy checks on query results. |
 | Challenges | It is platform-governed; users must learn the operating model, and privacy depends on query rules, access, and output checks. |
 | Lessons for builders | Clean rooms are as much governance and workflow as technology. Query approval, thresholds, and output review are core product features, not add-ons. |
 | Source | [Google Ads Data Hub documentation](https://developers.google.com/ads-data-hub) and [Ads Data Hub introduction](https://developers.google.com/ads-data-hub/guides/intro) |
+
+*(Evidence: Deployment-backed. Source quality: Primary / official vendor documentation. Reviewed 2026-06-17 — strong evidence the product and controls exist; weaker evidence for independent privacy or utility outcomes.)*
 
 ### Apple SKAdNetwork / AdAttributionKit
 
@@ -28,10 +31,13 @@
 | Problem | Measure app-install and post-install campaign performance without exposing user-level identifiers in the same way as traditional attribution. |
 | PETs used | Privacy-preserving attribution framework, aggregation/delay/thresholding concepts |
 | Deployment maturity | Production |
+| Source quality | Primary / official vendor documentation |
 | What worked | SKAdNetwork is part of Apple's developer ecosystem and is used for iOS app attribution workflows. |
 | Challenges | Measurement is less granular; conversion-value design, delays, thresholds, and interoperability create operational pain for advertisers. |
 | Lessons for builders | Privacy-preserving attribution changes the optimization workflow, not only the data transport. Expect utility loss and new measurement practices. |
 | Source | [Apple Developer: SKAdNetwork](https://developer.apple.com/documentation/storekit/skadnetwork?post_type=advertisers&who=support) and [Apple Ads attribution overview](https://ads.apple.com/app-store/help/attribution/0094-ad-attribution-overview) |
+
+*(Evidence: Deployment-backed. Source quality: Primary / official vendor documentation. Reviewed 2026-06-17 — production framework evidence is strong; exact measurement utility depends on campaign setup and current Apple platform behavior.)*
 
 ### Chrome Privacy Sandbox Attribution Reporting
 
@@ -42,10 +48,13 @@
 | Problem | Enable conversion measurement without third-party cookies. |
 | PETs used | Browser-mediated attribution, event-level and aggregate reports, noise for summary reports |
 | Deployment maturity | Production / evolving platform feature |
+| Source quality | Primary / official vendor documentation plus platform documentation |
 | What worked | The API is documented for web developers and supports attribution flows with privacy controls. |
 | Challenges | Adoption, debugging, noise, reporting limits, and ecosystem readiness remain major issues. |
 | Lessons for builders | Platform PETs must be evaluated as product migrations: developer ergonomics and business utility can dominate cryptographic elegance. |
 | Source | [Privacy Sandbox Attribution Reporting overview](https://privacysandbox.google.com/private-advertising/attribution-reporting/web) and [MDN Attribution Reporting API](https://developer.mozilla.org/en-US/docs/Web/API/Attribution_Reporting_API) |
+
+*(Evidence: Deployment-backed. Source quality: Primary / official vendor documentation plus MDN platform documentation. Reviewed 2026-06-17 — browser support and ecosystem behavior are fast-moving; re-check before migration.)*
 
 ## Common Proposed Use Cases
 

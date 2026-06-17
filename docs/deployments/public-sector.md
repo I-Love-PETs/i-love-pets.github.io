@@ -3,7 +3,7 @@
 !!! warning "Deployment evidence"
     Public-sector PET deployments can be unusually visible, but they are still contested. Look for both implementation evidence and impact on data users.
 
-## Documented Real Deployments
+## Measured Production And Recurring Deployments
 
 ### 2020 U.S. Census Disclosure Avoidance System
 
@@ -14,10 +14,13 @@
 | Problem | Release detailed census data while protecting respondent confidentiality against reconstruction and reidentification risks. |
 | PETs used | Differential privacy, disclosure avoidance system, post-processing |
 | Deployment maturity | Production |
+| Source quality | Primary / official plus independent analysis |
 | What worked | The Census Bureau used the Disclosure Avoidance System for 2020 Census data products and published extensive documentation. |
 | Challenges | The deployment created major utility, communication, and stakeholder-trust debates, especially for small geographies and detailed counts. |
 | Lessons for builders | DP deployments need public budget decisions, user education, demonstration data, and a plan for utility disputes. Formal privacy does not remove policy tradeoffs. |
 | Source | [Census Bureau Decennial Census Disclosure Avoidance](https://www.census.gov/programs-surveys/decennial-census/disclosure-avoidance.2020.html) and [2020 Disclosure Avoidance FAQ](https://www.census.gov/about/policies/privacy/statistical_safeguards/data-protection-faq.html) |
+
+*(Evidence: Deployment-backed / literature-backed. Source quality: Primary / official plus independent analysis. Reviewed 2026-06-17 — production use is clear, and public criticism is part of the evidence base.)*
 
 ### Boston wage-gap analysis using MPC
 
@@ -27,11 +30,14 @@
 | Domain | Public sector / civic labor analytics |
 | Problem | Measure gender and racial wage gaps across employers while protecting employer-submitted wage data. |
 | PETs used | Secure multiparty computation |
-| Deployment maturity | Production / recurring civic analytics workflow |
+| Deployment maturity | Production, batch / periodic civic analytics workflow |
+| Source quality | Primary / official plus third-party case study |
 | What worked | BWWC describes using MPC in its wage-gap analysis process and reports aggregated findings. |
 | Challenges | MPC protects submitted inputs for the computation, but the released aggregate analysis still needs careful interpretation and cohort controls. |
 | Lessons for builders | Civic analytics can use MPC for trust-building, but reporting design and participant communication remain central. |
 | Source | [Boston Women's Workforce Council: Data Privacy](https://thebwwc.org/mpc) |
+
+*(Evidence: Deployment-backed. Source quality: Primary / official plus UN case study. Reviewed 2026-06-17 — recurring batch deployment evidence is unusually strong for civic MPC; output privacy remains a separate question.)*
 
 ## Common Proposed Use Cases
 

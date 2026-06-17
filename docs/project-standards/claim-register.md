@@ -3,9 +3,9 @@
 This register tracks claims that should be sourced, measured, narrowed, or softened before the guide is treated as decision-grade.
 
 !!! info "Review status"
-    Last reviewed: 2026-06-10
+    Last reviewed: 2026-06-17
     Evidence level: Expert judgment
-    Snapshot scope: Current decision-support backlog after v0.5. Claims listed here are useful but still need stronger evidence, narrower wording, or more explicit uncertainty labels before v1.0.
+    Snapshot scope: Current decision-support backlog after v0.7. Claims listed here are useful but still need stronger evidence, narrower wording, source-quality labels, or more explicit uncertainty labels before v1.0.
 
 ## Status Convention
 
@@ -18,16 +18,16 @@ Status is re-evaluated on each editorial pass and dated on change.
 
 ## Highest Priority Claims
 
-| Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-06-10) |
+| Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-06-17) |
 | --- | --- | --- | --- | --- | --- | --- |
-| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware | Measured | Needs evidence | **Unresolved** | No public cross-model latency benchmark found. Inline note added to private-inference.md flagging claim as Expert judgment; cost section labelled "Needs evidence". |
-| MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, and bandwidth | Measured or deployment-backed | Needs evidence | **Unresolved** | No broadly cited benchmark covers buyer-oriented bandwidth/latency for multi-party analytics. Complexity label on private-inference.md and choose-a-pet.md annotated as Expert judgment. |
-| DP utility impact | Utility loss depends heavily on task, privacy unit, and budget | Task-specific examples with epsilon, delta, utility metrics, and release cadence | Measured | Too broad | **Unresolved** | Claim is workload-dependent; no single source covers all tasks. Inline caveat added to choose-a-pet.md DP row directing readers to check task-specific benchmarks. |
-| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat | **Resolved** | Covered by well-known research on SGX/TDX side-channels (e.g., Van Bulck et al., USENIX Security 2018; Intel Product Security advisories). Inline note added to private-inference.md citing this class of work. |
-| Synthetic data privacy | "Synthetic" is often mistaken for anonymous | Memorization and membership-inference audits for release workflows | Measured | Needs evidence | **Unresolved** | No single production audit standard exists. Inline caveat in choose-a-pet.md points to membership-inference testing as the concrete next step; claim marked Expert judgment until audits are conducted. |
-| Clean room privacy | Governance claims can be confused with PET guarantees | Examples of output leakage, query controls, and policy enforcement | Deployment-backed | Too broad | **Unresolved** | No public postmortem with output-leakage data available. Claim remains broad; choose-a-pet.md notes governance vs. cryptographic distinction. |
-| Federated learning leakage | "Data stays local" can mislead readers | Gradient leakage examples, secure aggregation limits, and DP mitigation evidence | Literature-backed or measured | Usable with caveat | **Resolved** | Gradient leakage literature well-established (Zhu et al., NeurIPS 2019; Geiping et al., NeurIPS 2020). Inline note added to choose-a-pet.md FL row. |
-| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence | **Unresolved** | No public benchmark covers all leakage surfaces. Inline note in choose-a-pet.md calls out the multi-surface exposure; marked Needs evidence. |
+| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware, with source-quality labels | Measured | Needs evidence | **Unresolved** | No public cross-model latency benchmark found. Benchmark examples now mark HE numbers as Unsourced / illustrative; private-inference guidance remains Expert judgment until workload-specific measurements exist. |
+| MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, bandwidth, and operational effort | Measured or deployment-backed | Needs evidence | **Unresolved** | Boston MPC provides recurring civic-deployment evidence, but not a general cost model. Deployment pages now distinguish recurring production from proposed use cases. |
+| DP utility impact | Utility loss depends heavily on task, privacy unit, and budget | Task-specific examples with epsilon, delta, utility metrics, release cadence, and independent analysis where available | Measured | Too broad | **Unresolved** | Census deep dive remains the strongest production example and is labeled primary/official plus independent analysis; no single source covers all DP workloads. |
+| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat | **Resolved** | Covered by well-known research on SGX/TDX side-channels (e.g., Van Bulck et al., USENIX Security 2018; Intel Product Security advisories). Inline note remains on private-inference.md. |
+| Synthetic data privacy | "Synthetic" is often mistaken for anonymous | Memorization and membership-inference audits for release workflows | Measured | Needs evidence | **Unresolved** | No single production audit standard exists. Benchmark examples now explicitly label synthetic-data values Unsourced / illustrative. |
+| Clean room privacy | Governance claims can be confused with PET guarantees | Examples of output leakage, query controls, policy enforcement, and independent evaluations | Deployment-backed | Too broad | **Unresolved** | Ads Data Hub deep dive now labels source quality as primary/official vendor documentation; no public independent re-identification evaluation found. |
+| Federated learning leakage | "Data stays local" can mislead readers | Gradient leakage examples, secure aggregation limits, DP mitigation evidence, and deployment-specific privacy tests | Literature-backed or measured | Usable with caveat | **Resolved** | Gradient leakage literature is well-established; EXAM and Japanese bank deep dives now explicitly separate raw-data locality from full privacy proof. |
+| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence | **Unresolved** | No public benchmark covers all leakage surfaces. Example benchmark values remain illustrative only with Unsourced / illustrative source quality. |
 
 ## Page-Level Claim Review
 
@@ -36,8 +36,8 @@ Status is re-evaluated on each editorial pass and dated on change.
 | PET Compass | Tradeoff scores across PETs | Scores can look more precise than they are | Add review note explaining expert-judgment basis and workload variance |
 | PET Patterns | Operational complexity labels | Complexity depends on tooling and deployment scale | Tie complexity to observable cost drivers |
 | PET Architectures | Trust-boundary assumptions | Diagrams can imply stronger protection than text supports | Keep assumptions and non-protections next to data flows |
-| Deployments | Production maturity | Vendor and consortium materials can overclaim maturity | Keep pilot/production/research/unclear labels visible |
-| Benchmarks | Scorecard completeness | A scorecard can become checklist theater, and hypothetical example numbers can look like measured results | Label illustrative values clearly, or replace them with sourced measured runs |
+| Deployments | Production maturity and source quality | Vendor and consortium materials can overclaim maturity | Keep production, recurring, pilot, demonstration, vendor-case-study, and proposed-use labels visible |
+| Benchmarks | Scorecard completeness and source quality | A scorecard can become checklist theater, and hypothetical example numbers can look like measured results | Label illustrative values as Unsourced / illustrative, or replace them with sourced measured runs |
 | Use Cases | Domain recommendations | Domain rules can become too broad | Anchor recommendations to named scenarios |
 | Tool Reviews | Tool maturity and version facts | Release, maintenance, and performance details drift quickly | Date each review, label uncertain facts, and re-check before procurement or adoption |
 
@@ -68,5 +68,5 @@ When improving a page:
 | Add anchored quantitative or dated claims | Source-backed inline notes on Compass, Patterns, and Benchmarks pages |
 | Add named deployment summaries or postmortems | Deployment entries with maturity and limitations |
 | Add source-backed "when not to use" statements | Pattern-page caveats linked to evidence or incidents |
-| Replace hypothetical benchmark values with sourced measurements | One measured or literature-backed scorecard each for HE inference, MPC analytics, DP synthetic data, and private RAG |
+| Replace hypothetical benchmark values with sourced measurements | One measured or literature-backed scorecard each for HE inference, MPC analytics, DP synthetic data, and private RAG, with source-quality labels |
 | Add stale-claim sweeps | Quarterly review of AI, RAG, tool maturity, and cost claims |

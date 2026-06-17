@@ -15,6 +15,21 @@ Use this section when a PET choice sounds plausible but you need to know whether
 | Operations | Can a normal team deploy, monitor, debug, and explain the system? |
 | Evidence quality | Is the result measured, deployment-backed, literature-backed, or expert judgment? |
 
+## Benchmark Source Quality
+
+Benchmark claims need both an evidence level and a source-quality label. A measured value from a vendor blog is not the same thing as a reproducible benchmark package, and an illustrative scorecard value is not a measurement.
+
+| Source quality | Meaning | Decision use |
+| --- | --- | --- |
+| Reproducible benchmark package | Workload, code, data or data generator, environment, and run date are available | Strongest benchmark evidence if the workload matches |
+| Peer-reviewed measurement | Paper reports workload, method, parameters, and limits | Useful with scope checks; reproduce before procurement |
+| Operator measurement | Deploying team or vendor reports measured results | Useful lead; validate independently for high-stakes decisions |
+| Independent replication | Non-operator repeats or challenges a claimed result | Strong evidence for or against generalization |
+| Expert estimate | Maintainer or practitioner estimate without a run artifact | Planning only; replace before commitment |
+| Unsourced / illustrative | Teaching value created for a scorecard example | Never cite as performance evidence |
+
+*(Evidence: Expert judgment. Source quality: Project standard. Reviewed 2026-06-17 — this taxonomy is a reporting discipline, not a measurement result.)*
+
 ## Benchmark Card
 
 Every benchmark should report:
@@ -26,6 +41,7 @@ Every benchmark should report:
 - hardware, software versions, and deployment assumptions;
 - baselines and rejected alternatives;
 - privacy, utility, cost, latency, and robustness results;
+- evidence level and source-quality label for each high-impact result;
 - failure cases and what the benchmark does not measure.
 
 ## Scorecards

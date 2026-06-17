@@ -3,7 +3,7 @@
 !!! warning "Deployment evidence"
     Financial PET projects are often described through vendor case studies, consortium announcements, or research demonstrations. Treat maturity labels conservatively.
 
-## Documented Real Deployments And Studies
+## Vendor Case Studies And Unclear Production Claims
 
 ### TriBank / Amlytic privacy-preserving financial-crime analytics
 
@@ -13,11 +13,16 @@
 | Domain | Finance |
 | Problem | Pool cross-institution transaction intelligence for financial-crime detection without exposing raw institutional transaction data. |
 | PETs used | Secure multiparty pseudonymisation, privacy-preserving matching, de-identified graph analytics |
-| Deployment maturity | Pilot / unclear production maturity |
+| Deployment maturity | Vendor case study / unclear production maturity |
+| Source quality | Vendor case study |
 | What worked | Public materials describe use of privacy-preserving matching and analytics to combine financial-institution contributions. |
 | Challenges | Source material is vendor-operated and does not provide an independent production evaluation, false-positive analysis, or detailed threat model. |
 | Lessons for builders | Cross-bank analytics needs privacy-preserving entity resolution, governance over outputs, and careful distinction between de-identified analytics and formal privacy guarantees. |
 | Source | [Amlytic product and TriBank description](https://amlytic.com/) |
+
+*(Evidence: Deployment-backed only as vendor-described. Source quality: Vendor case study. Reviewed 2026-06-17 — useful lead, but not independent evidence of production maturity or detection lift.)*
+
+## Published Pilots And Demonstrations
 
 ### Japanese banks federated fraud-detection demonstration
 
@@ -27,11 +32,14 @@
 | Domain | Finance |
 | Problem | Test privacy-preserving federated learning for fraudulent financial transaction detection using real transaction data across banks. |
 | PETs used | Federated learning |
-| Deployment maturity | Research prototype / demonstration experiment |
+| Deployment maturity | Demonstration experiment |
+| Source quality | Peer-reviewed / academic |
 | What worked | The paper reports a multi-bank demonstration using real transaction data and names participating banks. |
 | Challenges | The authors describe it as a demonstration experiment; it should not be treated as evidence of production deployment. |
 | Lessons for builders | Fraud FL needs real data, cross-bank governance, and operational design beyond model training. |
 | Source | [IPSJ Journal of Information Processing: Privacy-Preserving Federated Learning for Detecting Fraudulent Financial Transactions in Japanese Banks](https://www.jstage.jst.go.jp/article/ipsjjip/30/0/30_789/_article) |
+
+*(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. Reviewed 2026-06-17 — the paper reports five named banks and real transaction data; production adoption remains unestablished.)*
 
 ## Common Proposed Use Cases
 

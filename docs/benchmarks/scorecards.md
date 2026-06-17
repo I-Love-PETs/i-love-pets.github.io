@@ -95,5 +95,6 @@ Do not release synthetic data broadly unless the page states whether it is DP, w
 | PET stack | PETs, supporting controls, and parameters |
 | Baselines | Plaintext, centralized, governance-only, or alternative PET designs |
 | Results | Privacy, utility, latency, throughput, cost, robustness, operations |
+| Evidence and source quality | Measured / deployment-backed / literature-backed / expert judgment / needs evidence, plus source-quality label |
 | Failure cases | What broke or became unacceptable |
 | Reversal condition | What result would make you choose another PET |
