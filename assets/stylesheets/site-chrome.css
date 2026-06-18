@@ -1,0 +1,99 @@
+/* Keep the MkDocs Material top chrome visible while scrolling. */
+.md-header,
+.md-header[data-md-state="hidden"] {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transform: translateY(0) !important;
+  transition: box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.md-header[data-md-state="shadow"] {
+  box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.18), 0 0.4rem 0.8rem rgba(0, 0, 0, 0.08);
+}
+
+.md-tabs,
+.md-tabs[data-md-state="hidden"] {
+  position: sticky;
+  top: 2.4rem;
+  z-index: 999;
+  transform: translateY(0) !important;
+  pointer-events: auto;
+}
+
+/* Put the repository actions directly in the user's eye line. */
+.github-actions {
+  position: fixed;
+  right: 1rem;
+  top: 3.15rem;
+  z-index: 1002;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.github-actions__button {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.1rem;
+  padding: 0.45rem 0.8rem;
+  border: 0.08rem solid var(--md-accent-fg-color);
+  border-radius: 999rem;
+  background: var(--md-accent-fg-color);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.18);
+  color: var(--md-accent-bg-color);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.github-actions__button:hover,
+.github-actions__button:focus-visible {
+  border-color: var(--md-accent-fg-color);
+  background: var(--md-default-bg-color);
+  color: var(--md-accent-fg-color);
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.22);
+  transform: translateY(-0.06rem);
+}
+
+.github-actions__button:focus-visible {
+  outline: 0.12rem solid var(--md-accent-fg-color);
+  outline-offset: 0.14rem;
+}
+
+.github-actions__icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  fill: currentColor;
+}
+
+@media screen and (max-width: 76.1875em) {
+  .github-actions {
+    top: auto;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .github-actions__button {
+    min-width: 5.5rem;
+  }
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-tabs,
+  .md-tabs[data-md-state="hidden"] {
+    display: none;
+  }
+
+  .github-actions__button {
+    min-height: 2.2rem;
+  }
+}
