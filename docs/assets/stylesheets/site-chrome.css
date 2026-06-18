@@ -1,26 +1,39 @@
-/* Keep the primary MkDocs Material header visible while scrolling. */
-.md-header {
+/* Keep the MkDocs Material top chrome visible while scrolling. */
+.md-header,
+.md-header[data-md-state="hidden"] {
   position: sticky;
   top: 0;
   z-index: 1000;
-  transform: none !important;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  opacity: 1;
+  transform: translateY(0) !important;
   transition: box-shadow 160ms ease, background-color 160ms ease;
+  visibility: visible;
 }
 
 .md-header[data-md-state="shadow"] {
   box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.18), 0 0.4rem 0.8rem rgba(0, 0, 0, 0.08);
 }
 
-.md-tabs {
+.md-tabs,
+.md-tabs[data-md-state="hidden"] {
   position: sticky;
   top: 2.4rem;
   z-index: 999;
-  transform: none !important;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  opacity: 1;
+  transform: translateY(0) !important;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.md-tabs[data-md-state="hidden"] {
-  pointer-events: auto;
-  transform: none !important;
+.md-header .md-header__button,
+.md-header .md-header__title,
+.md-tabs .md-tabs__link {
+  color: var(--md-primary-bg-color);
+  opacity: 1;
 }
 
 /* Persistent GitHub star/fork actions. */
@@ -66,14 +79,15 @@
   outline-offset: 0.12rem;
 }
 
-.github-actions__icon {
-  width: 0.85rem;
-  height: 0.85rem;
-  fill: currentColor;
+.github-actions__widget {
+  width: 6.6rem;
+  height: 1.875rem;
+  border: 0;
 }
 
 @media screen and (max-width: 44.984375em) {
-  .md-tabs {
+  .md-tabs,
+  .md-tabs[data-md-state="hidden"] {
     display: none;
   }
 

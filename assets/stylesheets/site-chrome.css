@@ -4,8 +4,12 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  opacity: 1;
   transform: translateY(0) !important;
   transition: box-shadow 160ms ease, background-color 160ms ease;
+  visibility: visible;
 }
 
 .md-header[data-md-state="shadow"] {
@@ -17,16 +21,27 @@
   position: sticky;
   top: 2.4rem;
   z-index: 999;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  opacity: 1;
   transform: translateY(0) !important;
+  visibility: visible;
   pointer-events: auto;
 }
 
-/* Put the repository actions directly in the user's eye line. */
+.md-header .md-header__button,
+.md-header .md-header__title,
+.md-tabs .md-tabs__link {
+  color: var(--md-primary-bg-color);
+  opacity: 1;
+}
+
+/* Persistent GitHub star/fork actions. */
 .github-actions {
   position: fixed;
   right: 1rem;
-  top: 3.15rem;
-  z-index: 1002;
+  bottom: 1rem;
+  z-index: 1001;
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -67,15 +82,14 @@
   outline-offset: 0.14rem;
 }
 
-.github-actions__icon {
-  width: 0.9rem;
-  height: 0.9rem;
-  fill: currentColor;
+.github-actions__widget {
+  width: 6.6rem;
+  height: 1.875rem;
+  border: 0;
 }
 
 @media screen and (max-width: 76.1875em) {
   .github-actions {
-    top: auto;
     right: 0.75rem;
     bottom: 0.75rem;
     flex-direction: column;
