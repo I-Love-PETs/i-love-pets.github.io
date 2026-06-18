@@ -1,0 +1,91 @@
+/* Keep the primary MkDocs Material header visible while scrolling. */
+.md-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transform: none !important;
+  transition: box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.md-header[data-md-state="shadow"] {
+  box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.18), 0 0.4rem 0.8rem rgba(0, 0, 0, 0.08);
+}
+
+.md-tabs {
+  position: sticky;
+  top: 2.4rem;
+  z-index: 999;
+  transform: none !important;
+}
+
+.md-tabs[data-md-state="hidden"] {
+  pointer-events: auto;
+  transform: none !important;
+}
+
+/* Persistent GitHub star/fork actions. */
+.github-actions {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1001;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.github-actions__button {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.35rem 0.7rem;
+  border: 0.05rem solid var(--md-default-fg-color--lighter);
+  border-radius: 999rem;
+  background: var(--md-default-bg-color);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.14);
+  color: var(--md-default-fg-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.github-actions__button:hover,
+.github-actions__button:focus-visible {
+  border-color: var(--md-accent-fg-color);
+  background: var(--md-accent-fg-color--transparent);
+  color: var(--md-accent-fg-color);
+  box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.18);
+  transform: translateY(-0.05rem);
+}
+
+.github-actions__button:focus-visible {
+  outline: 0.1rem solid var(--md-accent-fg-color);
+  outline-offset: 0.12rem;
+}
+
+.github-actions__icon {
+  width: 0.85rem;
+  height: 0.85rem;
+  fill: currentColor;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .md-tabs {
+    display: none;
+  }
+
+  .github-actions {
+    right: 0.75rem;
+    bottom: 0.75rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .github-actions__button {
+    justify-content: center;
+    min-width: 5.25rem;
+  }
+}
