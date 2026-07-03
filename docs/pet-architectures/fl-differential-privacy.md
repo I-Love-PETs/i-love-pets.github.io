@@ -66,3 +66,8 @@ Arbitrary epsilon choices, untracked composition, clipping that destroys utility
 - Are all releases and tuning runs accounted for?
 - Does utility hold for small sites and subgroups?
 - Are checkpoints, logs, and metrics covered by release policy?
+
+## References
+
+- Dwork and Roth, [*The Algorithmic Foundations of Differential Privacy*](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf), 2014.
+- NIST, [*Guidelines for Evaluating Differential Privacy Guarantees*](https://doi.org/10.6028/NIST.SP.800-226), SP 800-226, 2025.

@@ -29,6 +29,10 @@ Use both labels together when needed:
 
 > *(Evidence: Deployment-backed. Source quality: Vendor case study. Reviewed 2026-06-17 — product documentation confirms the control exists, but no independent production evaluation was found.)*
 
+For organizational privacy-risk language, align with the NIST Privacy Framework's
+risk-management framing rather than treating PET use as a standalone assurance
+claim. See NIST, [Privacy Framework](https://www.nist.gov/privacy-framework).
+
 ## Deployment Maturity Labels
 
 Deployment maturity is separate from source quality. A production system can still be supported only by vendor documentation, and a peer-reviewed paper can still describe only a prototype.

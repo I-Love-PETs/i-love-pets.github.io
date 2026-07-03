@@ -68,3 +68,8 @@ Rare-record copying, weak downstream utility, undocumented DP parameters, auxili
 - What downstream tasks were benchmarked?
 - Are rare groups evaluated separately?
 - Are intended and prohibited uses documented?
+
+## References
+
+- Bowen and Snoke, [*Comparative Study of Differentially Private Synthetic Data Algorithms from the NIST PSCR Differential Privacy Synthetic Data Challenge*](https://arxiv.org/abs/1911.12704), 2019.
+- Giomi et al., [*A Unified Framework for Quantifying Privacy Risk in Synthetic Data*](https://arxiv.org/abs/2211.10459), 2022.
