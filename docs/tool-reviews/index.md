@@ -32,13 +32,19 @@ Versions, performance numbers, and "latest release" facts drift. Where a fact co
 
 One representative per PET family:
 
-| PET family | Tool | Review |
-| --- | --- | --- |
-| Federated learning (FL) | Flower (`flwr`) | [flower-fl.md](flower-fl.md) |
-| Differential privacy (DP) | OpenDP | [opendp.md](opendp.md) |
-| Homomorphic encryption (HE) | Microsoft SEAL | [microsoft-seal.md](microsoft-seal.md) |
-| Confidential computing (TEE) | AWS Nitro Enclaves | [confidential-computing-platform.md](confidential-computing-platform.md) |
+| PET family | Tool | Review | Pair with |
+| --- | --- | --- | --- |
+| Federated learning (FL) | Flower (`flwr`) | [flower-fl.md](flower-fl.md) | [FL + secure aggregation](../pet-architectures/fl-secure-aggregation.md) |
+| Differential privacy (DP) | OpenDP | [opendp.md](opendp.md) | [FL + differential privacy](../pet-architectures/fl-differential-privacy.md) |
+| Homomorphic encryption (HE) | Microsoft SEAL | [microsoft-seal.md](microsoft-seal.md) | [HE private inference API](../pet-architectures/he-private-inference-api.md) |
+| Confidential computing (TEE) | AWS Nitro Enclaves | [confidential-computing-platform.md](confidential-computing-platform.md) | [Confidential RAG](../pet-architectures/confidential-rag.md) |
 
 ## Contributing a review
 
 Want to add one? Read the [tool evaluation framework](../contributing/tool-evaluation-framework.md) first to confirm the tool earns a page (it must help a reader decide on a concrete architecture, threat model, or benchmark), then copy the [tool review template](../contributing/tool-template.md) and fill in every field. A review that lists features without saying when *not* to use the tool is not finished.
+
+## See Also
+
+- [Tool evaluation framework](../contributing/tool-evaluation-framework.md) for the review rubric.
+- [Benchmark scorecards](../benchmarks/scorecards.md) for the first measurement after a review.
+- [Claim register](../project-standards/claim-register.md) for claims that need stronger evidence.

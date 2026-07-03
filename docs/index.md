@@ -66,6 +66,16 @@ A practical field guide to Privacy-Enhancing Technologies.
 
 Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
 
+## Fast Routing
+
+| You have... | Go to... | Then check... |
+| --- | --- | --- |
+| A concrete use case but no PET shortlist | [Use Cases](use-cases/index.md) | [PET Compass](pet-compass/index.md) |
+| A PET candidate but no design | [PET Architectures](pet-architectures/index.md) | [Threat Models](threat-models/index.md) |
+| A vendor/tool claim | [Tool Reviews](tool-reviews/index.md) | [Evidence Policy](project-standards/evidence-policy.md) |
+| A proposed deployment claim | [Deployments](deployments/index.md) | [Claim Register](project-standards/claim-register.md) |
+| A research or contribution idea | [Fix My Itch](fix-my-itch/index.md) | [Contributing](contributing/index.md) |
+
 ## This Is Not Another Awesome List
 
 Existing repositories catalog papers and tools. This site is for the moment after
@@ -114,3 +124,9 @@ Use the site as a field guide, not a textbook.
 - [Benchmarks](benchmarks/index.md): how to measure privacy, utility, cost, latency, scalability, and developer effort.
 - [Tool Reviews](tool-reviews/index.md): tool evaluations tied to concrete architectures, threat models, and first benchmarks.
 - [Contributing](contributing/index.md): quality bar for improving the guide.
+
+## Related Starting Points
+
+- [Reader Paths](start-here/reader-paths.md) for ordered reading sequences.
+- [Worked Decisions](worked-decisions/index.md) for examples of complete PET choices.
+- [Benchmark Scorecards](benchmarks/scorecards.md) for turning a recommendation into evidence.
