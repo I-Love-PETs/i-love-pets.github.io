@@ -25,3 +25,13 @@ Every architecture should make these visible:
 - operational risks and evaluation checks.
 
 If a diagram omits logs or outputs, assume the architecture is incomplete until the text covers them.
+
+## Architecture Review Questions
+
+| Question | Good answer looks like |
+| --- | --- |
+| What assumptions am I making? | Named assumptions about parties, thresholds, hardware, keys, privacy units, and output policy. |
+| What can fail operationally? | Dropouts, unavailable parties, key rotation, logging mistakes, attestation drift, budget exhaustion, or release pressure. |
+| What attacks are outside scope? | Explicit exclusions such as malicious participants, side channels, compromised clients, or downstream misuse. |
+| Which PETs are commonly combined? | The supporting PETs needed for the real threat model, not a longer acronym list. |
+| How do I know it worked? | Evaluation checks tied to the protected artifact and allowed output. |
