@@ -2,6 +2,15 @@
 
 Good first PET research problems should produce a reusable artifact: a checklist, benchmark, reproduction, small tool, failure-case catalog, or measurement report.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Rewrite PET claims with threat models | Buyers, reviewers, vendors, and technical writers who need comparable claims | Public claims are short, incentives favor broad language, and missing architecture details make precise rewrites hard | Build a scoring rubric; rewrite public claims; map each claim to protected asset, adversary, assumption, and residual risk |
+| Small-cohort aggregate leakage catalog | Public agencies, healthcare analysts, clean-room users, and benchmark maintainers | Leakage depends on auxiliary data, repeated releases, and group definitions, not just one threshold | Create synthetic examples; test thresholds and suppression; document where DP or grouping is needed |
+| PET setup friction diary | Tool maintainers, first-time adopters, and open-source contributors | Failed setup paths are rarely captured because users leave before filing issues | Time clean installs; record errors and assumptions; turn findings into docs or issue templates |
+| Privacy test for a toy RAG system | Enterprise RAG builders, privacy engineers, and students | RAG leakage crosses retrieval, prompts, logs, permissions, and answers, so one accuracy test misses most failures | Build role-based fixtures; add expected-deny prompts; test log retention and unauthorized snippet exposure |
+
 ## Rewrite PET Claims With Threat Models
 
 | Field | Card |

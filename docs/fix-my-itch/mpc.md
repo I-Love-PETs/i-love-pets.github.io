@@ -2,6 +2,15 @@
 
 MPC can compute across private inputs without a single trusted operator, but normal backend teams often experience it as protocol-heavy, expensive, and hard to reason about before deployment.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| MPC for normal backend engineers | Backend teams, product engineers, and open-source MPC maintainers | Useful abstractions must expose parties, outputs, and collusion without hiding the security model | Build one service template; document deployment ceremonies; include cost and failure-mode examples |
+| Cost before deployment | Buyers, architects, benchmark maintainers, and vendors | Cost depends on function shape, party count, bandwidth, preprocessing, retries, and availability | Create calculators for common tasks; validate against small runs; include failure sensitivity |
+| Malicious security usability | Finance, advertising, and public-sector collaborations with adversarial incentives | Malicious security adds complexity that is hard to explain and test in product terms | Implement semi-honest and malicious-secure variants; measure overhead; write developer-facing explanations |
+| MPC output governance | Privacy engineers, analysts, and compliance teams | MPC can compute a correct result that should not be released | Add output schemas and thresholds; test unsafe outputs; pair MPC examples with release review |
+
 ## MPC For Normal Backend Engineers
 
 | Field | Card |
