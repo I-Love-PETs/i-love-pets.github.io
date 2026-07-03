@@ -27,6 +27,14 @@ Most privacy failures happen after a PET successfully protects inputs. Begin wit
 
 Primary recommendation: **FL + secure aggregation + optional DP** when data cannot centralize and the output is a model.
 
+| Decision field | Recommendation |
+| --- | --- |
+| Alternative PETs | Governed centralization if lawful and acceptable; clean room training if platform trust is acceptable; MPC/federated analytics if the real output is a statistic. |
+| Why | Raw records stay local, and the collaboration produces a shared model rather than a one-time metric. |
+| Tradeoffs | Local operations, non-IID data, harder debugging, privacy-utility tension when DP is added. |
+| Failure modes | Update leakage, poisoning, small rounds, final-model memorization, poor site-level utility. |
+| Operational considerations | Round thresholds, participant authentication, training-code versioning, secure aggregation recovery, per-site evaluation. |
+
 ### If the output is an aggregate metric
 
 | Question | If yes | If no |
@@ -37,6 +45,14 @@ Primary recommendation: **FL + secure aggregation + optional DP** when data cann
 
 Primary recommendation: **federated analytics** for simple distributed metrics; **MPC** when no single operator should see intermediate values.
 
+| Decision field | Recommendation |
+| --- | --- |
+| Alternative PETs | Clean room if workflow governance is the main need; DP query system for repeated releases; governed centralization if one operator is acceptable. |
+| Why | The allowed output is an aggregate metric, so model-training machinery may be unnecessary. |
+| Tradeoffs | Simpler than FL for metrics, but small-cell policy and schema alignment are hard. |
+| Failure modes | Differencing attacks, inconsistent metric definitions, collusion, tiny cohorts. |
+| Operational considerations | Minimum thresholds, query review, release ledger, metric definitions, analyst audit trail. |
+
 ### If the output is a match set
 
 | Question | If yes | If no |
@@ -46,6 +62,14 @@ Primary recommendation: **federated analytics** for simple distributed metrics; 
 | Can parties repeat queries freely? | Add query limits and review | Continue |
 
 Primary recommendation: **PSI** when parties may learn the agreed overlap. If the overlap is sensitive, use a stricter output policy or a different computation.
+
+| Decision field | Recommendation |
+| --- | --- |
+| Alternative PETs | MPC for downstream aggregate computation; clean room for governed workflows; no-release matching if overlap cannot be revealed. |
+| Why | The allowed output is a match set or count, while nonmatches should stay hidden. |
+| Tradeoffs | Efficient and targeted, but the revealed overlap may be the sensitive fact. |
+| Failure modes | Repeated-query leakage, weak identifiers, false matches, downstream misuse. |
+| Operational considerations | Identifier hygiene, output type, query limits, match-use policy, audit logs. |
 
 ### If the output is an inference result
 
@@ -58,6 +82,14 @@ Primary recommendation: **PSI** when parties may learn the agreed overlap. If th
 
 Primary recommendation: **TEE first for broad model support** when hardware trust is acceptable; **HE only after model-fit and latency benchmarking**.
 
+| Decision field | Recommendation |
+| --- | --- |
+| Alternative PETs | Client-side inference, MPC for multi-party scoring, standard hosted inference when sensitivity is low. |
+| Why | The service should not observe plaintext inputs or runtime data outside the chosen trust boundary. |
+| Tradeoffs | TEEs are practical but depend on attestation and hardware trust; HE is stronger for input secrecy but narrower and slower. |
+| Failure modes | Output leakage, plaintext logs, unverified attestation, unsupported HE operators, key mishandling. |
+| Operational considerations | Key lifecycle, attestation verification, p95/p99 latency, model updates, support/debugging boundaries. |
+
 ### If the output is a data-like artifact
 
 | Question | If yes | If no |
@@ -67,6 +99,14 @@ Primary recommendation: **TEE first for broad model support** when hardware trus
 | Does the generator memorize rare records? | Stop, tune, or use a stricter release path | Continue with release review |
 
 Primary recommendation: **DP synthetic data** for broad release claims. Non-DP synthetic data may still be useful, but it should not be described as anonymous.
+
+| Decision field | Recommendation |
+| --- | --- |
+| Alternative PETs | DP query access, restricted sharing, task-specific benchmark data, non-DP synthetic data for internal testing. |
+| Why | The allowed output is a table-like artifact that may be shared beyond the original trust boundary. |
+| Tradeoffs | DP gives a formal claim at utility cost; non-DP generators may be more useful but weaker. |
+| Failure modes | Memorization, rare-record leakage, misleading utility, downstream misuse. |
+| Operational considerations | Privacy unit, budget owner, release review, memorization tests, utility benchmarks, documentation. |
 
 ## When The Recommendation Changes
 

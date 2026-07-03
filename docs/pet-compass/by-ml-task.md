@@ -27,6 +27,15 @@ Add:
 
 Avoid FL when the real problem is governance, not data movement. A negotiated data-sharing agreement plus centralized training may be simpler, cheaper, and easier to audit.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | Cross-silo FL + secure aggregation; add DP when record-level contribution bounds are required. |
+| Alternative PETs | Governed centralization, clean room training, MPC/federated analytics for non-training tasks. |
+| Why | Training data stays local while the collaboration produces a shared model. |
+| Tradeoffs | Distributed operations, non-IID evaluation, harder debugging, possible DP utility loss. |
+| Failure modes | Update leakage, poisoning, small rounds, memorization, poor utility for smaller sites. |
+| Operational considerations | Participant onboarding, local validation, secure aggregation thresholds, per-site metrics, rollback. |
+
 ## Federated Analytics
 
 Use **federated analytics** when the output is a metric, report, or aggregate rather than a trained model.
@@ -34,6 +43,15 @@ Use **federated analytics** when the output is a metric, report, or aggregate ra
 This is often the right starting point for healthcare quality metrics, cross-bank risk statistics, and platform measurement. Add DP or minimum thresholds when outputs could reveal small cohorts.
 
 Avoid it when the computation requires rich joint features across parties. That may push you toward MPC or a controlled clean-room workflow.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | Federated analytics for simple distributed metrics; MPC when intermediate values must stay hidden. |
+| Alternative PETs | Clean room for governed analyst workflows; DP query system for repeated statistical releases. |
+| Why | The output is an aggregate, not a model, and raw records do not need to centralize. |
+| Tradeoffs | Lower ML complexity, but output policy and metric alignment dominate. |
+| Failure modes | Small-cell leakage, repeated-query differencing, inconsistent definitions, collusion. |
+| Operational considerations | Schema alignment, minimum thresholds, query review, evidence labels, analyst audit trail. |
 
 ## Private Inference
 
@@ -48,6 +66,15 @@ Use **TEE-based confidential inference** when:
 
 Avoid both if the output itself is sensitive and no output policy exists. The prediction can leak attributes even when inputs are protected.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | HE for narrow no-plaintext-input requirements; TEE confidential inference for complex or latency-sensitive models. |
+| Alternative PETs | Client-side inference, standard hosted inference with governance, MPC for multi-party scoring. |
+| Why | The sensitive artifact is the inference input, model interaction, or runtime plaintext. |
+| Tradeoffs | HE has strong input confidentiality but limited model fit; TEEs are practical but add hardware trust. |
+| Failure modes | Unsupported operators, attestation gaps, plaintext logs, prediction leakage, key mishandling. |
+| Operational considerations | Key ownership, attestation verification, model update process, p95 latency, output controls. |
+
 ## Private RAG
 
 Private RAG is mostly an authorization and leakage-control problem with PET support.
@@ -55,6 +82,15 @@ Private RAG is mostly an authorization and leakage-control problem with PET supp
 Use confidential RAG when prompts, retrieved snippets, embeddings, or model execution cross trust boundaries. TEEs can reduce runtime exposure, but the design also needs retrieval policy, provenance, log controls, and answer review.
 
 Failure mode: the system faithfully protects the prompt from the cloud operator while retrieving documents the user should never have seen.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | Confidential RAG with authorization-aware retrieval, log minimization, and output review. |
+| Alternative PETs | Ordinary RAG inside a trusted boundary; segmented retrieval; redaction-first workflow. |
+| Why | The sensitive artifacts are prompts, retrieved snippets, embeddings, logs, and generated answers. |
+| Tradeoffs | Runtime protection helps, but permissions and answer behavior carry much of the risk. |
+| Failure modes | Overbroad retrieval, answer quotation of restricted content, sensitive logs, unverifiable attestation. |
+| Operational considerations | Access-control tests, provenance, retention, support access, incident response, evaluation prompts. |
 
 ## Private LLM Fine-Tuning
 
@@ -69,6 +105,15 @@ Choose based on where training data can live:
 
 Measure memorization directly. A private fine-tuning story is weak if nobody tests whether prompts can extract training examples.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | DP-SGD/DP adapters, FL, or TEEs depending on where training data may live. |
+| Alternative PETs | Retrieval-only design, redaction plus evaluation, smaller task-specific model, no fine-tuning. |
+| Why | Training can memorize examples, and the privacy goal may involve records, organizations, or prompts. |
+| Tradeoffs | DP can reduce quality; FL adds operations; TEEs add trust assumptions; redaction is not formal privacy. |
+| Failure modes | Training-example extraction, weak budget accounting, local data leakage, model overfitting. |
+| Operational considerations | Memorization audit, privacy budget, data retention, model release policy, rollback criteria. |
+
 ## Synthetic Data For ML
 
 Use synthetic data for prototyping, QA, education, and some downstream modeling when raw data release is too risky.
@@ -82,6 +127,15 @@ Measure:
 - nearest-neighbor similarity to training records;
 - membership inference risk;
 - privacy budget if DP is used.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | DP synthetic data for public release; non-DP synthetic data only for clearly scoped internal use. |
+| Alternative PETs | DP query access, restricted enclave, benchmark-specific generated data. |
+| Why | Users need a data-like artifact, but the release itself can be attacked. |
+| Tradeoffs | Public release flexibility versus rare-case utility and privacy-budget cost. |
+| Failure modes | Memorization, misleading correlations, poor downstream utility, overbroad reuse. |
+| Operational considerations | Release review, data cards, nearest-neighbor tests, downstream benchmarks, usage limits. |
 
 ## Worked Example: Model Provider Private Inference
 
