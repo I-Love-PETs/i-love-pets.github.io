@@ -1,8 +1,15 @@
 # Benchmarks
 
-PET decisions should be based on evidence, not vibes.
+PET decisions should be based on evidence, not vibes. A benchmark is the place
+where a PET claim becomes falsifiable: it either protects the artifact you care
+about within the workload constraints, or it does not.
 
 Use this section when a PET choice sounds plausible but you need to know whether it survives real workload constraints.
+
+Good benchmark design starts by writing the decision the benchmark must support.
+"Compare HE and TEEs" is too broad. "Decide whether encrypted inference can meet
+300 ms p95 latency for this fraud model while hiding client features from the
+model host" is actionable.
 
 ## Benchmark Dimensions
 
@@ -44,6 +51,16 @@ Every benchmark should report:
 - evidence level and source-quality label for each high-impact result;
 - failure cases and what the benchmark does not measure.
 
+## What To Report Even When The Result Is Bad
+
+| Finding | Why it belongs in the benchmark |
+| --- | --- |
+| Parameter settings that failed | They prevent future teams from repeating the same tuning path. |
+| Utility loss by subgroup or participant | Average utility can hide the exact population harmed by the PET. |
+| Operational failure cases | Dropouts, key rotation, attestation gaps, and logging errors often dominate deployment risk. |
+| Cost shape | PET costs can be nonlinear with parties, ciphertext size, rounds, or privacy budget. |
+| Rejected baseline | A PET result is only meaningful if the simpler alternative is visible. |
+
 ## Scorecards
 
 Start with [Scorecards](scorecards.md) for reusable benchmark templates covering:
@@ -61,3 +78,4 @@ Start with [Scorecards](scorecards.md) for reusable benchmark templates covering
 - Hiding failed parameter settings.
 - Benchmarking on clean centralized data when deployment data is distributed and messy.
 - Comparing PETs without naming the protected asset and adversary.
+- Treating a vendor demo as a workload benchmark without rerunning it under your data shape, latency budget, and operations model.

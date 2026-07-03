@@ -71,6 +71,12 @@ Not sure where to start? Read the [guided reader paths](start-here/reader-paths.
 Existing repositories catalog papers and tools. This site is for the moment after
 someone asks, "What should we actually build, buy, evaluate, or research?"
 
+The guide is intentionally biased toward engineering review. A useful answer here
+names the protected asset, the adversary, the allowed output, the operational
+assumptions, and the measurement that would falsify the design. If a PET choice
+cannot survive those questions, the right next step is not a bigger diagram; it is
+a narrower claim.
+
 I ❤️ PETs focuses on:
 
 - choosing the right PET for a constraint, not a buzzword;
@@ -103,6 +109,19 @@ Use the site as a field guide, not a textbook.
 - Homomorphic encryption protects data during computation but is constrained by latency, operators, and model design.
 - MPC can be powerful, but many teams underestimate protocol, identity, and operations work.
 - Differential privacy is the clearest formal privacy tool, but the utility cost and budget accounting must be measured.
+
+## A Review Checklist For Any Page
+
+When you use a page as input to a design review, leave with answers to these
+questions:
+
+| Question | Why it matters |
+| --- | --- |
+| What is the allowed output? | Most PET failures come from revealing too much after a private computation. |
+| Who is the adversary? | A design for a curious coordinator can fail immediately against a malicious participant. |
+| What assumption would break the claim? | Thresholds, attestation, local security, and budget accounting are often the real control plane. |
+| What is the first benchmark? | Utility, latency, cost, and privacy evidence should be measured before procurement or launch. |
+| What would make us switch PETs? | A reversible decision is easier to govern than a technology commitment. |
 
 ## Main Sections
 
