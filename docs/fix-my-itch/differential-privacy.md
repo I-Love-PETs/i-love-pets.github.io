@@ -2,6 +2,15 @@
 
 Differential privacy gives the clearest formal privacy language in this guide, but deployed teams still struggle with budgets, audits, and utility under real constraints.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Privacy budgets people can defend | Privacy reviewers, product owners, policy teams, and data scientists | Epsilon is not intuitive, and budget choice depends on privacy unit, cadence, utility, and harm model | Build a worksheet; connect budgets to attack examples; plot utility and release-count tradeoffs |
+| Auditing DP claims in deployed systems | Auditors, regulators, buyers, and platform owners | DP depends on implementation details, composition, sampling, clipping, and release lineage | Define required artifacts; audit two open runs; include accounting and implementation tests |
+| Useful DP fine-tuning for LLMs | Enterprises, ML researchers, and privacy engineers | DP training can be costly and low-utility, especially for small sensitive datasets | Benchmark adapters; report compute and utility; include memorization probes and budget accounting |
+| DP for small cohorts | Public agencies, healthcare analytics teams, advertisers, and clean-room users | Small groups are where utility and privacy collide most sharply | Compare suppression, grouping, and hierarchical releases; report which groups lose utility; document decision rules |
+
 ## Privacy Budgets People Can Defend
 
 | Field | Card |

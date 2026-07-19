@@ -2,6 +2,15 @@
 
 PET benchmarks should help teams make decisions. A useful benchmark reports privacy, utility, cost, latency, robustness, developer effort, and the assumptions that make the result meaningful.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Private RAG benchmark suite | Enterprise builders, RAG evaluators, and privacy engineers | Leakage spans retrieval, authorization, prompts, logs, answers, and runtime trust | Create role-based corpora; test expected-deny cases; compare governance-only and TEE-backed designs |
+| Small-organization PET benchmark | Clinics, local governments, nonprofits, small firms, and funders | Most benchmarks assume infrastructure and expertise that smaller participants lack | Time onboarding; score failure recovery; include local compute, docs, and support burden |
+| Cost/privacy/utility tradeoff suite | Architects, buyers, and benchmark maintainers | PETs expose different units of comparison, so cross-PET scoring can become misleading | Choose one shared task; report protected asset and adversary; compare DP, MPC, clean room, and TEE options |
+| Benchmark reproducibility for PET claims | Procurement teams, reviewers, vendors, and open-source maintainers | Results often omit environment, parameters, data assumptions, negative results, and run artifacts | Publish checklists; reproduce existing benchmarks; require configs, threat model, and failure cases |
+
 ## Private RAG Benchmark Suite
 
 | Field | Card |

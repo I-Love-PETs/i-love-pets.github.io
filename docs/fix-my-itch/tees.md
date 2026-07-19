@@ -2,6 +2,15 @@
 
 Trusted execution environments can make general-purpose confidential computation practical, but they introduce trust in hardware, firmware, attestation, cloud configuration, and side-channel mitigations.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Side-channel risk in real deployments | Security reviewers, privacy engineers, and confidential-computing builders | Risk depends on workload, adversary, cloud configuration, patch level, and leakage tolerance | Build workload checklists; map signals to mitigations; write residual-risk statements |
+| Understandable remote attestation | Application developers, customers, and platform teams | Attestation is cryptographic, operational, and product-facing at the same time | Build minimal client verification examples; define failure states; bind policy to code measurements |
+| Cloud portability for confidential workloads | Procurement teams, resilience planners, and multi-cloud platform owners | TEE features, evidence formats, key release, logging, and performance differ across providers | Run one workload in two environments; compare attestation and latency; publish migration gaps |
+| TEE output leakage | RAG teams, API owners, and privacy reviewers | The enclave can protect runtime plaintext while logs and outputs still leak sensitive facts | Instrument toy APIs; classify logs; bind output policy to attested code; test support-bundle leakage |
+
 ## Side-Channel Risk In Real Deployments
 
 | Field | Card |

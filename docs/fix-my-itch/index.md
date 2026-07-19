@@ -16,6 +16,9 @@ Every problem card should answer:
 | Current workaround | What teams actually do now |
 | Why the workaround is insufficient | The specific failure, not "more research is needed" |
 | What good progress would look like | A measurable improvement or usable artifact |
+| Who benefits if solved | The practitioner, researcher, maintainer, buyer, auditor, or affected population that can use the result |
+| Why it is difficult | The technical, operational, incentive, measurement, or adoption reason the workaround persists |
+| Starting directions | Two or three plausible paths that do not require solving the whole field |
 | Difficulty | Good first research problem, medium, hard, or moonshot |
 | Good for | The kind of contributor who can make progress |
 | Related PETs | The PET families involved |
@@ -41,3 +44,4 @@ Every problem card should answer:
 - A first contribution can be done without building a full production system.
 - Success can be measured by more than citations.
 - The card says when the PET does not solve the problem.
+- The card names who benefits, why the workaround persists, and where a contributor can start.
