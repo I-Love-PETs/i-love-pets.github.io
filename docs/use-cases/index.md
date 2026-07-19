@@ -6,13 +6,13 @@ Use these pages when you know the domain problem but do not yet know which PET s
 
 ## Playbook Map
 
-| Domain | Common decision | Strong starting point | Watch first |
-| --- | --- | --- | --- |
-| [Healthcare](healthcare.md) | Multi-site research, quality metrics, cohort matching | FL, federated analytics, PSI, DP synthetic data | Rare cohorts, clinical utility, local validation |
-| [Finance](finance.md) | Fraud, AML, risk, and compliance collaboration | PSI, MPC, federated analytics, FL | Adversarial participants, entity resolution, output misuse |
-| [Advertising](advertising.md) | Measurement, attribution, audience overlap | Clean rooms, PSI, DP, attribution APIs | Small segments, repeated queries, platform incentives |
-| [Public Sector](public-sector.md) | Official statistics, cross-agency analytics, public-interest releases | DP, MPC, clean rooms, synthetic data | Legitimacy, accessibility, utility disputes |
-| [AI](ai.md) | Private RAG, inference, fine-tuning, evaluation | TEEs, HE, DP, FL, access controls | Memorization, prompt/log leakage, output leakage |
+| Domain | Common decision | Strong starting point | Watch first | Useful next page |
+| --- | --- | --- | --- | --- |
+| [Healthcare](healthcare.md) | Multi-site research, quality metrics, cohort matching | FL, federated analytics, PSI, DP synthetic data | Rare cohorts, clinical utility, local validation | [Hospital model training](../worked-decisions/hospital-model-training.md) |
+| [Finance](finance.md) | Fraud, AML, risk, and compliance collaboration | PSI, MPC, federated analytics, FL | Adversarial participants, entity resolution, output misuse | [Cross-bank fraud detection](../worked-decisions/cross-bank-fraud-detection.md) |
+| [Advertising](advertising.md) | Measurement, attribution, audience overlap | Clean rooms, PSI, DP, attribution APIs | Small segments, repeated queries, platform incentives | [By threat model](../pet-compass/by-threat-model.md) |
+| [Public Sector](public-sector.md) | Official statistics, cross-agency analytics, public-interest releases | DP, MPC, clean rooms, synthetic data | Legitimacy, accessibility, utility disputes | [Public-sector statistics release](../worked-decisions/public-sector-statistics-release.md) |
+| [AI](ai.md) | Private RAG, inference, fine-tuning, evaluation | TEEs, HE, DP, FL, access controls | Memorization, prompt/log leakage, output leakage | [Private RAG](../worked-decisions/private-rag-enterprise-docs.md) |
 
 ## How To Use A Playbook
 
@@ -29,3 +29,9 @@ Use these pages when you know the domain problem but do not yet know which PET s
 - The benchmark uses clean data but the deployment has missingness, drift, or inconsistent definitions.
 - The privacy claim ignores logs, prompts, model weights, embeddings, or repeated queries.
 - The proposal says "privacy-preserving" without naming an adversary.
+
+## See Also
+
+- [PET Compass](../pet-compass/index.md) for shortlisting once the domain constraint is clear.
+- [PET Patterns](../pet-patterns/index.md) for reusable designs across domains.
+- [Deployments](../deployments/index.md) for evidence and caveats from real projects.
