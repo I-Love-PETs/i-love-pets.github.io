@@ -38,6 +38,16 @@ Add **differential privacy** when the released output must limit the contributio
 
 The phrase "data cannot move" is underspecified. Ask whether **records**, **features**, **labels**, **identifiers**, **gradients**, **embeddings**, **prompts**, **logs**, or **outputs** can move. Many failures happen because teams protect one artifact and leak another.
 
+## Recommendation Cards By Movement Pattern
+
+| Movement pattern | Recommended PET | Alternative PETs | Why | Tradeoffs | Failure modes | Operational considerations |
+| --- | --- | --- | --- | --- | --- | --- |
+| Records cannot leave silos, but model updates can | FL + secure aggregation | Governed centralization, clean room training, MPC for analytics | Raw training records stay local while model learning is shared | Local training, update privacy, non-IID utility, round coordination | Gradient leakage, poisoning, small rounds, weak local controls | Participant identity, minimum rounds, local validation, per-site metrics |
+| Identifiers cannot be broadly shared, but overlap may be revealed | PSI | MPC, clean room matching, trusted third-party matching | Nonmatches stay hidden while agreed overlap is produced | Narrow output, identifier normalization, repeated-query policy | Sensitive match set, false matches, intersection misuse | Allowed output, match-use policy, query limits, audit logs |
+| Inputs must remain encrypted from the service | HE for narrow workloads; MPC for multi-party computation | TEE confidential inference, client-side inference | Plaintext inputs do not need to be exposed to the compute service | Latency, operator support, ciphertext expansion, harder debugging | Unsupported model layers, metadata leakage, output inference | Benchmark p95 latency, key ownership, supported operators, output review |
+| Data can enter a governed boundary | Clean room or TEE | MPC/HE if the operator is in scope; governed centralization if trust is acceptable | The main constraint is controlled access, policy, and auditability | Platform trust, attestation, procurement, output review | Policy bypass, overbroad analyst access, plaintext logs | Query governance, role design, log retention, attestation checks |
+| Data-like artifact must leave | DP synthetic data for formal release | DP query access, restricted data enclave, non-DP synthetic data for internal testing | Consumers need a table-shaped artifact without raw release | Privacy-utility tension, release documentation, rare-pattern loss | Memorization, overtrust, downstream misuse | Privacy budget, release review, memorization tests, utility benchmarks |
+
 ## Data Moves To A Controlled Environment
 
 Clean rooms and TEEs are useful when data can move only into a governed or confidential environment.

@@ -44,12 +44,13 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | Cross-silo federated learning |
-| Supporting PETs | Secure aggregation, DP if patient-level participation must be bounded, robust aggregation, audit logging |
-| Why | Hospitals can keep raw records local while contributing to a shared model. |
-| What can go wrong | FL updates can leak information; small rounds can expose a hospital; poisoned updates can degrade the model; heterogeneous data can make the global model worse for smaller sites. |
-| What to measure | Per-site utility, subgroup performance, round size, dropout rate, update leakage risk, privacy budget if DP is used, cost of local operations. |
-| When it changes | Use centralized training with governance if data sharing is legally and operationally acceptable. Use MPC or TEEs if the task is analytics rather than training. |
+| Recommended PET | Cross-silo federated learning with secure aggregation. |
+| Alternative PETs | Governed centralization if sharing is permitted; MPC or federated analytics if the task is a statistic rather than a model; TEEs if training can run inside an accepted confidential boundary. |
+| Why | Hospitals can keep raw records local while contributing to a shared model, and secure aggregation reduces coordinator visibility into site updates. |
+| Tradeoffs | FL adds local operations, non-IID evaluation, round orchestration, and harder debugging. DP may be needed for patient-level contribution bounds, but it can reduce utility for rare conditions. |
+| Failure modes | FL updates can leak information; small rounds can expose a site; poisoned updates can degrade the model; heterogeneous data can make the global model worse for smaller hospitals. |
+| Operational considerations | Define minimum participants per round, participant authentication, local training versioning, secure-aggregation recovery, per-site metrics, audit logs, and rollback criteria. |
+| What to measure | Per-site utility, subgroup performance, round size, dropout rate, update leakage risk, privacy budget if DP is used, poisoning resilience, cost of local operations. |
 
 *(Evidence: Literature-backed, 2026-06-10 — gradient leakage from FL updates is well-documented; see Zhu et al., "Deep Leakage from Gradients", NeurIPS 2019 (https://papers.nips.cc/paper/2019/hash/60a6c4002cc7b29142def8871531281a-Abstract.html) and Geiping et al., "Inverting Gradients", NeurIPS 2020. The claim that "data stays local" is accurate for raw data but not for derived information; the "What can go wrong" row above captures the residual risk.)*
 
@@ -57,23 +58,25 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | Federated analytics or MPC, depending on whether the computation is simple or joint and sensitive |
-| Supporting PETs | PSI for entity overlap, DP for published metrics, clean-room workflows for auditability |
-| Why | Fraud signals often require cross-institution evidence, but raw transaction data and customer lists are highly sensitive. |
-| What can go wrong | The overlap set may reveal investigations; collusion assumptions may be unrealistic; thresholds can be too low; latency may miss operational fraud windows. |
-| What to measure | Detection lift, false positives, time-to-decision, smallest released cohort, collusion assumptions, analyst workflow fit. |
-| When it changes | Use PSI first if the main task is entity matching. Use FL if the goal is a shared fraud model rather than a specific joint computation. |
+| Recommended PET | PSI for permitted overlap, MPC for richer joint features, or federated analytics for simple distributed metrics. |
+| Alternative PETs | Cross-silo FL if the durable output is a shared fraud model; clean room if governance, auditability, and analyst workflow are the main blockers. |
+| Why | Fraud signals often require cross-institution evidence, but raw transaction data, watchlists, and customer identifiers are highly sensitive. |
+| Tradeoffs | PSI is narrow but practical; MPC supports richer computation at higher coordination cost; FL optimizes a model but may not answer the immediate investigation question. |
+| Failure modes | The overlap set may reveal investigations; collusion assumptions may be unrealistic; thresholds can be too low; latency may miss operational fraud windows; entity resolution can create false matches. |
+| Operational considerations | Agree on identifier hygiene, allowed uses of matches, minimum cohorts, query repetition limits, analyst access, evidence retention, and dispute handling. |
+| What to measure | Detection lift, false positives, time-to-decision, smallest released cohort, collusion assumptions, analyst workflow fit, fairness impact. |
 
 ### An enterprise wants private RAG over sensitive documents
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | Confidential RAG with strong access control |
-| Supporting PETs | TEEs, remote attestation, redaction, query minimization, output policy, log controls |
-| Why | The main exposure is not only model inference; it is retrieval context, prompts, logs, generated answers, and overbroad authorization. |
-| What can go wrong | The system retrieves documents the user should not see, logs sensitive prompts, produces answers that quote restricted content, or relies on attestation nobody verifies. |
+| Recommended PET | Confidential RAG with authorization-aware retrieval and strong access control. |
+| Alternative PETs | Ordinary RAG with governance if all components are inside one trusted boundary; segmented search or redaction workflow if the problem is document permissions; HE only for narrow inference steps, not full RAG. |
+| Why | The main exposure is not only model inference; it is retrieval context, prompts, embeddings, logs, generated answers, and overbroad authorization. |
+| Tradeoffs | TEEs can reduce runtime exposure but add attestation, hardware trust, deployment complexity, and side-channel assumptions. Retrieval policy still carries most of the privacy load. |
+| Failure modes | The system retrieves documents the user should not see, logs sensitive prompts, quotes restricted content in answers, or relies on attestation nobody verifies. |
+| Operational considerations | Test per-document authorization, provenance, prompt/log retention, enclave image updates, attestation verification, support access, and incident response. |
 | What to measure | Retrieval precision, authorization failures, prompt/log retention, answer leakage rate, attestation coverage, incident response path. |
-| When it changes | Use ordinary RAG with governance if all users and systems are in one trusted boundary. Use HE only for narrow inference, not full RAG pipelines. |
 
 *(Evidence: Needs evidence, 2026-06-10 — no public benchmark covers the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
 
@@ -81,12 +84,13 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | DP synthetic data when the release needs a formal privacy claim |
-| Supporting PETs | Memorization tests, utility benchmarks, record-level risk review, release governance |
+| Recommended PET | DP synthetic data when the release needs a formal privacy claim. |
+| Alternative PETs | DP query access if users only need statistics; restricted sharing if high-fidelity individual-level data is required; non-DP synthetic data for internal QA with explicit residual-risk labeling. |
 | Why | Synthetic data can still memorize rare records or leak sensitive correlations; DP is the main route to a formal individual privacy statement. |
-| What can go wrong | Utility evaporates under DP; non-DP generators copy training examples; users overtrust the release; documentation hides residual risk. |
+| Tradeoffs | Stronger privacy budgets often reduce rare-pattern fidelity; high-utility synthetic data may preserve too much; broad releases require documentation users can understand. |
+| Failure modes | Utility evaporates under DP; non-DP generators copy training examples; users overtrust the release; documentation hides residual risk. |
+| Operational considerations | Define privacy unit, budget owner, release review, memorization tests, utility benchmarks, versioning, and downstream-use warnings. |
 | What to measure | Downstream task utility, nearest-neighbor similarity, membership inference risk, privacy budget, rare subgroup behavior. |
-| When it changes | Use query access with DP if users only need statistics. Use restricted sharing if high-fidelity individual-level data is required. |
 
 *(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Statistical Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
 
@@ -94,23 +98,25 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | Private set intersection |
-| Supporting PETs | DP on aggregate counts, contractual controls for use of matches, clean-room audit logs |
-| Why | PSI can hide nonmatching records while revealing agreed overlap. |
-| What can go wrong | The match itself may be sensitive; one party can use repeated queries to learn more; weak identifiers create false matches; downstream use can violate expectations. |
+| Recommended PET | Private set intersection. |
+| Alternative PETs | MPC if overlap is only one input to a richer joint computation; clean room if governance and workflow controls matter more than cryptographic nonmatch privacy. |
+| Why | PSI can hide nonmatching records while revealing an agreed match set or count. |
+| Tradeoffs | PSI is targeted and efficient, but it does not decide whether revealing the intersection is acceptable. Count-only outputs are safer but less useful. |
+| Failure modes | The match itself may be sensitive; one party can use repeated queries to learn more; weak identifiers create false matches; downstream use can violate expectations. |
+| Operational considerations | Define output type, repeated-query controls, match-use policy, identifier normalization, minimum cohorts, and audit logs. |
 | What to measure | Match precision, match recall, allowed output, repeated-query controls, minimum cohort size, identifier hygiene. |
-| When it changes | Use a clean room if governance and workflow controls matter more than cryptographic nonmatch privacy. Use MPC if the overlap is only one step in a richer joint computation. |
 
 ### A model provider wants private inference
 
 | Recommendation | Guidance |
 | --- | --- |
-| Primary PET | HE for narrow models and strict no-plaintext-input requirements; TEEs when model complexity and latency matter more |
-| Supporting PETs | Model compression, quantization, attestation, key management, output review |
+| Recommended PET | HE for narrow models and strict no-plaintext-input requirements; TEEs when model complexity and latency matter more. |
+| Alternative PETs | Client-side inference if the model can run locally; standard hosted inference with contractual and security controls if the input sensitivity does not justify PET overhead. |
 | Why | HE keeps inputs encrypted during computation, while TEEs can support broader workloads under hardware trust assumptions. |
-| What can go wrong | HE latency is unacceptable; model layers are unsupported; TEE attestation is not checked; outputs leak sensitive attributes; keys are mishandled. |
+| Tradeoffs | HE has operator, model-design, ciphertext-size, and latency constraints. TEEs are faster and broader but require hardware trust, attestation, and side-channel review. |
+| Failure modes | HE latency is unacceptable; model layers are unsupported; TEE attestation is not checked; outputs leak sensitive attributes; keys are mishandled; logs capture plaintext. |
+| Operational considerations | Own key lifecycle, attestation verification, model update workflow, p95 latency benchmark, output policy, and support/debugging boundaries. |
 | What to measure | End-to-end latency, ciphertext size, accuracy loss, supported operators, attestation verification, output leakage. |
-| When it changes | Use client-side inference if the model can run locally. Use standard hosted inference if the input is not sensitive enough to justify PET overhead. |
 
 *(Evidence: Expert judgment, 2026-06-10 — the latency and operator-support constraints on HE are widely noted in literature (e.g., Boura et al., "TFHE: Fast Fully Homomorphic Encryption Over the Torus", JoC 2020) but no single cross-workload benchmark for HE vs. TEE vs. client-side inference is publicly available. Needs evidence for specific model families.)*
 

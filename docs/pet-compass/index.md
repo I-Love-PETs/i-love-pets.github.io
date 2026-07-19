@@ -9,6 +9,18 @@ The PET Compass helps you choose a short list of candidate technologies before d
 
 For the project's evidence standard, see [Evidence Policy](../project-standards/evidence-policy.md). For claims that need sourcing or measurement, see [Claim Register](../project-standards/claim-register.md).
 
+Use the Compass to write a decision memo, not just a technology name. Each
+recommendation should include:
+
+| Field | What to write |
+| --- | --- |
+| Recommended PET | The primary PET or PET stack to test first. |
+| Alternative PETs | Plausible options and the condition that would make each one better. |
+| Why | The protected asset, adversary, allowed output, and data-movement constraint. |
+| Tradeoffs | Utility, latency, cost, trust, governance, and developer effort. |
+| Failure modes | Leakage paths, abuse cases, and assumptions that commonly break. |
+| Operational considerations | Keys, attestation, logging, monitoring, incident response, and benchmark ownership. |
+
 ## Decision Inputs
 
 | Question | Why It Matters |
@@ -36,3 +48,14 @@ For the project's evidence standard, see [Evidence Policy](../project-standards/
 The matrix produces candidates, not an architecture. After choosing a candidate PET, move to patterns and threat models.
 
 Before committing to a design, collect evidence for the target workload: expected latency, utility, privacy guarantee, adversary model, deployment complexity, and output leakage.
+
+## Common Recommendation Shapes
+
+| Scenario | Recommended PET | Alternative PETs | Why | Tradeoffs | Failure modes | Operational considerations |
+| --- | --- | --- | --- | --- | --- | --- |
+| Healthcare model training | Cross-silo FL + secure aggregation; add DP if patient-level contribution must be bounded | Governed centralization, clean room training, MPC for narrow analytics | Hospitals keep records local while contributing to a model | Non-IID data, local infra, DP utility cost | Update leakage, poisoned updates, small-site underperformance | Participant onboarding, round thresholds, per-site evaluation, rollback |
+| Finance fraud collaboration | PSI or MPC for joint signals; FL when the goal is a shared model | Clean room, governed exchange, federated analytics | Fraud evidence often depends on overlap and joint features | Entity resolution, latency, collusion assumptions | Sensitive match sets, repeated-query leakage, unfair outcomes | Identifier hygiene, minimum cohorts, analyst audit trail |
+| Private inference | TEE for broad model support; HE for narrow models with strict no-plaintext-input requirements | Client-side inference, standard hosted inference with controls | The service should not see plaintext inputs | HE latency/operator limits; TEE hardware trust | Output leakage, weak attestation, plaintext logs | Key management, attestation verification, p95 latency benchmark |
+| Private RAG | Confidential RAG with authorization-aware retrieval | Ordinary RAG with governance, segmented search, redaction workflow | Retrieval context and prompts cross trust boundaries | Runtime protection does not fix permissions | Overbroad retrieval, answer leakage, sensitive logs | Access-control tests, provenance, log retention, incident workflow |
+| Synthetic data release | DP synthetic data for broad release claims | DP query access, restricted sharing, non-DP synthetic data for internal prototyping | Users need data-like artifacts without raw release | Utility loss and privacy-budget explanation | Memorization, rare-record leakage, overtrusted data | Release review, nearest-neighbor tests, downstream task benchmarks |
+| Cross-organizational analytics | Federated analytics or MPC; clean room when governance is the main need | DP query system, governed centralization | Parties need an aggregate output without broad raw sharing | Protocol cost, metric harmonization, output policy | Small-cell leakage, collusion, repeated queries | Schema alignment, thresholds, query review, evidence labels |
