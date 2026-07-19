@@ -13,12 +13,15 @@ Data-contributing parties, protocol participants, query requester, output review
 ```mermaid
 flowchart LR
   Q[Query requester] -->|approved query| P[Policy review]
-  P -->|protocol spec| A[Party A]
-  P -->|protocol spec| B[Party B]
+  P -->|schema + protocol spec| V[Schema validator]
+  V -->|validated spec| A[Party A]
+  V -->|validated spec| B[Party B]
   A -->|secret shares / protocol messages| M[MPC protocol]
   B -->|secret shares / protocol messages| M
   M -->|allowed output| O[Output reviewer]
   O -->|released metric| U[Decision makers]
+  M -->|run metadata| L[Audit log]
+  O -->|release decision| L
 ```
 
 ## Trust Boundaries
@@ -29,6 +32,7 @@ flowchart LR
 | Parties to protocol | Shares and protocol messages | Protocol parties | Collusion or malformed inputs |
 | Protocol to reviewer | Computed output | Reviewer | Output leakage |
 | Reviewer to users | Released metric | Decision makers | Misuse or overinterpretation |
+| Protocol to audit log | Run metadata and release decisions | Auditors | Logs can reveal participation or query patterns |
 
 ## Assumptions
 
@@ -37,9 +41,27 @@ flowchart LR
 - Output policy is defined before computation.
 - Malformed inputs are validated or handled.
 
+## Assumption Review
+
+| Assumption | How to validate | If it fails |
+| --- | --- | --- |
+| Collusion threshold is realistic | Compare protocol threshold to ownership, hosting, and incentives | Inputs can be reconstructed by parties treated as separate |
+| Output policy is enforceable | Review examples of allowed, suppressed, and rejected outputs | MPC computes a private input function whose result still leaks |
+| Parties are available | Test retries, timeouts, and participant dropout behavior | Latency and aborts can make the workflow unusable or revealing |
+| Schemas match | Validate definitions, units, identifiers, and missing values | The result may be wrong even if the protocol is secure |
+
 ## PET Stack
 
 MPC, participant authentication, schema validation, query approval, output thresholding, optional DP, and audit logging.
+
+## Common PET Combinations
+
+| Add | Use when | New risk |
+| --- | --- | --- |
+| Differential privacy | Aggregate output can reveal small cohorts or repeated-query differences | Utility loss and budget accounting |
+| PSI | The workflow starts with entity overlap | The match set may be sensitive |
+| Clean-room workflow | Analysts need governed query submission and review | Platform trust and policy bypasses |
+| TEEs | Protocol coordination or preprocessing needs confidential execution | Hardware trust and attestation |
 
 ## What This Does Not Protect Against
 
@@ -48,6 +70,9 @@ MPC, participant authentication, schema validation, query approval, output thres
 - Malicious inputs if the protocol is only semi-honest.
 - Poor schema alignment.
 - Operational metadata leakage.
+
+Out of scope unless explicitly added: malicious security, denial of service by a
+party, side channels in protocol implementations, and misuse of released metrics.
 
 ## Deployment Notes
 

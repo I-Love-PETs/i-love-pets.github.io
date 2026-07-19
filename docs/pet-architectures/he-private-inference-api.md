@@ -15,8 +15,10 @@ sequenceDiagram
   participant Client
   participant API as Inference API
   participant Model as HE Model Runtime
+  participant Monitor as Metadata Monitor
   Client->>Client: Encrypt input
   Client->>API: Ciphertext request
+  API->>Monitor: Request metadata only
   API->>Model: Evaluate encrypted input
   Model-->>API: Encrypted prediction
   API-->>Client: Ciphertext response
@@ -31,6 +33,7 @@ sequenceDiagram
 | API to HE runtime | Ciphertext request | Model service | Parameter or operator mistakes |
 | Runtime to client | Encrypted prediction | Client | Prediction may still reveal sensitive facts |
 | Client local boundary | Plaintext input and output | Client | Weak key or output handling |
+| API to monitoring | Timing, size, status, tenant metadata | Operators | Metadata can reveal sensitive usage patterns |
 
 ## Assumptions
 
@@ -39,9 +42,27 @@ sequenceDiagram
 - The model architecture fits supported operations.
 - Metadata and outputs are included in privacy review.
 
+## Assumption Review
+
+| Assumption | How to validate | If it fails |
+| --- | --- | --- |
+| Model fits HE constraints | Run operator, accuracy, ciphertext-size, and latency benchmarks | The team may ship a weak model or miss the latency budget |
+| Service lacks decryption keys | Review key lifecycle and client SDK behavior | Input confidentiality collapses to ordinary hosted inference |
+| Metadata is acceptable | Inspect timing, size, tenant, and error logs | The service may infer sensitive behavior without plaintext |
+| Output handling is safe | Review client-side storage, display, and downstream use | Predictions can leak sensitive attributes after decryption |
+
 ## PET Stack
 
 Homomorphic encryption, model quantization, batching, ciphertext parameter management, client-side key handling, and output monitoring.
+
+## Common PET Combinations
+
+| Add | Use when | New risk |
+| --- | --- | --- |
+| TEE runtime | Some preprocessing or unsupported model layer cannot run efficiently under HE | Hardware trust and plaintext inside the enclave |
+| Client-side inference | The model can run locally and IP exposure is acceptable | Model extraction and device support |
+| Output policy | Predictions are themselves sensitive | Application governance becomes part of the privacy claim |
+| Rate limiting | Repeated queries can extract model behavior or sensitive outputs | Abuse controls may reveal usage metadata |
 
 ## What This Does Not Protect Against
 
@@ -50,6 +71,10 @@ Homomorphic encryption, model quantization, batching, ciphertext parameter manag
 - Model extraction by clients.
 - Unsupported operations approximated poorly.
 - Traffic metadata and request timing leakage.
+
+Out of scope unless explicitly added: model confidentiality from clients, client
+device compromise, side-channel leakage through traffic analysis, and attacks on
+the decrypted prediction after delivery.
 
 ## Deployment Notes
 
