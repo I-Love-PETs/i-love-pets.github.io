@@ -30,3 +30,8 @@ Synthetic data and fine-tuned models are often released without testing membersh
 | Small cohorts or rare conditions | The model may learn distinctive records because there are few substitutes. |
 | Public model or dataset release | Attackers can run many probes without operational friction. |
 | Repeated releases | Differences between versions can reveal who entered or left the data. |
+
+## Selected References
+
+- Shokri et al., [*Membership Inference Attacks against Machine Learning Models*](https://arxiv.org/abs/1610.05820), IEEE Security & Privacy 2017. Introduces the common black-box framing for membership inference against ML models.
+- Carlini et al., [*Extracting Training Data from Large Language Models*](https://arxiv.org/abs/2012.07805), USENIX Security 2021. Shows that rare or repeated training examples can sometimes be extracted from language models.

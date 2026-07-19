@@ -98,3 +98,8 @@ Gradient leakage without aggregation, poisoning, small participant rounds, key s
 - Is the final model tested for memorization?
 - Can poisoning be detected without inspecting individual updates?
 - Is the key setup recoverable after participant failure?
+
+## References
+
+- Bonawitz et al., [*Practical Secure Aggregation for Privacy-Preserving Machine Learning on User-Held Data*](https://arxiv.org/abs/1611.04482), 2016/2017.
+- Zhu, Liu, and Han, [*Deep Leakage from Gradients*](https://arxiv.org/abs/1906.08935), NeurIPS 2019.
