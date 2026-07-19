@@ -51,6 +51,17 @@ When you adapt one of these decisions, your first job is to upgrade the evidence
 | [Private model inference](private-model-inference.md) | Serve a model without seeing client inputs | TEE confidential inference for general models; HE only for narrow, latency-tolerant scoring |
 | [Public-sector statistics release](public-sector-statistics-release.md) | Publish population statistics without re-identifying residents | Centralized DP with a documented privacy unit and budget, plus small-cell suppression |
 
+## Choose The Closest Worked Decision
+
+| If your case sounds like... | Start with... | Adjust first |
+| --- | --- | --- |
+| Several regulated organizations want a shared model | [Hospital model training](hospital-model-training.md) | Participant reliability, per-site utility, and poisoning risk |
+| Multiple firms need a joint signal or overlap | [Cross-bank fraud detection](cross-bank-fraud-detection.md) | Entity resolution, allowed output, and adversarial incentives |
+| Sensitive documents feed an assistant | [Private RAG for enterprise docs](private-rag-enterprise-docs.md) | Authorization, logging, and answer leakage |
+| A dataset needs broad external use | [Synthetic dataset release](synthetic-dataset-release.md) | Whether users truly need row-shaped data |
+| A service should not see inference inputs | [Private model inference](private-model-inference.md) | Latency, model operators, key ownership, and output leakage |
+| A public body publishes statistics | [Public-sector statistics release](public-sector-statistics-release.md) | Legitimacy, accessibility, and small-cell policy |
+
 ## Before You Commit
 
 Borrowing the project's standing rule: a worked decision is a starting point, not an architecture sign-off. Before you build, collect for *your* workload:
@@ -60,3 +71,9 @@ Borrowing the project's standing rule: a worked decision is a starting point, no
 - A reversal condition: the one metric or risk that would make you choose a different PET.
 
 If you cannot fill those in, you do not yet have a decision — you have a preference.
+
+## Related Guides
+
+- [PET Compass](../pet-compass/index.md) for shortlisting before a worked decision.
+- [PET Architectures](../pet-architectures/index.md) for turning the decision into data flows and trust boundaries.
+- [Benchmarks](../benchmarks/index.md) for upgrading expert judgment into evidence.

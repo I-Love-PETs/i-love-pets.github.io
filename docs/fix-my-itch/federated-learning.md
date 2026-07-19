@@ -2,6 +2,15 @@
 
 Federated learning is useful when raw data cannot centralize, but it is often oversold as privacy by default. These problems focus on making FL measurable, safer, and easier to operate.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Realistic cross-silo non-IID benchmarks | Hospitals, banks, agencies, FL library maintainers, and benchmark users | Public data rarely contains realistic silo differences, missingness, governance limits, and dropout patterns | Create hospital-like or bank-like partitions; report per-site metrics; include dropout and communication cost |
+| Poisoned updates without inspecting private data | FL operators, consortium participants, and security reviewers | Privacy controls remove exactly the visibility that many anomaly detectors expect | Build secure-aggregation-compatible attack fixtures; compare robust aggregation signals; report false-positive cost |
+| Low-infrastructure FL for small organizations | Clinics, schools, nonprofits, smaller banks, and public-sector partners | FL assumes local compute, key handling, monitoring, upgrades, and incident response that small teams may not have | Prototype a participant appliance; document onboarding time; add health checks and local validation |
+| Honest claim templates for FL | Buyers, regulators, product teams, and technical writers | "Data stays local" is true but incomplete, and teams struggle to explain derived artifacts | Rewrite public FL claims; map updates, metrics, models, and logs to adversaries; publish reusable language |
+
 ## Realistic Cross-Silo Non-IID Benchmarks
 
 | Field | Card |

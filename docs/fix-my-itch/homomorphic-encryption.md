@@ -2,6 +2,15 @@
 
 HE is compelling when a service must compute over encrypted inputs, but practical ML workloads are bounded by operator support, latency, ciphertext size, and model design.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Practical HE model architectures | Model providers, ML engineers, and buyers comparing private inference options | HE constraints interact with layers, activations, precision, batching, and accuracy | Benchmark small model families; publish unsupported operations; compare redesign cost |
+| Debugging encrypted computation | ML engineers, incident responders, and HE library maintainers | Production failures can hide behind ciphertext, encoding, scaling, and approximation errors | Build plaintext shadow traces; publish test vectors; flag parameter drift and unsupported paths |
+| HE inference benchmarks that matter | Buyers, benchmark maintainers, and vendors | One latency number rarely includes keys, transfer, batching, accuracy loss, and cloud cost | Report end-to-end measurements; compare HE, TEE, and plaintext baselines; include ciphertext size |
+| Explaining HE failure early | Architects, sales engineers, and product teams | Teams often discover incompatibility only after model adaptation work has begun | Write model preflight analyzers; map layers to HE support; estimate latency bands before implementation |
+
 ## Practical HE Model Architectures
 
 | Field | Card |

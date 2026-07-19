@@ -72,3 +72,18 @@ Do not flatten every example into "real-world use." The useful first question is
 - [Finance](finance.md)
 - [Advertising](advertising.md)
 - [Public Sector](public-sector.md)
+
+## Use Deployment Evidence Carefully
+
+| If you see... | Treat it as... | Next check |
+| --- | --- | --- |
+| A named production workflow with parameters and outputs | Useful operational evidence | Whether your data shape, adversary, and output match |
+| A pilot with real partners | Feasibility evidence | Whether sustained operations, cost, and governance were measured |
+| A vendor case study | A lead worth investigating | Independent validation, benchmark details, and customer controls |
+| A proposed use case | Design inspiration | Do not cite it as deployment proof |
+
+## Related Guides
+
+- [Evidence Policy](../project-standards/evidence-policy.md) for source-quality labels.
+- [Claim Register](../project-standards/claim-register.md) for unresolved evidence gaps.
+- [Worked Decisions](../worked-decisions/index.md) for adapting evidence to a concrete PET choice.

@@ -2,6 +2,15 @@
 
 Real systems combine PETs. The hard part is not naming the stack; it is explaining how guarantees interact, degrade, or leave gaps.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| FL + DP + secure aggregation | FL consortia, model reviewers, and privacy engineers | Each PET protects a different artifact under different assumptions, and the final model still leaks | Annotate architectures by artifact; map adversaries; test where each guarantee stops |
+| Guarantee degradation across chains | Platform owners, auditors, policy teams, and researchers | Pipelines reuse outputs, auxiliary data, and privacy units in ways component reviews miss | Trace one pipeline end to end; track privacy units and releases; document weakest-link claims |
+| Trust-boundary architecture diagrams | Architects, reviewers, and technical writers | Diagrams often show data flow but omit code, keys, logs, policies, and output owners | Redraw existing diagrams; add trust zones and assumption labels; test diagram review checklists |
+| Composition test cases | Builders, benchmark maintainers, and privacy reviewers | Component tests can pass while combined systems leak through logs, repetition, or outputs | Build reusable failure fixtures; start with confidential RAG and FL + DP; publish expected-fail tests |
+
 ## FL + DP + Secure Aggregation
 
 | Field | Card |

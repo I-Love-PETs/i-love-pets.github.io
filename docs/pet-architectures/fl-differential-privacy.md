@@ -13,10 +13,13 @@ Participants, coordinator, model owner, privacy accountant, auditors, and model 
 ```mermaid
 flowchart LR
   C[Coordinator] -->|model + clipping/noise config| A[Participant sites]
-  A -->|clipped updates or gradients| D[DP mechanism]
+  A -->|clipped updates or gradients| S[Optional secure aggregation]
+  S -->|aggregate update| D[DP mechanism]
   D -->|noisy aggregate update| C
   C -->|privacy-accounted model| U[Model users]
   D -->|budget ledger| P[Privacy accountant]
+  C -->|checkpoints + metrics policy| R[Release review]
+  R -->|approved releases| U
 ```
 
 ## Trust Boundaries
@@ -26,6 +29,7 @@ flowchart LR
 | Coordinator to sites | Model, code, DP parameters | Sites | Misconfigured clipping or noise |
 | Sites to DP mechanism | Updates or gradients | DP mechanism / coordinator depending on design | Update leakage before noise |
 | DP mechanism to accountant | Privacy events | Privacy accountant | Incorrect composition accounting |
+| Coordinator to release review | Checkpoints, metrics, model candidates | Reviewers | Unaccounted releases can bypass DP claim |
 | Coordinator to users | Final model | Model users | Memorization if DP assumptions fail |
 
 ## Assumptions
@@ -35,9 +39,27 @@ flowchart LR
 - Every release is included in composition accounting.
 - Utility is evaluated under the chosen budget, not after relaxing it.
 
+## Assumption Review
+
+| Assumption | How to validate | If it fails |
+| --- | --- | --- |
+| Privacy unit is stable | Write the unit in the training spec and review neighboring datasets | The DP claim may protect the wrong person, device, site, or event |
+| Accounting matches implementation | Reconcile run logs, sampling, clipping, and releases with the accountant | Epsilon/delta no longer describe the actual release |
+| Tuning is accounted for | Track failed runs, candidate models, and auxiliary metrics | Utility pressure can spend privacy budget invisibly |
+| Subgroup utility is acceptable | Evaluate sites and rare groups before release | A formally private model may be unusable for the people who need it |
+
 ## PET Stack
 
 Federated learning, DP-SGD or noisy aggregate updates, privacy accounting, optional secure aggregation, and model auditing.
+
+## Common PET Combinations
+
+| Add | Use when | New risk |
+| --- | --- | --- |
+| Secure aggregation | Coordinator should not see individual updates before DP noise | Harder debugging and poisoning detection |
+| Robust aggregation | Malicious or compromised sites are plausible | May conflict with DP clipping and secure aggregation |
+| Confidential training | Training infrastructure is outside the main trust boundary | Attestation and hardware trust become part of the claim |
+| Release governance | Multiple models, metrics, or synthetic artifacts are emitted | Requires a complete release ledger |
 
 ## What This Does Not Protect Against
 
@@ -46,6 +68,10 @@ Federated learning, DP-SGD or noisy aggregate updates, privacy accounting, optio
 - Poisoning by malicious participants.
 - Utility harm to underrepresented sites.
 - Logs or checkpoints outside the DP mechanism.
+
+Out of scope unless explicitly added: poisoning by participants, leakage before
+the DP mechanism, side channels from local training, and downstream misuse of the
+released model.
 
 ## Deployment Notes
 

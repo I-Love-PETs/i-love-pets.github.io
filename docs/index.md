@@ -66,10 +66,26 @@ A practical field guide to Privacy-Enhancing Technologies.
 
 Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
 
+## Fast Routing
+
+| You have... | Go to... | Then check... |
+| --- | --- | --- |
+| A concrete use case but no PET shortlist | [Use Cases](use-cases/index.md) | [PET Compass](pet-compass/index.md) |
+| A PET candidate but no design | [PET Architectures](pet-architectures/index.md) | [Threat Models](threat-models/index.md) |
+| A vendor/tool claim | [Tool Reviews](tool-reviews/index.md) | [Evidence Policy](project-standards/evidence-policy.md) |
+| A proposed deployment claim | [Deployments](deployments/index.md) | [Claim Register](project-standards/claim-register.md) |
+| A research or contribution idea | [Fix My Itch](fix-my-itch/index.md) | [Contributing](contributing/index.md) |
+
 ## This Is Not Another Awesome List
 
 Existing repositories catalog papers and tools. This site is for the moment after
 someone asks, "What should we actually build, buy, evaluate, or research?"
+
+The guide is intentionally biased toward engineering review. A useful answer here
+names the protected asset, the adversary, the allowed output, the operational
+assumptions, and the measurement that would falsify the design. If a PET choice
+cannot survive those questions, the right next step is not a bigger diagram; it is
+a narrower claim.
 
 I ❤️ PETs focuses on:
 
@@ -104,6 +120,19 @@ Use the site as a field guide, not a textbook.
 - MPC can be powerful, but many teams underestimate protocol, identity, and operations work.
 - Differential privacy is the clearest formal privacy tool, but the utility cost and budget accounting must be measured.
 
+## A Review Checklist For Any Page
+
+When you use a page as input to a design review, leave with answers to these
+questions:
+
+| Question | Why it matters |
+| --- | --- |
+| What is the allowed output? | Most PET failures come from revealing too much after a private computation. |
+| Who is the adversary? | A design for a curious coordinator can fail immediately against a malicious participant. |
+| What assumption would break the claim? | Thresholds, attestation, local security, and budget accounting are often the real control plane. |
+| What is the first benchmark? | Utility, latency, cost, and privacy evidence should be measured before procurement or launch. |
+| What would make us switch PETs? | A reversible decision is easier to govern than a technology commitment. |
+
 ## Main Sections
 
 - [Start Here](start-here/index.md): shared vocabulary and taxonomy.
@@ -114,3 +143,9 @@ Use the site as a field guide, not a textbook.
 - [Benchmarks](benchmarks/index.md): how to measure privacy, utility, cost, latency, scalability, and developer effort.
 - [Tool Reviews](tool-reviews/index.md): tool evaluations tied to concrete architectures, threat models, and first benchmarks.
 - [Contributing](contributing/index.md): quality bar for improving the guide.
+
+## Related Starting Points
+
+- [Reader Paths](start-here/reader-paths.md) for ordered reading sequences.
+- [Worked Decisions](worked-decisions/index.md) for examples of complete PET choices.
+- [Benchmark Scorecards](benchmarks/scorecards.md) for turning a recommendation into evidence.

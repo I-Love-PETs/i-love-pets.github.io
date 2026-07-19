@@ -22,11 +22,29 @@ Use this when the primary concern is **raw-data centralization** and participant
 
 Avoid this when the privacy claim is "the coordinator learns nothing." FL updates can leak information. Add secure aggregation and DP only after deciding how you will handle poisoning, debugging, and small rounds.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | FL with secure aggregation for a curious coordinator; add DP for record-level output privacy. |
+| Alternative PETs | Centralized training with governance, clean room training, MPC for analytics. |
+| Why | The threat is raw-data centralization or coordinator update visibility, not every possible model leakage path. |
+| Tradeoffs | Less central access, more distributed operations and harder debugging. |
+| Failure modes | Update leakage, poisoning, non-IID underperformance, small-round exposure. |
+| Operational considerations | Participant identity, round thresholds, update visibility policy, per-site evaluation, incident response. |
+
 ### Differential privacy
 
 Use this when the concern is **individual contribution to an output**.
 
 Avoid this when nobody can define the privacy unit, budget owner, neighboring dataset, or release accounting. "We used DP" is not meaningful without those choices.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | DP on the released statistic, model, or synthetic data when contribution bounds are required. |
+| Alternative PETs | Thresholds and governance for low-risk internal outputs; restricted access when utility cannot survive DP. |
+| Why | The adversary learns from outputs, not just from input access. |
+| Tradeoffs | Formal guarantee in exchange for utility loss, accounting work, and harder communication. |
+| Failure modes | Wrong privacy unit, untracked composition, weak epsilon, hidden non-DP releases. |
+| Operational considerations | Budget owner, release ledger, parameter review, utility gates, plain-language claim. |
 
 ### MPC
 
@@ -34,11 +52,29 @@ Use this when multiple parties need a joint computation without trusting one ope
 
 Avoid this when the parties cannot agree on identity, availability, protocol versioning, or collusion assumptions. MPC is a system, not only a protocol.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | MPC when no single operator should see intermediate values in a joint computation. |
+| Alternative PETs | Clean room if operator trust is acceptable; PSI if the computation is only matching; FL if the output is a trained model. |
+| Why | The adversary is another party or operator that should not inspect private inputs. |
+| Tradeoffs | Strong input privacy for agreed functions, but protocol operations and availability matter. |
+| Failure modes | Unrealistic collusion assumptions, abort leakage, schema mismatch, output leakage. |
+| Operational considerations | Party identity, protocol versioning, key setup, retry behavior, output approval. |
+
 ### Homomorphic encryption
 
 Use this when a service must compute on encrypted inputs and the computation is narrow enough to benchmark.
 
 Avoid this when the workload is arbitrary modern ML and nobody has checked supported operators, accuracy loss, ciphertext size, and latency.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | HE for narrow computations where the service must not see plaintext inputs. |
+| Alternative PETs | TEE for complex/low-latency inference, client-side inference, MPC for multi-party input. |
+| Why | The adversary is the compute service or model host observing client features. |
+| Tradeoffs | Strong input confidentiality with significant operator and performance constraints. |
+| Failure modes | Unsupported operations, ciphertext expansion, latency misses, insecure key handling, output leakage. |
+| Operational considerations | Model redesign, batching, key ownership, accuracy regression tests, p95/p99 latency. |
 
 ### TEEs
 
@@ -46,11 +82,29 @@ Use this when general-purpose confidential computation is needed and hardware tr
 
 Avoid this when the design cannot explain attestation, side-channel assumptions, log handling, and what happens after the TEE emits an output.
 
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | TEEs when general-purpose confidential computation is needed and hardware trust is acceptable. |
+| Alternative PETs | HE/MPC if the operator or hardware vendor is in scope; governed centralization if trust is acceptable. |
+| Why | The adversary is an infrastructure operator or platform layer outside the confidential runtime. |
+| Tradeoffs | Practical performance and workload breadth in exchange for hardware, firmware, attestation, and side-channel assumptions. |
+| Failure modes | Unverified attestation, plaintext logs, vulnerable images, output leakage, side channels. |
+| Operational considerations | Enclave image review, attestation verification, patching, support access, telemetry policy. |
+
 ### Synthetic data
 
 Use this when users need a data-like artifact and you can evaluate privacy and utility directly.
 
 Avoid this when the release needs a strong privacy claim but the generator is not DP or the team has no memorization test.
+
+| Field | Guidance |
+| --- | --- |
+| Recommended PET | DP synthetic data for public or broad releases that require a formal claim. |
+| Alternative PETs | DP query access, restricted sharing, non-DP synthetic data for internal prototyping. |
+| Why | The adversary can inspect the released artifact and compare it with auxiliary data. |
+| Tradeoffs | More release flexibility, but privacy-utility tension and harder documentation. |
+| Failure modes | Memorized rare records, misleading utility, membership leakage, downstream misuse. |
+| Operational considerations | Privacy budget, release review, memorization testing, utility benchmarks, data-use documentation. |
 
 ## Worked Example: Private RAG
 

@@ -2,6 +2,15 @@
 
 Industry PET failures are rarely about theory alone. They come from procurement, unclear claims, infrastructure gaps, cost surprises, and outputs that still leak.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Procurement-ready privacy claims | Procurement teams, vendors, legal reviewers, and security reviewers | Claims must be comparable across PET families without flattening important assumptions | Draft a one-page evidence form; test it on product claims; separate customer controls from vendor guarantees |
+| Operational readiness for PET deployments | Privacy engineers, SREs, security teams, and deployment owners | Production risk lives in keys, logs, rollback, monitoring, and output review, not just the PET mechanism | Write launch checklists by PET family; define rollback triggers; map controls to threat-model assumptions |
+| Total cost of PET ownership | Product leaders, engineering managers, and funders | PET cost is nonlinear and often appears through integration, support, audits, latency, and education | Build scenario worksheets; compare rejected alternatives; include participant and audit costs |
+| When governance beats cryptography | Product, legal, policy, and architecture teams | Teams often mislabel incentive or authority problems as data-movement problems | Classify constraints in real use cases; create a decision checklist; document when a PET adds complexity without reducing risk |
+
 ## Procurement-Ready Privacy Claims
 
 | Field | Card |

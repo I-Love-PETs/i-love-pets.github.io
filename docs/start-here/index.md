@@ -2,7 +2,9 @@
 
 Privacy-enhancing technologies are not interchangeable. They protect different parts of a system, assume different adversaries, and create different tradeoffs.
 
-Use this section to build a working vocabulary before choosing a PET.
+Use this section to build a working vocabulary before choosing a PET. The goal is
+not to memorize families; it is to avoid the common mistake of choosing a tool
+before naming the output, adversary, and failure mode.
 
 ## The Short Version
 
@@ -30,6 +32,19 @@ Start with the problem, not the PET. Ask:
 
 Then use [PET Compass](../pet-compass/index.md) to choose candidates and [PET Patterns](../pet-patterns/index.md) to design a system.
 
+## Before You Pick A PET
+
+Write these four lines before opening a vendor page or benchmark paper:
+
+| Line | Example |
+| --- | --- |
+| Protected asset | Raw patient records, nonmatching customer IDs, private prompts, site-level model updates |
+| Adversary | Curious coordinator, malicious participant, cloud operator, downstream analyst, public data recipient |
+| Allowed output | Aggregate count, trained model, match list, encrypted prediction, synthetic table |
+| Reversal condition | Latency above the product budget, subgroup utility below baseline, cohort size under threshold, unverifiable attestation |
+
+If one line is vague, the PET shortlist will be vague too. Tighten the claim first.
+
 ## Common Wrong Assumptions
 
 | Assumption | Better framing |
@@ -40,6 +55,7 @@ Then use [PET Compass](../pet-compass/index.md) to choose candidates and [PET Pa
 | "HE is the strongest choice, so use it." | HE is useful only when the workload fits its operator, latency, and cost constraints. |
 | "DP is just adding noise." | DP requires a privacy unit, sensitivity, mechanism, accounting, and release policy. |
 | "A clean room is a PET guarantee." | Clean rooms are governed workflows; privacy depends on controls and outputs. |
+| "The strongest PET is the safest choice." | A PET that protects the wrong artifact can add cost while leaving the actual leakage path open. |
 
 ## First Decision Path
 

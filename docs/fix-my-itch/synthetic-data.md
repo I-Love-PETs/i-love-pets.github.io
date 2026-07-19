@@ -2,6 +2,15 @@
 
 Synthetic data can be useful for testing, education, prototyping, and some modeling workflows. It is not automatically anonymous, safe, or useful.
 
+## Research Handoff
+
+| Problem | Who benefits if solved | Why it is difficult | Starting directions |
+| --- | --- | --- | --- |
+| Memorization detection | Data release teams, regulators, and synthetic-data users | Copying can be semantic, rare, subgroup-specific, or visible only to adaptive attackers | Inject rare records; compare memorization tests; set release-review thresholds |
+| Downstream utility measurement | Data users, product teams, scientists, and benchmark maintainers | Distribution similarity does not prove usefulness for the actual task | Define task cards; test rare groups; compare downstream decisions, not only summary stats |
+| Residual privacy risk communication | Legal teams, executives, data users, and affected populations | Simple labels like "synthetic" or "DP synthetic" can hide important limits | Write release cards; name attacks tested; list prohibited uses and residual risk |
+| DP synthetic data under utility pressure | Privacy engineers, ML researchers, and release owners | Iteration, tuning, and helper outputs can quietly consume or bypass the privacy story | Track every candidate release; account for tuning; document failed candidates and auxiliary artifacts |
+
 ## Memorization Detection
 
 | Field | Card |
