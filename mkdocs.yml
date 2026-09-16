@@ -1,11 +1,13 @@
 site_name: I ❤️ PETs
 site_description: A practical field guide to Privacy-Enhancing Technologies.
+# MkDocs core generates sitemap.xml and sitemap.xml.gz from this canonical URL.
 site_url: https://i-love-pets.github.io/
 repo_url: https://github.com/I-Love-PETs/i-love-pets.github.io
 repo_name: I-Love-PETs/i-love-pets.github.io
 
 theme:
   name: material
+  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.sections
@@ -30,6 +32,23 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
+
+# The error template renders docs/404.md; it is not a normal indexed page.
+exclude_docs: |
+  /404.md
+
+hooks:
+  - scripts/error_page.py
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    unrecognized_links: warn
 
 plugins:
   - search

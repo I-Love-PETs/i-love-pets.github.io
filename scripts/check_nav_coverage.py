@@ -57,7 +57,9 @@ def main() -> int:
     configured = nav_paths(config.get("nav", []))
     existing = {path.relative_to(DOCS) for path in DOCS.rglob("*.md")}
 
-    missing_from_nav = sorted(existing - configured)
+    # Rendered by the error template; intentionally absent from navigation and sitemap.
+    system_pages = {Path("404.md")}
+    missing_from_nav = sorted(existing - configured - system_pages)
     missing_files = sorted(configured - existing)
 
     if missing_from_nav or missing_files:
@@ -75,7 +77,7 @@ def main() -> int:
 
         return 1
 
-    print(f"Navigation covers all {len(existing)} Markdown files.")
+    print(f"Navigation covers all {len(existing - system_pages)} content pages (404 is a system page).")
     return 0
 
 
