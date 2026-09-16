@@ -25,6 +25,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check Markdown
+        run: pymarkdown --disable-rules '*' --enable-rules MD010,MD040,MD047 scan -r docs README.md CONTRIBUTING.md
+
+      - name: Test built-site validator
+        run: python3 -m unittest discover -s tests
+
       - name: Check internal Markdown links
         run: python3 scripts/check_internal_links.py
 
@@ -36,3 +42,6 @@ jobs:
 
       - name: Check rendered shortcode output
         run: python3 scripts/check_rendered_shortcodes.py
+
+      - name: Check built links and SEO artifacts
+        run: python3 scripts/check_site.py
