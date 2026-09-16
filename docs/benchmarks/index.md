@@ -1,5 +1,14 @@
 # Benchmarks
 
+!!! info "Review status"
+    Last reviewed: 2026-09-16
+
+    Evidence level: Expert judgment
+
+    Source quality: Unsourced / illustrative
+
+    Snapshot scope: Editorial measurement guidance. Validate the method and acceptance thresholds for your workload; examples are illustrative.
+
 PET decisions should be based on evidence, not vibes. A benchmark is the place
 where a PET claim becomes falsifiable: it either protects the artifact you care
 about within the workload constraints, or it does not.
@@ -26,16 +35,9 @@ model host" is actionable.
 
 Benchmark claims need both an evidence level and a source-quality label. A measured value from a vendor blog is not the same thing as a reproducible benchmark package, and an illustrative scorecard value is not a measurement.
 
-| Source quality | Meaning | Decision use |
-| --- | --- | --- |
-| Reproducible benchmark package | Workload, code, data or data generator, environment, and run date are available | Strongest benchmark evidence if the workload matches |
-| Peer-reviewed measurement | Paper reports workload, method, parameters, and limits | Useful with scope checks; reproduce before procurement |
-| Operator measurement | Deploying team or vendor reports measured results | Useful lead; validate independently for high-stakes decisions |
-| Independent replication | Non-operator repeats or challenges a claimed result | Strong evidence for or against generalization |
-| Expert estimate | Maintainer or practitioner estimate without a run artifact | Planning only; replace before commitment |
-| Unsourced / illustrative | Teaching value created for a scorecard example | Never cite as performance evidence |
+Use the source-quality labels from the [Evidence Policy](../project-standards/evidence-policy.md#source-quality-labels): **Primary / official**, **Peer-reviewed / academic**, **Independent analysis**, **Vendor case study**, **Press / secondary**, and **Unsourced / illustrative**. Record reproducibility separately: provide code, data or a data generator, environment, and run date. A source label alone does not establish that a result applies to your workload.
 
-*(Evidence: Expert judgment. Source quality: Project standard. Reviewed 2026-06-17 — this taxonomy is a reporting discipline, not a measurement result.)*
+*(Evidence: Expert judgment. Source quality: Unsourced / illustrative. Reviewed 2026-09-16. This is reporting guidance, not a measurement result.)*
 
 ## Benchmark Card
 

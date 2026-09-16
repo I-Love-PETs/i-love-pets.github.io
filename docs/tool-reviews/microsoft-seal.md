@@ -1,5 +1,14 @@
 # Microsoft SEAL
 
+!!! info "Review status"
+    Last reviewed: 2026-06-10
+
+    Evidence level: Literature-backed; Needs evidence for workload performance
+
+    Source quality: Primary / official; Peer-reviewed / academic
+
+    Snapshot scope: Existing review and its cited sources, not a fresh product evaluation. Metadata formatted on 2026-09-16; recheck versions, capabilities, and workload fit before use.
+
 > Worked example applying the [tool evaluation framework](../contributing/tool-evaluation-framework.md) and [tool review template](../contributing/tool-template.md). Reviewed 2026-06-10. Not an endorsement.
 
 ## Evaluation Summary
