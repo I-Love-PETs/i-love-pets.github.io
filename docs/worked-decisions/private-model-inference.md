@@ -1,5 +1,7 @@
 # Worked Decision: Serving Inference Without Seeing Client Inputs
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -35,7 +37,7 @@ A provider wants to offer model inference as a service while *not* seeing the cl
 | --- | --- |
 | **Plain hosted inference (send plaintext, trust the provider)** | Acceptable only if the input is not sensitive enough to justify PET overhead. Given the stated constraint that the provider must not see plaintext, this is rejected — though it is the right answer when inputs are low-sensitivity. |
 | **HE as the default for a modern, broad model** | The canonical anti-pattern: choosing HE before checking architecture, operator support, batching, and latency. For large models with unsupported operators, HE latency and ciphertext size are prohibitive today. Rejected as a *default*; retained for the narrow-model case. |
-| **MPC between client and provider for general inference** | Two-party MPC for inference exists but adds rounds of interaction and bandwidth that often blow interactive latency budgets, and it complicates the client. For general serving it loses to TEEs on operability. Rejected on latency/complexity for the general case. |
+| **[MPC](../start-here/glossary.md#mpc) between client and provider for general inference** | Two-party MPC for inference exists but adds rounds of interaction and bandwidth that often blow interactive latency budgets, and it complicates the client. For general serving it loses to TEEs on operability. Rejected on latency/complexity for the general case. |
 | **TEE treated as a magic secure box** | A TEE protects inputs from the host, but only if **attestation is verified** and side channels, supply chain, logs, and output leakage are addressed. Deploying a TEE and skipping attestation verification is rejected — it is the cost of a TEE with the assurance of plain hosting. |
 | **Client-side inference (ship the model to the client)** | If the model could run locally, that would sidestep the whole problem — but it exposes proprietary weights and assumes capable client hardware. Rejected when the model is proprietary or too large for clients; noted as the right answer when it is not. |
 
@@ -80,10 +82,10 @@ Branch on model breadth and latency tolerance:
 | --- | --- |
 | The model can run on the client and weights are not secret | Switch to **client-side inference** — best privacy, lowest serving cost. |
 | Inputs turn out not to be very sensitive | Use **plain hosted inference**; do not pay PET overhead you do not need. |
-| HE latency/operator support proves unworkable on the real model | Fall back to **TEE confidential inference** for the general case. |
+| HE latency/operator support proves unworkable on the real model | Fall back to **TEE [confidential inference](../start-here/glossary.md#confidential-inference)** for the general case. |
 | Hardware trust is unacceptable (no TEE allowed) | For narrow models, push on **HE**; otherwise reconsider whether the service can be offered privately at all, or move computation client-side. |
 | Side-channel risk on the TEE is judged too high | Harden the enclave, restrict co-tenancy, or move to a cryptographic approach for the most sensitive paths. |
 | Model-extraction via outputs becomes a concern | Add **output controls and query rate limits**; input confidentiality alone does not stop model theft. |
 
 !!! note "The honest summary"
-    TEEs give you broad, fast private inference *if* you verify attestation and address side channels. HE gives you a stronger no-plaintext guarantee but only pays off for narrow, latency-tolerant models. Neither protects the *output* — decide separately what the prediction itself is allowed to reveal.
+    TEEs give you broad, fast [private inference](../start-here/glossary.md#private-inference) *if* you verify attestation and address side channels. HE gives you a stronger no-plaintext guarantee but only pays off for narrow, latency-tolerant models. Neither protects the *output* — decide separately what the prediction itself is allowed to reveal.

@@ -3,9 +3,9 @@
 This register tracks claims that should be sourced, measured, narrowed, or softened before the guide is treated as decision-grade.
 
 !!! info "Review status"
-    Last reviewed: 2026-06-17
+    Last reviewed: 2026-09-18
     Evidence level: Expert judgment
-    Snapshot scope: Current decision-support backlog after v0.7. Claims listed here are useful but still need stronger evidence, narrower wording, source-quality labels, or more explicit uncertainty labels before v1.0.
+    Snapshot scope: Decision-support backlog reviewed for v1.0. Unresolved measurements remain explicit; framework readiness does not turn illustrative guidance into evidence.
 
 ## Status Convention
 
@@ -20,14 +20,14 @@ Status is re-evaluated on each editorial pass and dated on change.
 
 | Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-06-17) |
 | --- | --- | --- | --- | --- | --- | --- |
-| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware, with source-quality labels | Measured | Needs evidence | **Unresolved** | No public cross-model latency benchmark found. Benchmark examples now mark HE numbers as Unsourced / illustrative; private-inference guidance remains Expert judgment until workload-specific measurements exist. |
+| HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware, with source-quality labels | Measured | Needs evidence | **Unresolved** | No cross-model latency benchmark is cited here. Benchmark examples now mark HE numbers as Unsourced / illustrative; private-inference guidance remains Expert judgment until workload-specific measurements exist. |
 | MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, bandwidth, and operational effort | Measured or deployment-backed | Needs evidence | **Unresolved** | Boston MPC provides recurring civic-deployment evidence, but not a general cost model. Deployment pages now distinguish recurring production from proposed use cases. |
 | DP utility impact | Utility loss depends heavily on task, privacy unit, and budget | Task-specific examples with epsilon, delta, utility metrics, release cadence, and independent analysis where available | Measured | Too broad | **Unresolved** | Census deep dive remains the strongest production example and is labeled primary/official plus independent analysis; no single source covers all DP workloads. |
-| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat | **Resolved** | Covered by well-known research on SGX/TDX side-channels (e.g., Van Bulck et al., USENIX Security 2018; Intel Product Security advisories). Inline note remains on private-inference.md. |
+| TEE side-channel risk | Risk varies by hardware, workload, and mitigation | Literature-backed threat summaries and deployment mitigation checklists | Literature-backed | Usable with caveat | **Resolved** | Narrowed in the v1.0 review to SGX data and attestation-key extraction demonstrated by Foreshadow (2018). No inference about all TDX or current TEE configurations is intended; current-platform evaluation remains necessary. |
 | Synthetic data privacy | "Synthetic" is often mistaken for anonymous | Memorization and membership-inference audits for release workflows | Measured | Needs evidence | **Unresolved** | No single production audit standard exists. Benchmark examples now explicitly label synthetic-data values Unsourced / illustrative. |
 | Clean room privacy | Governance claims can be confused with PET guarantees | Examples of output leakage, query controls, policy enforcement, and independent evaluations | Deployment-backed | Too broad | **Unresolved** | Ads Data Hub deep dive now labels source quality as primary/official vendor documentation; no public independent re-identification evaluation found. |
 | Federated learning leakage | "Data stays local" can mislead readers | Gradient leakage examples, secure aggregation limits, DP mitigation evidence, and deployment-specific privacy tests | Literature-backed or measured | Usable with caveat | **Resolved** | Gradient leakage literature is well-established; EXAM and Japanese bank deep dives now explicitly separate raw-data locality from full privacy proof. |
-| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence | **Unresolved** | No public benchmark covers all leakage surfaces. Example benchmark values remain illustrative only with Unsourced / illustrative source quality. |
+| Private RAG leakage | Emerging area with weak shared benchmarks | Prompt, embedding, retrieval, log, citation, and output leakage evaluations | Measured | Needs evidence | **Unresolved** | The guide does not cite a benchmark covering all leakage surfaces. Example benchmark values remain illustrative only with Unsourced / illustrative source quality. |
 
 ## Page-Level Claim Review
 
@@ -70,3 +70,17 @@ When improving a page:
 | Add source-backed "when not to use" statements | Pattern-page caveats linked to evidence or incidents |
 | Replace hypothetical benchmark values with sourced measurements | One measured or literature-backed scorecard each for HE inference, MPC analytics, DP synthetic data, and private RAG, with source-quality labels |
 | Add stale-claim sweeps | Quarterly review of AI, RAG, tool maturity, and cost claims |
+
+## v1.0 editorial review (2026-09-18)
+
+Homepage defaults now carry claim-specific sources or Expert judgment labels and
+source-quality labels. Removed the unsupported frequency claim that most PET
+failures arise at outputs; retained the scoped warning that outputs can leak.
+The DP default now describes a quantified contribution guarantee without ranking
+it as the “clearest” privacy tool. Compass, pattern, architecture, use-case, and
+worked-decision guidance explicitly distinguishes editorial recommendations from
+supported properties and measurements still needed. HE standard dating and the
+SGX-specific scope of Foreshadow are corrected on the inference page.
+
+The cost, utility, synthetic-data, clean-room, and RAG evidence gaps above remain
+open. Labels make them inspectable; they do not resolve the missing evidence.

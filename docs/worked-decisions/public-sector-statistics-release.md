@@ -1,5 +1,7 @@
 # Worked Decision: Publishing Population Statistics Safely
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -23,10 +25,10 @@ A public-sector agency must publish population statistics — counts and cross-t
 
 | Candidate | Why it is on the shortlist |
 | --- | --- |
-| Centralized differential privacy | The agency holds the data and adds calibrated noise to published statistics under a global privacy budget — the modern standard for defensible official statistics. The natural fit. |
+| Centralized [differential privacy](../start-here/glossary.md#differential-privacy) | The agency holds the data and adds calibrated noise to published statistics under a global privacy budget — the modern standard for defensible official statistics. The natural fit. |
 | Small-cell suppression / thresholding | Withholding or coarsening cells below a minimum count. Long-standing practice; useful *alongside* DP, weak on its own. |
 | Privacy budget accounting | Tracking total budget spent across all released tabulations so the guarantee holds for the whole release, not per table. The discipline that makes DP meaningful here. |
-| Federated analytics / MPC | If the population data are split across agencies that cannot pool, these compute aggregates without centralizing. A different topology, kept for completeness. |
+| Federated analytics / [MPC](../start-here/glossary.md#mpc) | If the population data are split across agencies that cannot pool, these compute aggregates without centralizing. A different topology, kept for completeness. |
 | DP query interface (alternative to bulk tables) | Serve statistics on demand with per-query DP and budget limits, instead of (or alongside) publishing fixed tables. |
 
 ## 3. Rejected Options

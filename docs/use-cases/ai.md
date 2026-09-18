@@ -1,5 +1,7 @@
 # AI
 
+--8<-- "decision-guidance.md"
+
 AI systems introduce privacy risk through training examples, prompts, embeddings, retrieved context, evaluation data, model outputs, logs, and model weights.
 
 ## Scenario Playbook
