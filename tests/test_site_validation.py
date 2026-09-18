@@ -67,6 +67,19 @@ class SiteValidationTests(unittest.TestCase):
         self.assertTrue(any("robots.txt" in item for item in failures))
         self.assertTrue(any("noindex" in item for item in failures))
 
+    def test_robots_rejects_commented_embedded_or_inexact_sitemap(self):
+        canonical = f"Sitemap: {self.url}sitemap.xml"
+        for directive in (f"# {canonical}", f"Other: {canonical}",
+                          f"{canonical}.backup", f"{canonical}?wrong=1"):
+            with self.subTest(directive=directive):
+                (self.site / "robots.txt").write_text(f"User-agent: *\n{directive}\n")
+                self.assertTrue(any("robots.txt" in item for item in self.check()))
+
+    def test_robots_accepts_directive_whitespace_case_and_comment(self):
+        (self.site / "robots.txt").write_text(
+            f"User-agent: *\n  sitemap :  {self.url}sitemap.xml  # canonical map\n")
+        self.assertEqual(self.check(), [])
+
     def test_compressed_sitemap_must_match(self):
         (self.site / "sitemap.xml.gz").write_bytes(gzip.compress(b"different"))
         self.assertTrue(any("Compressed sitemap differs" in item for item in self.check()))

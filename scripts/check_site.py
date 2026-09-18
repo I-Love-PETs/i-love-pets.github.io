@@ -83,7 +83,13 @@ def check_site(site: Path, site_url: str) -> list[str]:
         failures.append(f"Invalid or missing sitemap: {error}")
 
     robots = site / "robots.txt"
-    if not robots.is_file() or f"Sitemap: {urljoin(site_url, 'sitemap.xml')}" not in robots.read_text():
+    sitemap_urls = set()
+    if robots.is_file():
+        for line in robots.read_text(encoding="utf-8").splitlines():
+            directive, separator, value = line.split("#", 1)[0].partition(":")
+            if separator and directive.strip().lower() == "sitemap":
+                sitemap_urls.add(value.strip())
+    if urljoin(site_url, "sitemap.xml") not in sitemap_urls:
         failures.append("robots.txt must point to the canonical sitemap")
     error_page = pages.get("404.html")
     if error_page is None or not error_page.noindex:

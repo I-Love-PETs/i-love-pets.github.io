@@ -271,6 +271,6 @@ The table below maps each example to the shared reporting template from [Scoreca
 | Adversary | Curious platform operator; injection attacker | Curious server (HE) / curious host OS (TEE) | Curious coordinator; single Byzantine site | Reconstruction / membership inference attacker | Curious co-participant; differencing attacker |
 | Allowed output | Answers citing only authorised documents | Score value only | Global + per-site AUROC; no raw gradients | Aggregate statistics, regression coefficients | Aggregate conversion counts (k-suppressed) |
 | PET stack | Hard ACL filter + optional TEE retrieval | HE (CKKS/BFV) or TEE (Intel TDX / AMD SEV) | Federated SGD + secure aggregation + DP | DP generative model (Gaussian mechanism, ε = 3) | 2-party MPC secret sharing |
-| Evidence level | Needs evidence | Hypothetical example | Needs evidence | Hypothetical example | Needs evidence |
+| Evidence level | Needs evidence | Needs evidence | Needs evidence | Needs evidence | Needs evidence |
 | Source quality | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative |
 | Key failure mode | Soft-filter bypass; citation side-channel | HE: parameter mismatch; TEE: attestation skipped | DP destroys small-site utility | Rare-subgroup utility loss; ε inflation | Collusion not modelled; differencing via repeated queries |
