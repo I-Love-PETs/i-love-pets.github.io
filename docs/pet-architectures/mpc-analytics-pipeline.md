@@ -1,4 +1,21 @@
+---
+description: "MPC Analytics Pipeline: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # MPC Analytics Pipeline
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Each contributing party’s raw inputs during joint computation. |
+| Adversary | Protocol parties or coalitions within the selected corruption and collusion model. |
+| Allowed output | The approved analytic result to the output reviewer, then permitted metrics to downstream users. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | The result visible to the reviewer, released metrics, small cohorts, query repetition, and run metadata. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Explicit collusion threshold, authenticated parties, agreed schemas, and a protocol matching required malicious or semi-honest security. |
+| Non-goals | Privacy of an overly revealing result, truthfulness of inputs, availability, or malicious security from a semi-honest protocol. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -9,6 +26,8 @@ Compute a joint analytic result across parties without revealing each party's ra
 Data-contributing parties, protocol participants, query requester, output reviewer, auditors, and downstream decision makers.
 
 ## Data Flow
+
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
 flowchart LR
@@ -23,6 +42,10 @@ flowchart LR
   M -->|run metadata| L[Audit log]
   O -->|release decision| L
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -46,7 +69,7 @@ flowchart LR
 | Assumption | How to validate | If it fails |
 | --- | --- | --- |
 | Collusion threshold is realistic | Compare protocol threshold to ownership, hosting, and incentives | Inputs can be reconstructed by parties treated as separate |
-| Output policy is enforceable | Review examples of allowed, suppressed, and rejected outputs | MPC computes a private input function whose result still leaks |
+| Output policy is enforceable | Review examples of allowed, suppressed, and rejected outputs | [MPC](../start-here/glossary.md#mpc) computes a private input function whose result still leaks |
 | Parties are available | Test retries, timeouts, and participant dropout behavior | Latency and aborts can make the workflow unusable or revealing |
 | Schemas match | Validate definitions, units, identifiers, and missing values | The result may be wrong even if the protocol is secure |
 
@@ -58,12 +81,14 @@ MPC, participant authentication, schema validation, query approval, output thres
 
 | Add | Use when | New risk |
 | --- | --- | --- |
-| Differential privacy | Aggregate output can reveal small cohorts or repeated-query differences | Utility loss and budget accounting |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | Aggregate output can reveal small cohorts or repeated-query differences | Utility loss and budget accounting |
 | PSI | The workflow starts with entity overlap | The match set may be sensitive |
 | Clean-room workflow | Analysts need governed query submission and review | Platform trust and policy bypasses |
 | TEEs | Protocol coordination or preprocessing needs confidential execution | Hardware trust and attestation |
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Outputs that reveal sensitive facts.
 - Collusion beyond the stated threshold.
@@ -82,7 +107,7 @@ Estimate rounds, bandwidth, availability requirements, and failure behavior befo
 
 MPC reduces reliance on one trusted processor but increases protocol, networking, debugging, and participant-coordination complexity.
 
-## Failure Modes
+## Failure modes
 
 Unrealistic collusion assumptions, high latency, participant unavailability, malformed inputs, tiny-cohort outputs, and opaque cost.
 

@@ -1,4 +1,21 @@
+---
+description: "Synthetic Data Release Pipeline: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Synthetic Data Release Pipeline
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Source records and, when DP is used, the declared privacy unit’s contribution to the release. |
+| Adversary | Release recipients using auxiliary data; raw-data processors remain inside the trusted boundary. |
+| Allowed output | Approved synthetic records and release documentation for stated downstream tasks. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Candidate releases, helper statistics, tuning history, release ledgers, and copied rare records. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Defined intended use, relevant privacy and utility tests, and complete DP accounting when a DP claim is made. |
+| Non-goals | A formal guarantee from non-DP synthesis or attack tests alone, universal utility, or prevention of downstream misuse. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -9,6 +26,8 @@ Release data-like artifacts while reducing privacy risk and preserving enough ut
 Data owner, synthetic-data generator, privacy reviewer, utility evaluator, release approver, data users, and auditor.
 
 ## Data Flow
+
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
 flowchart LR
@@ -22,6 +41,10 @@ flowchart LR
   A -->|approved release + documentation| D[Data users]
   A -->|decision + residual risk| L
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -57,12 +80,14 @@ Synthetic data generation, optional DP, minimization, memorization tests, neares
 
 | Add | Use when | New risk |
 | --- | --- | --- |
-| Differential privacy | The release needs a formal individual privacy claim | Utility loss and accounting complexity |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | The release needs a formal individual privacy claim | Utility loss and accounting complexity |
 | DP query access | Users only need statistics, not row-shaped data | Less flexible exploration |
 | Restricted enclave | High-fidelity individual-level analysis is required | Access governance becomes the main control |
 | Output review | Candidate data or documentation may reveal rare facts | More release latency and reviewer burden |
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Memorization by non-DP generators.
 - Misuse outside intended tasks.
@@ -82,7 +107,7 @@ Publish a release card with intended uses, prohibited uses, privacy tests, utili
 
 More privacy usually reduces fidelity. More tuning for utility can consume privacy budget or increase memorization risk.
 
-## Failure Modes
+## Failure modes
 
 Rare-record copying, weak downstream utility, undocumented DP parameters, auxiliary releases that break the claim, and users treating synthetic data as ground truth.
 

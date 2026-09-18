@@ -1,4 +1,21 @@
+---
+description: "Federated RAG: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Federated RAG
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Documents, prompts, retrieved snippets, and repository permissions across owners. |
+| Adversary | Unauthorized users, curious coordinators, retriever owners, and runtime operators according to the selected boundary. |
+| Allowed output | Answers and citations derived only from content authorized for the requesting user. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Embeddings, retrieval requests, snippets, document existence, answers, citations, and logs. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Owners enforce current permissions; any confidential runtime has verified attestation; output and retention policies are enforced. |
+| Non-goals | Complete prompt-injection defense, factual correctness, or confidentiality from components deliberately given plaintext. |
+
+--8<-- "decision-guidance.md"
 
 ## Motivating Example
 
@@ -51,7 +68,9 @@ Federated RAG answers questions across distributed or separately controlled know
 - Redaction and output policy can reduce answer leakage.
 - Provenance can make access decisions inspectable.
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Incorrect permissions.
 - Prompt injection inside retrieved documents.
@@ -81,7 +100,7 @@ High. The hardest work is usually not model serving; it is permission modeling, 
 - Policy review and audit logging.
 - Human review for high-risk answers.
 
-## Failure Modes
+## Failure modes
 
 - Retrieval crosses a trust boundary the answer policy cannot fix.
 - A user learns that a restricted document exists through a citation.

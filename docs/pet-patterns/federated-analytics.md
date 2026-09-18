@@ -1,4 +1,21 @@
+---
+description: "Federated Analytics: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Federated Analytics
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Raw local records; participant contributions when secure aggregation or [MPC](../start-here/glossary.md#mpc) is included. |
+| Adversary | A curious coordinator, other contributors, or recipients querying released statistics. |
+| Allowed output | Approved aggregate metrics for specified recipients and query frequency. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Small cohorts, repeated queries, local results, dashboards, participation metadata, and logs. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Metric definitions agree; selected protocols meet collusion thresholds; output controls cover repeated releases. |
+| Non-goals | Correctness of dishonest input data, endpoint security, or a formal output-privacy guarantee without an appropriate mechanism. |
+
+--8<-- "decision-guidance.md"
 
 ## Motivating Example
 
@@ -46,7 +63,9 @@ Multiple parties need shared statistics while keeping raw data local or inside c
 - DP can bound the contribution of a privacy unit to released outputs.
 - Thresholds and output review reduce small-cell disclosure.
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Bad metric definitions.
 - Leakage through tiny cohorts or repeated queries.
@@ -74,7 +93,7 @@ Medium. The computation may be simple, but the program needs participant onboard
 - Review cost for sensitive outputs.
 - DP utility loss and accounting.
 
-## Failure Modes
+## Failure modes
 
 - Small-cell results reveal a patient group, branch, or business line.
 - Participants compute the same metric differently.

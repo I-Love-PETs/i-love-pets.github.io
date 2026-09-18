@@ -1,4 +1,31 @@
+---
+description: "Compare reusable PET patterns by protected assets, allowed outputs, assumptions, leakage, and failure modes."
+---
+
 # PET Patterns
+
+## Decision framing
+
+Use these six fields when selecting a page below. This catalog does not define one shared security guarantee.
+
+| Field | Record before choosing |
+| --- | --- |
+| Protected asset | The records, inputs, updates, or other artifacts that must be protected. |
+| Adversary | The parties and coalitions the design must resist. |
+| Allowed output | The result and its recipients; see [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Outputs, metadata, logs, and intermediate artifacts; see [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | The selected page’s conditions on keys, hardware, participants, and accounting. |
+| Non-goals | Properties and attacks the selected design leaves outside scope. |
+
+## Does not protect
+
+Selecting a design from this catalog does not establish a deployment guarantee. Check the linked page’s assumptions and evidence against your system.
+
+## Failure modes
+
+A shortlist can fail when it protects the wrong artifact, permits an overly revealing output, or assumes independent parties that can collude.
+
+--8<-- "decision-guidance.md"
 
 Patterns are reusable designs, not recipes. Each one states when to use it, when not to use it, what can still go wrong, and which research problems remain open.
 

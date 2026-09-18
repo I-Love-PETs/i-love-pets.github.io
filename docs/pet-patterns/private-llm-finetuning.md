@@ -1,4 +1,21 @@
+---
+description: "Private LLM Fine-Tuning: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Private LLM Fine-Tuning
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Training examples, updates, checkpoints, and the contribution of the chosen privacy unit when DP is used. |
+| Adversary | Training operators, other FL participants, and users trying to extract training data. |
+| Allowed output | Approved model or adapter releases and metrics for explicitly authorized users. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Gradients, experiment trackers, checkpoints, adapters, memorized outputs, and tuning results. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Controls match the training boundary; DP accounting covers the release process; artifact access and retention are enforced. |
+| Non-goals | Safe use of prohibited training data, complete memorization prevention, prompt-injection defense, or reliable model answers. |
+
+--8<-- "decision-guidance.md"
 
 ## Motivating Example
 
@@ -52,7 +69,9 @@ Private LLM fine-tuning adapts a model using sensitive data while reducing expos
 - TEEs can reduce training-time exposure under hardware trust assumptions.
 - Redaction and minimization reduce the amount of sensitive data entering training.
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Memorization in the final model unless tested and mitigated.
 - Sensitive outputs produced during ordinary use.
@@ -82,7 +101,7 @@ High. Private fine-tuning touches data governance, ML training, privacy accounti
 - Human review of training data and outputs.
 - Memorization testing and red-team evaluation.
 
-## Failure Modes
+## Failure modes
 
 - Training examples appear verbatim in model outputs.
 - Experiment trackers store sensitive prompts or gradients.

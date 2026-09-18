@@ -1,4 +1,21 @@
+---
+description: "Private Inference: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Private Inference
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Client inference inputs; model confidentiality only if the selected protocol also provides it. |
+| Adversary | Model service or infrastructure operator, with distinct trust assumptions for HE, [MPC](../start-here/glossary.md#mpc), TEEs, and local execution. |
+| Allowed output | Predictions for authorized recipients; specify who decrypts or otherwise sees the result. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Outputs, confidence scores, repeated queries, traffic metadata, runtime logs, and client storage. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | HE keys stay with approved key holders; MPC uses the stated corruption model; TEEs require verified attestation; clients remain trusted. |
+| Non-goals | Automatic model secrecy, output privacy, correct computation by a malicious service, or protection of compromised clients. |
+
+--8<-- "decision-guidance.md"
 
 ## Motivating Example
 
@@ -6,7 +23,7 @@ A fraud model provider wants banks to send transaction features for scoring with
 
 ## Problem
 
-Private inference protects sensitive inputs during prediction. The main design choice is usually between homomorphic encryption, TEEs, client-side inference, or standard hosted inference with governance. The right answer depends on model architecture, latency, trust assumptions, and what the output reveals.
+[Private inference](../start-here/glossary.md#private-inference) aims to protect sensitive information during prediction. Candidate approaches include [homomorphic encryption](../start-here/glossary.md#homomorphic-encryption), MPC, TEEs, and client-side inference. Governed hosted inference is an alternative when the service is allowed to see plaintext inputs. The shortlist depends on model architecture, latency, trust assumptions, and what the output reveals. *(Evidence: Expert judgment. Source quality: Unsourced / illustrative. Reviewed 2026-09-18; this is a design shortlist, not a security ranking.)*
 
 ## When To Use
 
@@ -17,8 +34,8 @@ Private inference protects sensitive inputs during prediction. The main design c
 
 ## When Not To Use
 
-- Do not use HE for arbitrary modern ML workloads without checking latency and operator support. *(Evidence: Expert judgment, 2026-06-10 — HE support for transformer-style operators is still limited; no cross-model public benchmark is available. Needs evidence for any specific architecture.)*
-- Do not use TEEs without understanding attestation and side-channel assumptions. *(Evidence: Literature-backed, 2026-06-10 — SGX/TDX side-channel vulnerabilities are well-documented; see Van Bulck et al., "Foreshadow", USENIX Security 2018 (https://foreshadowattack.eu/); attestation bypass risks covered in Intel Product Security Advisory INTEL-SA-00161.)*
+- Do not use HE for arbitrary modern ML workloads without checking latency and operator support. *(Evidence: Expert judgment, 2026-06-10 — HE support for transformer-style operators is still limited; this page does not cite a cross-model benchmark. Needs evidence for any specific architecture.)*
+- Do not use TEEs without understanding attestation and side-channel assumptions. *(Evidence: Literature-backed, 2026-06-10 — Source quality: Peer-reviewed / academic. [Foreshadow](https://foreshadowattack.eu/), USENIX Security 2018, demonstrated SGX data and attestation-key extraction. This evidence is platform-specific; it does not establish the vulnerability of every TEE or current configuration.)*
 - Do not use private inference if the prediction itself reveals the sensitive fact and no output policy exists. *(Evidence: Expert judgment, 2026-06-10 — output-leakage risk through confidence scores and repeated queries is documented in model-extraction literature; see Tramèr et al., "Stealing Machine Learning Models via Prediction APIs", USENIX Security 2016 (https://www.usenix.org/conference/usenixsecurity16/technical-sessions/presentation/tramer). Needs evidence for production mitigation effectiveness.)*
 - Do not ignore client-side inference when the model can run locally and IP risk is acceptable.
 
@@ -43,12 +60,14 @@ Private inference protects sensitive inputs during prediction. The main design c
 
 ## Privacy Properties
 
-- HE can keep inputs encrypted during computation. *(Evidence: Literature-backed, 2026-06-10 — semantic security of HE schemes is formally established; see Brakerski-Vaikuntanathan (BV/BGV) and CKKS scheme definitions. Practical deployment guarantees also depend on correct parameterisation; see Albrecht et al., Homomorphic Encryption Security Standard, HomomorphicEncryption.org 2021 (https://homomorphicencryption.org/standard/).)*
+- HE can keep inputs encrypted during computation. *(Evidence: Literature-backed, 2026-06-10 — Source quality: Primary / official. The [Homomorphic Encryption Security Standard](https://homomorphicencryption.org/standard/), 2018, describes scheme-specific security and parameters. The deployment also needs correct key handling and implementation.)*
 - TEEs can restrict plaintext exposure to an attested runtime.
 - Client-side inference keeps inputs local but exposes more model material.
 - Output controls can reduce leakage from returned predictions.
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Leakage through outputs, explanations, confidence scores, or repeated queries. *(Evidence: Literature-backed, 2026-06-10 — model extraction via prediction APIs is demonstrated in Tramèr et al., USENIX Security 2016; membership inference via confidence scores is shown in Shokri et al., IEEE S&P 2017.)*
 - Poor client key handling.
@@ -76,7 +95,7 @@ Medium to high. HE is often harder to debug and optimize. TEEs are easier for mo
 - Client SDK support and key management.
 - Monitoring for abuse and output leakage.
 
-## Failure Modes
+## Failure modes
 
 - HE latency makes the product unusable.
 - A model layer is unsupported or approximated badly.
