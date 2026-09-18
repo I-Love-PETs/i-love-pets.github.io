@@ -5,6 +5,27 @@ Use this template when reviewing a PET tool, library, platform, or service. Do n
 ```markdown
 # Tool Name
 
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Name the data or artifacts to protect. |
+| Adversary | Name capabilities, corruption model, and collusion threshold. |
+| Allowed output | Name the result, recipients, and permitted query frequency. |
+| Leakage surface | Include outputs, intermediates, metadata, logs, and side channels. |
+| Assumptions | State concrete conditions on keys, hardware, parties, and accounting. |
+| Non-goals | State excluded attacks and properties; do not imply complete privacy. |
+
+## Evidence and review
+
+State Last reviewed and the scope of the review. Use the existing Evidence Policy
+levels: Measured, Deployment-backed, Literature-backed, Expert judgment, Needs evidence.
+Use its source-quality labels: Primary / official, Peer-reviewed / academic,
+Independent analysis, Vendor case study, Press / secondary, Unsourced / illustrative.
+Attach a source and its limits to each decision-critical factual claim. Explain
+why editorial guidance is plausible and what would change it. Do not promote
+illustrative examples to measured evidence.
+
 ## Evaluation Summary
 
 | Field | Answer |
@@ -51,7 +72,11 @@ What should a reader measure before adopting this tool?
 
 Setup, deployment, keys, logging, monitoring, upgrades, debugging, and failure recovery.
 
-## Failure Modes
+## Does not protect
+
+Name remaining output leakage, excluded adversaries, and controls outside this design.
+
+## Failure modes
 
 How can users misuse the tool or overclaim what it provides?
 
@@ -73,3 +98,5 @@ Patterns, architectures, use cases, or threat models that help evaluate fit.
 - Does it say when not to use the tool?
 - Are operational risks described?
 - Is the first benchmark clear?
+
+Use the [Evidence Policy](../project-standards/evidence-policy.md) and [glossary](../start-here/glossary.md) without inventing new labels. Keep page-specific assumptions explicit; shared editorial guidance may use the include in `includes/decision-guidance.md`.

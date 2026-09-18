@@ -60,3 +60,15 @@ Use the templates in this section for new patterns, use cases, architectures, Fi
 - [Architecture template](architecture-template.md)
 - [Fix My Itch template](fix-my-itch-template.md)
 - [Tool review template](tool-template.md)
+
+## v1.0 review gates
+
+Use the [pattern](pattern-template.md), [architecture](architecture-template.md),
+[tool](tool-template.md), or [use-case](use-case-template.md) template. Include all
+six Decision framing fields, explicit protection limits, failure modes, and the
+existing [evidence labels](../project-standards/evidence-policy.md).
+
+Run the commands in the repository’s
+[CONTRIBUTING.md](https://github.com/I-Love-PETs/i-love-pets.github.io/blob/main/CONTRIBUTING.md)
+and record the [release-readiness review](../project-standards/version-history.md#v10-release-readiness-checks)
+for changes to navigation, styling, metadata, or diagrams.

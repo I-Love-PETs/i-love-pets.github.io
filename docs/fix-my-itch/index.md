@@ -1,3 +1,7 @@
+---
+description: "Find concrete PET research and engineering problems, current workarounds, success criteria, and a first contribution."
+---
+
 # Fix My Itch
 
 Fix My Itch is the part of I Love PETs for problems that practitioners keep hitting and researchers can actually make progress on.

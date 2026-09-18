@@ -1,17 +1,23 @@
+---
+description: "Follow an output-first PET decision path and check assumptions, failure modes, and alternatives before choosing an architecture."
+---
+
 # Decision Tree
+
+--8<-- "decision-guidance.md"
 
 This page gives a first candidate, not a final architecture. It is intentionally text-first so the decision path remains readable on phones, laptops, and printed reviews.
 
 ## Start With The Allowed Output
 
-Most privacy failures happen after a PET successfully protects inputs. Begin with the output you are allowed to reveal.
+A PET can protect inputs while its outputs still reveal sensitive information. Begin with the output you are allowed to reveal.
 
 | Allowed output | Start with | Add when needed | Watch for |
 | --- | --- | --- | --- |
 | A trained model | Federated learning if raw training data cannot centralize | Secure aggregation, DP, robust aggregation | Update leakage, poisoning, non-IID data, model memorization |
-| Aggregate metrics | Federated analytics, MPC, or a clean room | DP, thresholds, output review | Small-cell leakage, repeated queries, inconsistent metric definitions |
+| Aggregate metrics | Federated analytics, [MPC](../start-here/glossary.md#mpc), or a clean room | DP, thresholds, output review | Small-cell leakage, repeated queries, inconsistent metric definitions |
 | A match set | Private set intersection | DP counts, clean-room controls, audit logs | The intersection itself may be sensitive |
-| An inference result | TEE confidential inference or HE | Attestation, model compression, output controls | Latency, unsupported operators, side channels, prediction leakage |
+| An inference result | TEE [confidential inference](../start-here/glossary.md#confidential-inference) or HE | Attestation, model compression, output controls | Latency, unsupported operators, side channels, prediction leakage |
 | A data-like release | DP synthetic data when a formal release claim is needed | Memorization tests, utility benchmarks | Synthetic data copying real records or losing useful signal |
 
 ## Decision Ladders
@@ -22,7 +28,7 @@ Most privacy failures happen after a PET successfully protects inputs. Begin wit
 | --- | --- | --- |
 | Can raw training data centralize safely? | Centralized training with minimization, access control, and release review | Cross-silo federated learning |
 | Should the coordinator see individual updates? | Treat updates as sensitive and audit access | Add secure aggregation |
-| Is formal record-level privacy required? | Add differential privacy and budget accounting | Still test memorization and inference risk |
+| Is formal record-level privacy required? | Add [differential privacy](../start-here/glossary.md#differential-privacy) and budget accounting | Still test memorization and inference risk |
 | Can participants run local training reliably? | Continue to FL architecture review | Consider governed centralization, a clean room, or a narrower analytics task |
 
 Primary recommendation: **FL + secure aggregation + optional DP** when data cannot centralize and the output is a model.
@@ -75,7 +81,7 @@ Primary recommendation: **PSI** when parties may learn the agreed overlap. If th
 
 | Question | If yes | If no |
 | --- | --- | --- |
-| Is hardware trust acceptable? | TEE confidential inference | Homomorphic encryption or local inference |
+| Is hardware trust acceptable? | TEE confidential inference | [Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) or local inference |
 | Does the model fit HE constraints? | Benchmark HE end to end | Redesign the model, use a TEE, or run locally |
 | Can the output reveal sensitive facts? | Add output controls, rate limits, and review | Continue |
 | Can clients verify attestation? | Continue with TEE design | Do not rely on confidential inference claims |
@@ -86,7 +92,7 @@ Primary recommendation: **TEE first for broad model support** when hardware trus
 | --- | --- |
 | Alternative PETs | Client-side inference, MPC for multi-party scoring, standard hosted inference when sensitivity is low. |
 | Why | The service should not observe plaintext inputs or runtime data outside the chosen trust boundary. |
-| Tradeoffs | TEEs are practical but depend on attestation and hardware trust; HE is stronger for input secrecy but narrower and slower. |
+| Tradeoffs | TEEs are practical but depend on attestation and hardware trust; HE avoids trusting a plaintext runtime for input confidentiality; model support and latency require workload measurements. |
 | Failure modes | Output leakage, plaintext logs, unverified attestation, unsupported HE operators, key mishandling. |
 | Operational considerations | Key lifecycle, attestation verification, p95/p99 latency, model updates, support/debugging boundaries. |
 

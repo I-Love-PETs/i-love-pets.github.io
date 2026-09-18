@@ -1,5 +1,7 @@
 # Worked Decision: Releasing a Synthetic Version of a Sensitive Dataset
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment

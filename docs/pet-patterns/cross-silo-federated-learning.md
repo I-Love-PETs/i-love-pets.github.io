@@ -1,4 +1,21 @@
+---
+description: "Cross-Silo Federated Learning: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Cross-Silo Federated Learning
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Local training records; individual updates only with additional protection. |
+| Adversary | A curious coordinator or other participants; malicious participants require separate defenses. |
+| Allowed output | A shared model and approved evaluation metrics for named recipients. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Gradients, model deltas, small rounds, checkpoints, metrics, logs, and the released model. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Sites run reviewed training code; secure-aggregation thresholds and DP accounting apply only when those controls are included. |
+| Non-goals | Privacy from data locality alone, poisoning resistance, or security of compromised participant systems. |
+
+--8<-- "decision-guidance.md"
 
 ## Motivating Example
 
@@ -21,7 +38,7 @@ Cross-silo FL trains a shared model from local updates. It reduces raw-data move
 - Do not use FL if your real problem is governance, not data movement.
 - Do not use FL when participants cannot operate local training reliably.
 - Do not claim privacy from FL alone.
-- Do not use FL for simple aggregate measurement; use federated analytics, MPC, or a clean room.
+- Do not use FL for simple aggregate measurement; use federated analytics, [MPC](../start-here/glossary.md#mpc), or a clean room.
 - Do not hide poor per-site performance behind a global average.
 
 ## Architecture
@@ -50,7 +67,9 @@ Cross-silo FL trains a shared model from local updates. It reduces raw-data move
 - DP can bound individual contribution to the released model when correctly configured.
 - TEEs can protect orchestration or aggregation under hardware trust assumptions.
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Gradient or update leakage without supporting controls.
 - Poisoning or backdoors by malicious participants.
@@ -79,7 +98,7 @@ High. Cross-silo FL is a distributed systems program with ML risk. Expect partic
 - Participant support and incident response.
 - Evaluation across sites and subgroups.
 
-## Failure Modes
+## Failure modes
 
 - A small participant's update dominates a round and leaks information.
 - Secure aggregation prevents useful debugging.

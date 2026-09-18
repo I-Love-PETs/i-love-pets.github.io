@@ -1,4 +1,21 @@
+---
+description: "HE Private Inference API: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # HE Private Inference API
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Client inputs evaluated as ciphertext by the model service. |
+| Adversary | A model service or platform operator without decryption keys. |
+| Allowed output | Encrypted predictions returned to the client for local decryption. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Request timing, sizes, tenant metadata, client-side plaintext, and information in decrypted predictions. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Reviewed HE parameters and supported model operations; the service never receives decryption keys; see the assumption review below. |
+| Non-goals | Model secrecy from clients, verifiable computation, client-device security, or hiding all traffic metadata. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -9,6 +26,8 @@ Let clients receive predictions without exposing plaintext inputs to the model s
 Client, model service, HE model runtime, key holder, model owner, platform operator, and monitor.
 
 ## Data Flow
+
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
 sequenceDiagram
@@ -24,6 +43,10 @@ sequenceDiagram
   API-->>Client: Ciphertext response
   Client->>Client: Decrypt prediction
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -53,7 +76,7 @@ sequenceDiagram
 
 ## PET Stack
 
-Homomorphic encryption, model quantization, batching, ciphertext parameter management, client-side key handling, and output monitoring.
+[Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption), model quantization, batching, ciphertext parameter management, client-side key handling, and output monitoring.
 
 ## Common PET Combinations
 
@@ -64,7 +87,9 @@ Homomorphic encryption, model quantization, batching, ciphertext parameter manag
 | Output policy | Predictions are themselves sensitive | Application governance becomes part of the privacy claim |
 | Rate limiting | Repeated queries can extract model behavior or sensitive outputs | Abuse controls may reveal usage metadata |
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Output leakage through predictions.
 - Client-side key compromise.
@@ -84,7 +109,7 @@ Design the model for HE constraints. Measure latency, ciphertext size, accuracy 
 
 Strong input confidentiality comes with cost, limited operations, approximation constraints, and a smaller model design space.
 
-## Failure Modes
+## Failure modes
 
 Unsupported model layers, insecure key storage, parameter mistakes, output leakage, unacceptable latency, and unreadable debugging traces.
 

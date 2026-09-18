@@ -1,3 +1,7 @@
+---
+description: "Start with the six decision-framing questions, learn the PET families, and find a practical route through the guide."
+---
+
 # Start Here
 
 Privacy-enhancing technologies are not interchangeable. They protect different parts of a system, assume different adversaries, and create different tradeoffs.
@@ -13,7 +17,7 @@ before naming the output, adversary, and failure mode.
 | Federated learning | Training across data silos without centralizing raw data | Gradients and model updates can still leak information | [Cross-silo FL](../pet-patterns/cross-silo-federated-learning.md) |
 | Differential privacy | Limiting what can be learned about one person or record from an output | Utility loss and accounting complexity | [DP taxonomy](pet-taxonomy.md#differential-privacy) |
 | Secure multiparty computation | Joint computation across parties that do not reveal inputs | Cost, coordination, and protocol complexity | [MPC analytics](../pet-architectures/mpc-analytics-pipeline.md) |
-| Homomorphic encryption | Computing on encrypted data | High cost and narrow workload fit | [Private inference](../pet-patterns/private-inference.md) |
+| Homomorphic encryption | Computing on encrypted data | Operator support, ciphertext size, latency, and accuracy for the actual workload | [Private inference](../pet-patterns/private-inference.md) |
 | Trusted execution environments | Isolating computation in hardware-protected runtimes | Hardware trust, side channels, and attestation usability | [Confidential RAG](../pet-architectures/confidential-rag.md) |
 | Private set intersection | Finding overlap between datasets without exposing nonmatches | Output leakage and repeated-query risk | [PSI pattern](../pet-patterns/private-set-intersection.md) |
 | Synthetic data | Sharing generated data instead of raw data | Memorization, weak privacy claims, and utility drift | [Synthetic release pipeline](../pet-architectures/synthetic-data-release-pipeline.md) |
@@ -34,13 +38,16 @@ Then use [PET Compass](../pet-compass/index.md) to choose candidates and [PET Pa
 
 ## Before You Pick A PET
 
-Write these four lines before opening a vendor page or benchmark paper:
+Write the six Decision framing fields before comparing tools, then add a reversal condition:
 
 | Line | Example |
 | --- | --- |
 | Protected asset | Raw patient records, nonmatching customer IDs, private prompts, site-level model updates |
 | Adversary | Curious coordinator, malicious participant, cloud operator, downstream analyst, public data recipient |
-| Allowed output | Aggregate count, trained model, match list, encrypted prediction, synthetic table |
+| [Allowed output](glossary.md#allowed-output) | Aggregate count, trained model, match list, encrypted prediction, synthetic table |
+| Leakage surface | Updates, embeddings, request timing, logs, intermediate results, and released outputs |
+| Assumptions | Key ownership, collusion threshold, attestation, privacy unit, and accounting |
+| Non-goals | Endpoint compromise, poisoning, availability, or other explicitly excluded properties |
 | Reversal condition | Latency above the product budget, subgroup utility below baseline, cohort size under threshold, unverifiable attestation |
 
 If one line is vague, the PET shortlist will be vague too. Tighten the claim first.
@@ -67,3 +74,5 @@ If one line is vague, the PET shortlist will be vague too. Tighten the claim fir
 | Designing a system | [PET architectures](../pet-architectures/index.md) |
 | Finding failure modes | [Threat models](../threat-models/index.md) |
 | Measuring a candidate | [Benchmarks](../benchmarks/index.md) |
+
+The starting points above are **Expert judgment** (Source quality: **Unsourced / illustrative**, reviewed 2026-09-18). They help scope a review; measurements and the selected threat model can change the shortlist. Use the [Evidence Policy](../project-standards/evidence-policy.md) and linked patterns to distinguish formal properties from workload guidance.

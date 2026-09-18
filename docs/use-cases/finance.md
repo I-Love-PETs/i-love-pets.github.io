@@ -1,5 +1,7 @@
 # Finance
 
+--8<-- "decision-guidance.md"
+
 Finance PET decisions are shaped by adversarial behavior, regulatory obligations, customer confidentiality, commercial sensitivity, and the need for auditable decisions.
 
 ## Scenario Playbook

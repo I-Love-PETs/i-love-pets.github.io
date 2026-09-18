@@ -1,12 +1,14 @@
 # By Threat Model
 
+--8<-- "decision-guidance.md"
+
 A PET recommendation without a threat model is a guess. Start by naming the adversary, what they can observe, what they can change, and what output they are allowed to learn.
 
 ## Threat-Model Matrix
 
 | Threat model | Use this when... | PETs to consider | Caveat |
 | --- | --- | --- | --- |
-| Honest-but-curious coordinator | The coordinator follows the protocol but wants to inspect data or updates | FL + secure aggregation, MPC, HE, PSI, TEEs | Too weak if participants or operators can deviate |
+| Honest-but-curious coordinator | The coordinator follows the protocol but wants to inspect data or updates | FL + secure aggregation, [MPC](../start-here/glossary.md#mpc), HE, PSI, TEEs | Too weak if participants or operators can deviate |
 | Malicious participant | A party may send bad inputs, poisoned updates, or adaptive queries | Malicious-secure MPC, robust FL, input validation, abuse monitoring | Stronger security usually increases cost and complexity |
 | Colluding parties | Some parties may combine their views | Threshold MPC, secure aggregation with dropout thresholds, DP, audit controls | Write the exact collusion threshold; do not imply "no collusion" by silence |
 | Curious platform operator | The cloud, clean-room, or model-service operator may inspect data | HE, MPC, TEEs with attestation | TEEs shift trust to hardware, firmware, supply chain, and attestation |

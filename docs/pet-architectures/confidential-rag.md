@@ -1,4 +1,21 @@
+---
+description: "Confidential RAG: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Confidential RAG
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Queries and retrieved context within the attested runtime, plus document access boundaries. |
+| Adversary | Infrastructure operators outside the TEE and users requesting unauthorized documents. |
+| Allowed output | Policy-checked answers and permitted citations to the authenticated user. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Retriever-visible queries, metadata, prompts outside the TEE, citations, answers, and logs. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Current permissions, verified attestation, minimized logs, and enforced output policy; see the assumption review below. |
+| Non-goals | Full prompt-injection defense, hallucination safety, endpoint security, or side channels outside the platform threat model. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -9,6 +26,8 @@ Answer questions over sensitive documents while reducing exposure of queries, re
 User, identity provider, policy engine, retriever, confidential runtime, language model, document owner, platform operator, and auditor.
 
 ## Data Flow
+
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
 flowchart TD
@@ -24,6 +43,10 @@ flowchart TD
   G -->|answer with provenance| O[User output]
   T -->|minimal metadata| A[Audit log]
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -62,12 +85,14 @@ TEEs, remote attestation, access control, query minimization, redaction, logging
 
 | Add | Use when | New risk |
 | --- | --- | --- |
-| Differential privacy | Aggregate analytics over RAG usage or document access are published | Utility loss and budget accounting |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | Aggregate analytics over RAG usage or document access are published | Utility loss and budget accounting |
 | Redaction/minimization | Prompts or snippets contain secrets not needed for the answer | Redaction misses context or harms answer quality |
 | Segmented retrieval | Document domains have different sensitivity or owners | More policy complexity and recall risk |
 | HE or local inference | The model host must not see selected inference inputs | Limited model support or client-device constraints |
 
-## What This Does Not Protect Against
+<span id="what-this-does-not-protect-against"></span>
+
+## Does not protect
 
 - Incorrect document permissions.
 - Prompt injection in retrieved documents.
@@ -87,7 +112,7 @@ Bind attestation to model code and retrieval policy. Keep provenance visible, mi
 
 Confidential computing improves runtime protection but does not solve authorization, hallucination, output leakage, or bad retrieval policy.
 
-## Failure Modes
+## Failure modes
 
 Cross-tenant retrieval, leaked prompts, overbroad snippets, plaintext logs, weak attestation UX, unreviewed generated answers, and citations that reveal restricted document existence.
 

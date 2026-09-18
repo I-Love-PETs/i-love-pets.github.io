@@ -107,3 +107,59 @@
     min-width: 5.25rem;
   }
 }
+
+/* Give primary reading paths room to wrap, with contrast in both palettes. */
+.home-actions > p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.md-typeset .home-actions .md-button {
+  color: var(--md-typeset-color);
+  border-color: currentColor;
+}
+
+.md-typeset .home-actions .md-button--primary {
+  background: #455a64;
+  border-color: #455a64;
+  color: #fff;
+}
+
+.md-typeset .home-actions .md-button:hover,
+.md-typeset .home-actions .md-button:focus-visible {
+  background: var(--md-typeset-color);
+  border-color: var(--md-typeset-color);
+  color: var(--md-default-bg-color);
+}
+
+.md-typeset .home-actions .md-button:focus-visible {
+  outline: 0.15rem solid var(--md-typeset-a-color);
+  outline-offset: 0.15rem;
+}
+
+@media screen and (max-width: 44.984375em) {
+  /* Repository actions must not cover reading content or navigation on phones. */
+  .github-actions {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.75rem;
+    background: var(--md-default-bg-color);
+  }
+}
+
+.diagram-scroll {
+  overflow-x: auto;
+}
+
+.diagram-scroll:focus-visible {
+  outline: 0.1rem solid var(--md-typeset-a-color);
+  outline-offset: 0.1rem;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .diagram-scroll .mermaid {
+    min-width: 60rem;
+  }
+}

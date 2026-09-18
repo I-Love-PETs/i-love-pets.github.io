@@ -1,4 +1,10 @@
+---
+description: "Read worked PET decisions with explicit constraints, candidate designs, evaluation plans, and conditions that change the recommendation."
+---
+
 # Worked Decisions
+
+--8<-- "decision-guidance.md"
 
 !!! info "Review status"
     Last reviewed: 2026-06-10

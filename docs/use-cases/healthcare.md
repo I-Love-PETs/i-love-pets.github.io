@@ -1,5 +1,7 @@
 # Healthcare
 
+--8<-- "decision-guidance.md"
+
 Healthcare PET decisions must account for patient confidentiality, clinical utility, institutional governance, rare cohorts, and uneven data quality.
 
 ## Scenario Playbook
