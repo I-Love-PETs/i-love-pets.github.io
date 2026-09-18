@@ -55,6 +55,7 @@ python3 scripts/check_nav_coverage.py
 mkdocs build --strict --clean
 python3 scripts/check_rendered_shortcodes.py
 python3 scripts/check_site.py
+python3 scripts/check_release.py
 ```
 
 The Markdown check requires language tags on fenced code (MD040), forbids hard tabs (MD010), and requires a final newline (MD047). Other style rules remain off to preserve the guide's tables, Material admonitions, and existing formatting. MkDocs validates rendered Markdown links and anchors; the built-site check also catches missing local assets and broken 404 recovery links.
@@ -63,4 +64,31 @@ The Markdown check requires language tags on fenced code (MD040), forbids hard t
 
 MkDocs core generates `sitemap.xml` and `sitemap.xml.gz` from `site_url`; no sitemap plugin is needed. `docs/robots.txt` must point to that canonical sitemap. The error-page hook renders `docs/404.md` through `overrides/404.html` so GitHub Pages receives a root-aware, non-indexed `404.html`. It is intentionally absent from normal navigation and the sitemap. If the site URL changes, update the absolute recovery links in `docs/404.md` too.
 
-Mermaid uses the configured SuperFences renderer and JavaScript in `mkdocs.yml`. The `mkdocs-mermaid2-plugin` package is not needed. Check diagrams in a browser after changing that configuration.
+Mermaid uses the configured SuperFences renderer. `overrides/main.html` loads the
+pinned Mermaid script only when rendered page content contains a Mermaid fence,
+before Material initializes diagrams. Do not also add a global script or a Mermaid
+plugin. Material’s fallback loader would otherwise fetch a different major version.
+Check every diagram in a browser after changing the theme or renderer.
+
+## v1.0 content and browser review
+
+Use all six Decision framing fields from the pattern or architecture template,
+plus explicit Does not protect and Failure modes sections. Link terminology to
+stable glossary anchors and cite decision-critical claims near the claim.
+
+Shared editorial review text lives in `includes/decision-guidance.md`, outside
+`docs/`, and is expanded by the already-supported Snippets extension. Its relative
+links assume a page one section below `docs/`. Keep keys, thresholds, hardware,
+privacy units, and other page-specific assumptions local. Missing includes fail
+the strict build. The source-link checker covers page-local links; the strict
+build and built-site checker also validate expanded include links.
+
+The Material override emits text-based OpenGraph and Twitter summary metadata.
+Author a `description` in front matter for important landing and decision pages;
+other pages fall back to the site description. No social-image generation service
+or additional plugin is required.
+
+Before release, review mobile (390 px) and desktop (1440 px), light and dark mode,
+keyboard navigation and focus, table overflow, and all Mermaid diagrams. Record
+results and browser limitations in the PR. The automated release validator checks
+content structure and rendered publishing artifacts, not visual usability.
