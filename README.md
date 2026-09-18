@@ -50,7 +50,11 @@ See the Project Standards section in the site for the full evidence and review p
 
 ## Run Locally
 
+Use Python 3.12, matching CI.
+
 ```bash
+python3.12 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 mkdocs serve
 ```
@@ -60,8 +64,10 @@ Then open <http://127.0.0.1:8000>.
 ## Build
 
 ```bash
-mkdocs build
+mkdocs build --strict --clean
 ```
+
+For the complete PR checks, see [Contributing](CONTRIBUTING.md#validate-before-opening-a-pr).
 
 ## Deploy
 

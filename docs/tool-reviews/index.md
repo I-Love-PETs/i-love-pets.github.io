@@ -1,5 +1,14 @@
 # Tool Reviews
 
+!!! info "Review status"
+    Last reviewed: 2026-09-16
+
+    Evidence level: Expert judgment
+
+    Source quality: Unsourced / illustrative
+
+    Snapshot scope: Editorial guide to the sample reviews. Individual reviews retain their own source-review dates.
+
 These pages are **worked examples** of the project's [tool evaluation framework](../contributing/tool-evaluation-framework.md). They are not an awesome list and not endorsements. Each one applies the [tool review template](../contributing/tool-template.md) to a single, defensible representative tool from one PET family, so you can see how the framework turns "this tool exists" into "this tool fits (or does not fit) a concrete architecture, threat model, and benchmark."
 
 ## How to read these
@@ -17,10 +26,11 @@ Each review ends with a fit label (strong / promising / narrow / poor / unknown)
 
 ## Evidence levels
 
-Reviews are dated and labelled with the strongest evidence the reviewer could stand behind:
+Reviews use the [Evidence Policy](../project-standards/evidence-policy.md). Evidence levels apply to individual claims; a supported claim does not validate every claim on a page. Source quality is recorded separately:
 
 | Level | Meaning |
 | --- | --- |
+| Measured | A benchmark states its workload, environment, date, and limits. |
 | Deployment-backed | Named, maturity-labelled production deployments support the claim. |
 | Literature-backed | A specification, security proof, or peer-reviewed paper supports the claim. |
 | Expert judgment | A reasoned conclusion drawn from documentation and design, without independent measurement. |

@@ -1,6 +1,18 @@
 # Benchmark Scorecards
 
+!!! info "Review status"
+    Last reviewed: 2026-09-16
+
+    Evidence level: Expert judgment
+
+    Source quality: Unsourced / illustrative
+
+    Snapshot scope: Editorial measurement guidance. Validate the method and acceptance thresholds for your workload; examples are illustrative.
+
 These scorecards are starting templates. A good benchmark should make a team more willing to reject the wrong PET, not only more confident in the chosen one.
+
+!!! note "Calibrate before comparing"
+    These tables are reporting templates. Any qualitative rating you add is a directional heuristic until supported by evidence. Agree on the threat model, baseline, workload, and acceptance thresholds first. Compare privacy, utility, and cost separately; a good average score cannot compensate for a failed privacy requirement. See [calibration guidance](../pet-compass/choose-a-pet.md#calibrate-the-shortlist).
 
 ## Private RAG Scorecard
 

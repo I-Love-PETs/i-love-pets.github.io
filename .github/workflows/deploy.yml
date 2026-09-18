@@ -30,8 +30,26 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Check Markdown
+        run: pymarkdown --disable-rules '*' --enable-rules MD010,MD040,MD047 scan -r docs README.md CONTRIBUTING.md
+
+      - name: Check internal Markdown links
+        run: python3 scripts/check_internal_links.py
+
+      - name: Check MkDocs navigation coverage
+        run: python3 scripts/check_nav_coverage.py
+
+      - name: Test built-site validator
+        run: python3 -m unittest discover -s tests
+
       - name: Build site
-        run: mkdocs build --clean
+        run: mkdocs build --strict --clean
+
+      - name: Check rendered shortcode output
+        run: python3 scripts/check_rendered_shortcodes.py
+
+      - name: Check built links and SEO artifacts
+        run: python3 scripts/check_site.py
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

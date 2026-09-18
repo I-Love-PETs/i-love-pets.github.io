@@ -1,5 +1,14 @@
 # Benchmark Wishlist
 
+!!! info "Review status"
+    Last reviewed: 2026-09-16
+
+    Evidence level: Expert judgment
+
+    Source quality: Unsourced / illustrative
+
+    Snapshot scope: Proposed benchmark questions, not completed evaluations.
+
 These are benchmark projects that would materially improve PET decision support. Each should produce reproducible code, documented assumptions, and negative results.
 
 ## Private RAG Evaluation

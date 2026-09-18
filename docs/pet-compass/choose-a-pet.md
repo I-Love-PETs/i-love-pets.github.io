@@ -22,7 +22,7 @@ Use this page to create a shortlist. Then write the threat model, benchmark the 
 
 ## Tradeoff Scoring
 
-Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the score when your workload evidence disagrees.
+These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong or easy. They are ordinal editorial estimates, not measured distances between PETs or a universal ranking.
 
 *(Evidence: Expert judgment, 2026-06-10 — scores are editorial estimates across representative workloads; no single benchmark covers all PETs on a common task. Treat as a starting shortlist, not a precise ranking.)*
 
@@ -37,6 +37,15 @@ Scores are directional: 1 is weak or expensive, 5 is strong or easy. Change the 
 | PSI | 5 for nonmatches | 2 | 5 | 4 | 3 | Is revealing the match set allowed? |
 | Synthetic data | 1-4 | 2-5 | 2-4 | 3 | 3 | How will you test memorization and downstream utility? |
 | Clean room | 2-4 | 2 | 4 | 3 | 3 | Is the main problem governance rather than cryptography? |
+
+### Calibrate the shortlist
+
+1. Write the protected asset, adversary, allowed output, and trust assumptions. Reject options that cannot meet those requirements before comparing scores.
+2. Set workload-specific limits, such as p95 latency, tolerated utility loss, and monthly cost. Benchmark each candidate against the same baseline, data shape, and operating conditions.
+3. Replace an editorial score only when you can attach the result, environment, date, and evidence level. Keep untested dimensions marked **Needs evidence**.
+4. If you weight the dimensions, record why and vary the weights to check whether the recommendation changes. Do not average away a failed privacy requirement or treat a one-point difference as a measured advantage.
+
+*(Evidence: Expert judgment. Source quality: Unsourced / illustrative. Reviewed 2026-09-16. This calibration procedure is editorial guidance; workload measurements may change the shortlist.)*
 
 ## Scenario Recommendations
 
