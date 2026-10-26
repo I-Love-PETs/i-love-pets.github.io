@@ -28,6 +28,8 @@ class ReleaseBuildTests(unittest.TestCase):
         (snippets / 'diagram.md').write_text('```mermaid\ngraph LR\n A --> B\n```\n')
         pages = {
             'index.md': '# Welcome\n',
+            'pet-patterns/index.md': '---\ntitle: Pattern catalog\n---\n# Pattern catalog\n',
+            'pet-architectures/index.md': '---\ntitle: Architecture catalog\n---\n# Architecture catalog\n',
             'use-cases/missing.md': '# Incomplete use case\n',
             'tool-reviews/missing.md': '# Incomplete tool review\n\n## Protected Assets\n\n## Threat Model Support\n\n## When Not To Use\n',
             'one/index.md': '---\ntitle: First overview\n---\n# First overview\n',
@@ -101,3 +103,8 @@ class ReleaseBuildTests(unittest.TestCase):
         for name in ('use-cases/missing.md', 'tool-reviews/missing.md'):
             with self.subTest(name=name):
                 self.assertTrue(any(error.startswith(name + ':') and 'missing Failure Modes' in error for error in self.errors))
+
+    def test_catalog_indexes_do_not_require_design_sections(self):
+        for name in ('pet-patterns/index.md', 'pet-architectures/index.md'):
+            with self.subTest(name=name):
+                self.assertFalse([error for error in self.errors if error.startswith(name + ':')])

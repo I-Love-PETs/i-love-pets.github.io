@@ -109,7 +109,7 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
         if relative.as_posix() == "404.md":
             continue
         text = source.read_text(encoding="utf-8")
-        if relative.parts[0] in ("pet-patterns", "pet-architectures"):
+        if relative.parts[0] in ("pet-patterns", "pet-architectures") and source.stem != "index":
             failures.extend(f"{relative}: {error}" for error in check_structure(text))
         if relative.parts[0] in LIMIT_HEADINGS and source.stem != "index":
             failures.extend(f"{relative}: {error}" for error in check_headings(text, LIMIT_HEADINGS[relative.parts[0]]))
