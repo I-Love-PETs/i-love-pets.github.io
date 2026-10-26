@@ -15,7 +15,6 @@ else:
     from check_site import Page, documentation_pages
 
 FIELDS = ("Protected asset", "Adversary", "Allowed output", "Leakage surface", "Assumptions", "Non-goals")
-MERMAID = "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"
 PLACEHOLDER = re.compile(r"\b(?:TODO|TBD|FIXME|INSERT HERE)\b|\[Your Name\]|202\d-XX-XX|^# (?:(?:Pattern|Architecture|Tool|Problem) Name|Use Case)$", re.M)
 
 LIMIT_HEADINGS = {
@@ -32,7 +31,7 @@ FRAMING_PROMPTS = (
 )
 
 
-def check_metadata(text: str, canonical: str, diagrams: bool) -> list[str]:
+def check_metadata(text: str, canonical: str, diagrams: bool, mermaid_url: str) -> list[str]:
     page = Page(text)
     failures = []
     for key in ("og:type", "og:site_name", "og:title", "og:description", "og:url", "twitter:card", "twitter:title", "twitter:description"):
@@ -48,11 +47,11 @@ def check_metadata(text: str, canonical: str, diagrams: bool) -> list[str]:
     if page.meta["og:title"] != page.meta["twitter:title"] or page.meta["og:description"] != page.meta["twitter:description"]:
         failures.append("social titles and descriptions must agree")
     scripts = [src for src in page.scripts if "mermaid" in src.lower()]
-    if scripts != ([MERMAID] if diagrams else []):
+    if scripts != ([mermaid_url] if diagrams else []):
         failures.append("load pinned Mermaid exactly once, only on diagram pages")
     if diagrams:
         bundles = [i for i, src in enumerate(page.scripts) if "/bundle." in src]
-        if not bundles or MERMAID not in page.scripts or page.scripts.index(MERMAID) > bundles[0]:
+        if not bundles or mermaid_url not in page.scripts or page.scripts.index(mermaid_url) > bundles[0]:
             failures.append("Mermaid must precede Material's renderer")
     return failures
 
@@ -105,7 +104,7 @@ def check_release(config) -> list[str]:
             if title in titles:
                 failures.append(f"{relative}: repeated og:title (also used by {titles[title]})")
             titles[title] = relative
-        failures.extend(f"{relative}: {error}" for error in check_metadata(html, canonical, Page(html).has_mermaid))
+        failures.extend(f"{relative}: {error}" for error in check_metadata(html, canonical, Page(html).has_mermaid, config.extra["mermaid_script"]))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture"):

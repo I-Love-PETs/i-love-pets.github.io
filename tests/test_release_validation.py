@@ -1,8 +1,12 @@
 """Regression cases for release checks that could otherwise pass silently."""
 import unittest
 from pathlib import Path
+from mkdocs.config import load_config
 from scripts.check_site import Page
-from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, check_metadata, check_structure, check_headings
+from scripts.check_release import FIELDS, PLACEHOLDER, check_metadata, check_structure, check_headings
+
+
+MERMAID = load_config(config_file=str(Path(__file__).parents[1] / "mkdocs.yml")).extra["mermaid_script"]
 
 
 class ReleaseValidationTests(unittest.TestCase):
@@ -19,22 +23,22 @@ class ReleaseValidationTests(unittest.TestCase):
 
     def test_valid_pages_and_escaping(self):
         for diagrams in (False, True):
-            self.assertEqual(check_metadata(self.page(diagrams), 'https://example.org/a/', diagrams), [])
+            self.assertEqual(check_metadata(self.page(diagrams), 'https://example.org/a/', diagrams, MERMAID), [])
         self.assertEqual(Page(self.page()).meta['og:title'], ['Keys & "outputs"'])
 
     def test_wrong_canonical_and_duplicate_metadata(self):
         text = self.page() + '<meta name="og:title" content="duplicate">'
-        errors = check_metadata(text, 'https://example.org/b/', False)
+        errors = check_metadata(text, 'https://example.org/b/', False, MERMAID)
         self.assertTrue(any('duplicate og:title' in error for error in errors))
         self.assertTrue(any('canonical' in error for error in errors))
 
     def test_missing_and_global_mermaid(self):
-        self.assertTrue(check_metadata(self.page(), 'https://example.org/a/', True))
-        self.assertTrue(check_metadata(self.page(True), 'https://example.org/a/', False))
+        self.assertTrue(check_metadata(self.page(), 'https://example.org/a/', True, MERMAID))
+        self.assertTrue(check_metadata(self.page(True), 'https://example.org/a/', False, MERMAID))
 
     def test_mermaid_must_precede_material(self):
         text = self.page() + f'<script src="{MERMAID}"></script>'
-        self.assertTrue(any('precede' in error for error in check_metadata(text, 'https://example.org/a/', True)))
+        self.assertTrue(any('precede' in error for error in check_metadata(text, 'https://example.org/a/', True, MERMAID)))
 
     def test_fields_outside_framing_do_not_count(self):
         text = '## Decision framing\n\n## Does not protect\n| Protected asset | Records |\n\n## Failure modes\n'
@@ -63,7 +67,7 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_generic_social_titles(self):
         for title in ('Home', 'Overview'):
             text = self.page().replace('Keys &amp; &quot;outputs&quot;', title)
-            self.assertTrue(any('title' in error for error in check_metadata(text, 'https://example.org/a/', False)))
+            self.assertTrue(any('title' in error for error in check_metadata(text, 'https://example.org/a/', False, MERMAID)))
 
     def test_limits_headings_ignore_case_and_require_whole_heading(self):
         self.assertEqual(check_headings('## failure modes\n', ('Failure Modes',)), [])

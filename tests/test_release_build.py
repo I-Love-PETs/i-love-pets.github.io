@@ -62,7 +62,8 @@ class ReleaseBuildTests(unittest.TestCase):
             site_dir=str(cls.site), site_url='https://example.org/guide/',
             nav=[{'Home': 'index.md'}, {'One': [{'Overview': 'one/index.md'}]},
                  {'Two': [{'Overview': 'two/index.md'}]}],
-            hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md', extra_css=[], extra_javascript=[],
+            hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md',
+            extra={'mermaid_script': 'https://cdn.example/mermaid@10.9.1/mermaid.min.js'}, extra_css=[], extra_javascript=[],
             validation={'nav': {'omitted_files': 'ignore'}},
         )
         cls.config.mdx_configs['pymdownx.snippets']['base_path'] = [str(snippets)]
@@ -130,3 +131,6 @@ class ReleaseBuildTests(unittest.TestCase):
         (site / '404.html').write_text('<meta name="robots" content="noindex"><h1>Page not found</h1>')
         (site / 'robots.txt').write_text(f'Sitemap: {config.site_url}sitemap.xml\n')
         self.assertEqual(check_site(site, config.site_url, config), [])
+
+    def test_mermaid_url_comes_from_config(self):
+        self.assertIn(self.config.extra['mermaid_script'], Page(self.built('tilde/index.html')).scripts)

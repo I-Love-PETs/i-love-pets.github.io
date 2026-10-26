@@ -20,7 +20,7 @@
   {# Keep the existing Mermaid version. Load only on pages with diagrams and
      before Material's renderer, which otherwise fetches an unpinned version. #}
   {% if page and page.content | has_mermaid %}
-    <script src="https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"></script>
+    <script src="{{ config.extra.mermaid_script | e }}"></script>
   {% endif %}
   {{ super() }}
 {% endblock %}

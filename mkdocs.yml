@@ -54,6 +54,9 @@ validation:
 plugins:
   - search
 
+extra:
+  mermaid_script: https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js
+
 extra_css:
   - assets/stylesheets/site-chrome.css
 
