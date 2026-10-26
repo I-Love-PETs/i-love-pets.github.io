@@ -31,8 +31,8 @@ FRAMING_PROMPTS = (
 )
 
 
-def check_metadata(text: str, canonical: str, diagrams: bool, mermaid_url: str) -> list[str]:
-    page = Page(text)
+def check_metadata(text: str | Page, canonical: str, diagrams: bool, mermaid_url: str) -> list[str]:
+    page = text if isinstance(text, Page) else Page(text)
     failures = []
     for key in ("og:type", "og:site_name", "og:title", "og:description", "og:url", "twitter:card", "twitter:title", "twitter:description"):
         values = page.meta[key]
@@ -104,7 +104,7 @@ def check_release(config) -> list[str]:
             if title in titles:
                 failures.append(f"{relative}: repeated og:title (also used by {titles[title]})")
             titles[title] = relative
-        failures.extend(f"{relative}: {error}" for error in check_metadata(html, canonical, Page(html).has_mermaid, config.extra["mermaid_script"]))
+        failures.extend(f"{relative}: {error}" for error in check_metadata(metadata, canonical, metadata.has_mermaid, config.extra["mermaid_script"]))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture"):

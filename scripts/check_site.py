@@ -30,7 +30,7 @@ class Page(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         values = dict(attrs)
-        if "mermaid" in values.get("class", "").split():
+        if "mermaid" in (values.get("class") or "").split():
             self.has_mermaid = True
         if tag == "meta":
             key = values.get("property") or values.get("name")
