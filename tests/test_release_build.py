@@ -5,6 +5,7 @@ import re
 import shutil
 import tempfile
 import unittest
+from urllib.parse import urljoin
 
 from mkdocs.commands.build import build
 from mkdocs.config import load_config
@@ -26,10 +27,14 @@ class ReleaseBuildTests(unittest.TestCase):
         cls.docs.mkdir()
         snippets = root / 'includes'
         snippets.mkdir()
+        shutil.copy(ROOT / 'includes/decision-guidance.md', snippets)
         (snippets / 'diagram.md').write_text('```mermaid\ngraph LR\n A --> B\n```\n')
         pages = {
             'index.md': '# Welcome\n',
             'excluded.md': '# Excluded draft\n',
+            'guidance.md': '# Root guidance\n\n--8<-- "decision-guidance.md"\n',
+            'section/guidance.md': '# Section guidance\n\n--8<-- "decision-guidance.md"\n',
+            'deep/nested/guidance.md': '# Deep guidance\n\n--8<-- "decision-guidance.md"\n',
             'pet-patterns/index.md': '---\ntitle: Pattern catalog\n---\n# Pattern catalog\n',
             'pet-architectures/index.md': '---\ntitle: Architecture catalog\n---\n# Architecture catalog\n',
             'use-cases/missing.md': '# Incomplete use case\n',
@@ -53,7 +58,7 @@ class ReleaseBuildTests(unittest.TestCase):
         (cls.docs / 'contributing').mkdir()
         for name in ('pattern', 'architecture', 'tool', 'use-case'):
             shutil.copy(ROOT / f'docs/contributing/{name}-template.md', cls.docs / 'contributing')
-        for name in ('project-standards/evidence-policy.md', 'start-here/glossary.md'):
+        for name in ('project-standards/evidence-policy.md', 'start-here/glossary.md', 'benchmarks/scorecards.md'):
             path = cls.docs / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text('# ' + path.stem + '\n')
@@ -64,7 +69,7 @@ class ReleaseBuildTests(unittest.TestCase):
                  {'Two': [{'Overview': 'two/index.md'}]}],
             hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md',
             extra={'mermaid_script': 'https://cdn.example/mermaid@10.9.1/mermaid.min.js'}, extra_css=[], extra_javascript=[],
-            validation={'nav': {'omitted_files': 'ignore'}},
+            validation={'nav': {'omitted_files': 'ignore'}, 'links': {'absolute_links': 'relative_to_docs'}},
         )
         cls.config.mdx_configs['pymdownx.snippets']['base_path'] = [str(snippets)]
         build(cls.config)
@@ -121,7 +126,7 @@ class ReleaseBuildTests(unittest.TestCase):
             site_dir=str(self.site.parent / 'flat-site'), site_url=self.config.site_url,
             use_directory_urls=False, exclude_docs='/excluded.md',
             nav=self.config.nav, hooks=[str(ROOT / 'scripts/check_site.py')],
-            extra_css=[], extra_javascript=[], validation={'nav': {'omitted_files': 'ignore'}},
+            extra_css=[], extra_javascript=[], validation={'nav': {'omitted_files': 'ignore'}, 'links': {'absolute_links': 'relative_to_docs'}},
         )
         config.mdx_configs['pymdownx.snippets']['base_path'] = self.config.mdx_configs['pymdownx.snippets']['base_path']
         build(config)
@@ -134,3 +139,12 @@ class ReleaseBuildTests(unittest.TestCase):
 
     def test_mermaid_url_comes_from_config(self):
         self.assertIn(self.config.extra['mermaid_script'], Page(self.built('tilde/index.html')).scripts)
+
+    def test_guidance_links_work_at_any_depth(self):
+        for target in ('guidance/index.html', 'section/guidance/index.html', 'deep/nested/guidance/index.html'):
+            with self.subTest(target=target):
+                page = Page(self.built(target))
+                links = [urljoin(page.canonical[0], link) for link in page.targets
+                         if 'evidence-policy' in link or 'scorecards' in link]
+                self.assertEqual(set(links), {self.config.site_url + 'project-standards/evidence-policy/',
+                                              self.config.site_url + 'benchmarks/scorecards/'})

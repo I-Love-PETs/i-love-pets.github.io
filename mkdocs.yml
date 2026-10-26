@@ -37,6 +37,9 @@ theme:
 exclude_docs: |
   /404.md
 
+watch:
+  - includes
+
 hooks:
   - scripts/error_page.py
   - scripts/check_site.py
@@ -47,6 +50,7 @@ validation:
     not_found: warn
     absolute_links: warn
   links:
+    absolute_links: relative_to_docs
     not_found: warn
     anchors: warn
     unrecognized_links: warn
