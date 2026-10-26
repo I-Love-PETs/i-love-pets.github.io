@@ -84,7 +84,7 @@ Federated learning, DP-SGD or noisy aggregate updates, privacy accounting, optio
 | Confidential training | Training infrastructure is outside the main trust boundary | Attestation and hardware trust become part of the claim |
 | Release governance | Multiple models, metrics, or synthetic artifacts are emitted | Requires a complete release ledger |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

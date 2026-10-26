@@ -63,7 +63,7 @@ Multiple parties need shared statistics while keeping raw data local or inside c
 - DP can bound the contribution of a privacy unit to released outputs.
 - Thresholds and output review reduce small-cell disclosure.
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

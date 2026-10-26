@@ -90,7 +90,7 @@ TEEs, remote attestation, access control, query minimization, redaction, logging
 | Segmented retrieval | Document domains have different sensitivity or owners | More policy complexity and recall risk |
 | HE or local inference | The model host must not see selected inference inputs | Limited model support or client-device constraints |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

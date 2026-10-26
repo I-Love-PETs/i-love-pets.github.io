@@ -85,7 +85,7 @@ Synthetic data generation, optional DP, minimization, memorization tests, neares
 | Restricted enclave | High-fidelity individual-level analysis is required | Access governance becomes the main control |
 | Output review | Candidate data or documentation may reveal rare facts | More release latency and reviewer burden |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

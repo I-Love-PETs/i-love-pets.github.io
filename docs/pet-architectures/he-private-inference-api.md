@@ -87,7 +87,7 @@ On small screens, scroll the diagram horizontally to read the labels.
 | Output policy | Predictions are themselves sensitive | Application governance becomes part of the privacy claim |
 | Rate limiting | Repeated queries can extract model behavior or sensitive outputs | Abuse controls may reveal usage metadata |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

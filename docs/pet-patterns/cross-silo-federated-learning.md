@@ -67,7 +67,7 @@ Cross-silo FL trains a shared model from local updates. It reduces raw-data move
 - DP can bound individual contribution to the released model when correctly configured.
 - TEEs can protect orchestration or aggregation under hardware trust assumptions.
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

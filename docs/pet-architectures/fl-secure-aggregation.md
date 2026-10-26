@@ -90,7 +90,7 @@ Federated learning, secure aggregation, participant authentication, optional DP,
 | TEEs for orchestration | Coordinator code should be constrained by attestation | Hardware trust and side-channel assumptions |
 | Output review | Final model or metrics may leak membership | Requires release gates and model-audit ownership |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

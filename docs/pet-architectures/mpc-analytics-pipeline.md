@@ -86,7 +86,7 @@ MPC, participant authentication, schema validation, query approval, output thres
 | Clean-room workflow | Analysts need governed query submission and review | Platform trust and policy bypasses |
 | TEEs | Protocol coordination or preprocessing needs confidential execution | Hardware trust and attestation |
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

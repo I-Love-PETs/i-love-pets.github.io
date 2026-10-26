@@ -65,7 +65,7 @@ A fraud model provider wants banks to send transaction features for scoring with
 - Client-side inference keeps inputs local but exposes more model material.
 - Output controls can reduce leakage from returned predictions.
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

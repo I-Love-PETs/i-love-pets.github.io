@@ -69,7 +69,7 @@ Private LLM fine-tuning adapts a model using sensitive data while reducing expos
 - TEEs can reduce training-time exposure under hardware trust assumptions.
 - Redaction and minimization reduce the amount of sensitive data entering training.
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 

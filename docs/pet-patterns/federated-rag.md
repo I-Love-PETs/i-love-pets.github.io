@@ -68,7 +68,7 @@ Federated RAG answers questions across distributed or separately controlled know
 - Redaction and output policy can reduce answer leakage.
 - Provenance can make access decisions inspectable.
 
-<span id="what-this-does-not-protect-against"></span>
+<div id="what-this-does-not-protect-against"></div>
 
 ## Does not protect
 
