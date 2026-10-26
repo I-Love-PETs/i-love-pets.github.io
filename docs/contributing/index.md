@@ -68,9 +68,12 @@ Use the templates in this section for new patterns, use cases, architectures, Fi
 ## v1.0 review gates
 
 Use the [pattern](pattern-template.md), [architecture](architecture-template.md),
-[tool](tool-template.md), or [use-case](use-case-template.md) template. Include all
-six Decision framing fields, explicit protection limits, failure modes, and the
-existing [evidence labels](../project-standards/evidence-policy.md).
+[tool](tool-template.md), or [use-case](use-case-template.md) template. Pattern and
+architecture pages require all six Decision framing fields, Does not protect,
+and Failure modes sections. Tool reviews and use cases keep the limits sections
+from their own templates: Protected Assets, Threat Model Support, When Not To Use,
+and Failure Modes for tool reviews; Failure Modes for use cases. Use the existing
+[evidence labels](../project-standards/evidence-policy.md) for all page types.
 
 Run the commands in the repository’s
 [CONTRIBUTING.md](https://github.com/I-Love-PETs/i-love-pets.github.io/blob/main/CONTRIBUTING.md)

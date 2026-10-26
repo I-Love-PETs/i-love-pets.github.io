@@ -72,8 +72,11 @@ Check every diagram in a browser after changing the theme or renderer.
 
 ## v1.0 content and browser review
 
-Use all six Decision framing fields from the pattern or architecture template,
-plus explicit Does not protect and Failure modes sections. Link terminology to
+Pattern and architecture pages require all six Decision framing fields, plus
+explicit Does not protect and Failure modes sections. Tool reviews and use cases
+keep the limits sections from their own templates: Protected Assets, Threat Model
+Support, When Not To Use, and Failure Modes for tool reviews; Failure Modes for
+use cases. Link terminology to
 stable glossary anchors and cite decision-critical claims near the claim.
 
 Shared editorial review text lives in `includes/decision-guidance.md`, outside

@@ -5,17 +5,6 @@ Use this template when the page starts from a domain need, not from a PET.
 ```markdown
 # Use Case
 
-## Decision framing
-
-| Field | Scope |
-| --- | --- |
-| Protected asset | Name the data or artifacts to protect. |
-| Adversary | Name capabilities, corruption model, and collusion threshold. |
-| Allowed output | Name the result, recipients, and permitted query frequency. |
-| Leakage surface | Include outputs, intermediates, metadata, logs, and side channels. |
-| Assumptions | State concrete conditions on keys, hardware, parties, and accounting. |
-| Non-goals | State excluded attacks and properties; do not imply complete privacy. |
-
 ## Evidence and review
 
 State Last reviewed and the scope of the review. Use the existing Evidence Policy
@@ -55,11 +44,7 @@ What constraints would make another PET better?
 
 Compare privacy, utility, cost, latency, governance, and maturity.
 
-## Does not protect
-
-Name remaining output leakage, excluded adversaries, and controls outside this design.
-
-## Failure modes
+## Failure Modes
 
 What can go wrong even if the PET works?
 

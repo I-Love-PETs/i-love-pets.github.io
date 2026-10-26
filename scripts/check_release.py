@@ -21,6 +21,10 @@ FIELDS = ("Protected asset", "Adversary", "Allowed output", "Leakage surface", "
 MERMAID = "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"
 PLACEHOLDER = re.compile(r"\b(?:TODO|TBD|FIXME|INSERT HERE)\b|\[Your Name\]|202\d-XX-XX|^# (?:(?:Pattern|Architecture|Tool|Problem) Name|Use Case)$", re.M)
 
+LIMIT_HEADINGS = {
+    "tool-reviews": ("Protected Assets", "Threat Model Support", "When Not To Use", "Failure Modes"),
+    "use-cases": ("Failure Modes",),
+}
 FRAMING_PROMPTS = (
     "Name the data or artifacts to protect.",
     "Name capabilities, corruption model, and collusion threshold.",
@@ -92,6 +96,11 @@ def check_structure(text: str, allow_placeholders: bool = False) -> list[str]:
     return failures
 
 
+def check_headings(text: str, headings: tuple[str, ...]) -> list[str]:
+    return [f"missing {heading} section" for heading in headings
+            if not re.search(r"^##[ \t]+" + re.escape(heading) + r"[ \t]*$", text, re.M | re.I)]
+
+
 def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
     failures = []
     titles = {}
@@ -102,6 +111,8 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
         text = source.read_text(encoding="utf-8")
         if relative.parts[0] in ("pet-patterns", "pet-architectures"):
             failures.extend(f"{relative}: {error}" for error in check_structure(text))
+        if relative.parts[0] in LIMIT_HEADINGS and source.stem != "index":
+            failures.extend(f"{relative}: {error}" for error in check_headings(text, LIMIT_HEADINGS[relative.parts[0]]))
         if relative.parts[0] != "contributing" and PLACEHOLDER.search(text):
             failures.append(f"{relative}: unresolved placeholder marker")
         if source.stem == "index":
@@ -126,9 +137,12 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
         failures.extend(f"{relative}: {error}" for error in check_metadata(html, expected, Page(html).has_mermaid))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
-    for name in ("pattern", "architecture", "tool", "use-case"):
+    for name in ("pattern", "architecture"):
         template = docs / "contributing" / f"{name}-template.md"
         failures.extend(f"{template}: {error}" for error in check_structure(template.read_text(encoding="utf-8"), allow_placeholders=True))
+    for name, section in (("tool", "tool-reviews"), ("use-case", "use-cases")):
+        template = docs / "contributing" / f"{name}-template.md"
+        failures.extend(f"{template}: {error}" for error in check_headings(template.read_text(encoding="utf-8"), LIMIT_HEADINGS[section]))
     return failures
 
 

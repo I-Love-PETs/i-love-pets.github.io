@@ -5,17 +5,6 @@ Use this template when reviewing a PET tool, library, platform, or service. Do n
 ```markdown
 # Tool Name
 
-## Decision framing
-
-| Field | Scope |
-| --- | --- |
-| Protected asset | Name the data or artifacts to protect. |
-| Adversary | Name capabilities, corruption model, and collusion threshold. |
-| Allowed output | Name the result, recipients, and permitted query frequency. |
-| Leakage surface | Include outputs, intermediates, metadata, logs, and side channels. |
-| Assumptions | State concrete conditions on keys, hardware, parties, and accounting. |
-| Non-goals | State excluded attacks and properties; do not imply complete privacy. |
-
 ## Evidence and review
 
 State Last reviewed and the scope of the review. Use the existing Evidence Policy
@@ -72,11 +61,7 @@ What should a reader measure before adopting this tool?
 
 Setup, deployment, keys, logging, monitoring, upgrades, debugging, and failure recovery.
 
-## Does not protect
-
-Name remaining output leakage, excluded adversaries, and controls outside this design.
-
-## Failure modes
+## Failure Modes
 
 How can users misuse the tool or overclaim what it provides?
 

@@ -1,7 +1,7 @@
 """Regression cases for release checks that could otherwise pass silently."""
 import unittest
 from pathlib import Path
-from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, Metadata, check_metadata, check_structure
+from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, Metadata, check_metadata, check_structure, check_headings
 
 
 class ReleaseValidationTests(unittest.TestCase):
@@ -63,3 +63,7 @@ class ReleaseValidationTests(unittest.TestCase):
         for title in ('Home', 'Overview'):
             text = self.page().replace('Keys &amp; &quot;outputs&quot;', title)
             self.assertTrue(any('title' in error for error in check_metadata(text, 'https://example.org/a/', False)))
+
+    def test_limits_headings_ignore_case_and_require_whole_heading(self):
+        self.assertEqual(check_headings('## failure modes\n', ('Failure Modes',)), [])
+        self.assertTrue(check_headings('## Failure Modes Elsewhere\n', ('Failure Modes',)))

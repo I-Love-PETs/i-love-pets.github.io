@@ -28,6 +28,8 @@ class ReleaseBuildTests(unittest.TestCase):
         (snippets / 'diagram.md').write_text('```mermaid\ngraph LR\n A --> B\n```\n')
         pages = {
             'index.md': '# Welcome\n',
+            'use-cases/missing.md': '# Incomplete use case\n',
+            'tool-reviews/missing.md': '# Incomplete tool review\n\n## Protected Assets\n\n## Threat Model Support\n\n## When Not To Use\n',
             'one/index.md': '---\ntitle: First overview\n---\n# First overview\n',
             'two/index.md': '---\ntitle: Second overview\n---\n# Second overview\n',
             'tilde.md': '# Tilde diagram\n\n~~~mermaid\ngraph LR\n A --> B\n~~~\n',
@@ -94,3 +96,8 @@ class ReleaseBuildTests(unittest.TestCase):
         page = Metadata(self.built('bare/index.html'))
         self.assertEqual(page.meta['og:description'], [self.config.site_description])
         self.assertEqual(page.meta['og:title'], ['Bare metadata - ' + self.config.site_name])
+
+    def test_missing_limits_headings_rejected(self):
+        for name in ('use-cases/missing.md', 'tool-reviews/missing.md'):
+            with self.subTest(name=name):
+                self.assertTrue(any(error.startswith(name + ':') and 'missing Failure Modes' in error for error in self.errors))
