@@ -157,9 +157,3 @@
   outline: 0.1rem solid var(--md-typeset-a-color);
   outline-offset: 0.1rem;
 }
-
-@media screen and (max-width: 44.984375em) {
-  .diagram-scroll .mermaid {
-    min-width: 60rem;
-  }
-}

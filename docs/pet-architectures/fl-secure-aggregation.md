@@ -30,6 +30,7 @@ Participants, coordinator, model owner, secure-aggregation service, auditors, an
 <div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   I[Participant registry] -->|identity + eligibility| C[Coordinator]
   K[Key setup] -->|round keys| A

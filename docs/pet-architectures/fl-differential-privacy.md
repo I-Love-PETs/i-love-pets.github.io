@@ -30,6 +30,7 @@ Participants, coordinator, model owner, privacy accountant, auditors, and model 
 <div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   C[Coordinator] -->|model + clipping/noise config| A[Participant sites]
   A -->|clipped updates or gradients| S[Optional secure aggregation]

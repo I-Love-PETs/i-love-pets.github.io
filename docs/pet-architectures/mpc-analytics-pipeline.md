@@ -30,6 +30,7 @@ Data-contributing parties, protocol participants, query requester, output review
 <div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   Q[Query requester] -->|approved query| P[Policy review]
   P -->|schema + protocol spec| V[Schema validator]

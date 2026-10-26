@@ -30,6 +30,7 @@ User, identity provider, policy engine, retriever, confidential runtime, languag
 <div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart TD
   U[User] -->|query + identity| I[Identity provider]
   I -->|claims + session| P[Policy engine]

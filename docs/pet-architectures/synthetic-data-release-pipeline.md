@@ -30,6 +30,7 @@ Data owner, synthetic-data generator, privacy reviewer, utility evaluator, relea
 <div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
 
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   R[Raw data] --> M[Minimization + preprocessing]
   M --> G[Synthetic generator]
