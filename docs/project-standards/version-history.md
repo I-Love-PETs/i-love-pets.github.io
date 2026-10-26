@@ -5,7 +5,7 @@ description: "Read the v1.0 definition of done, release-readiness checks, earlie
 # Version History
 
 !!! info "Release status"
-    Status: v1.0 release candidate; publication follows review and merge
+    Status: v1.0 published decision framework
     Last updated: 2026-09-18
     Scope: v1.0 acceptance criteria, shipped milestones, and explicit evidence follow-ups.
 

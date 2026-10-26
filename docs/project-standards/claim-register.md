@@ -18,7 +18,7 @@ Status is re-evaluated on each editorial pass and dated on change.
 
 ## Highest Priority Claims
 
-| Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-06-17) |
+| Claim area | Current risk | Needed evidence | Target level | Current state | Status | Note (2026-09-18) |
 | --- | --- | --- | --- | --- | --- | --- |
 | HE inference cost | Qualitative cost claims become stale quickly | Benchmarks by model family, latency, throughput, ciphertext size, and hardware, with source-quality labels | Measured | Needs evidence | **Unresolved** | No cross-model latency benchmark is cited here. Benchmark examples now mark HE numbers as Unsourced / illustrative; private-inference guidance remains Expert judgment until workload-specific measurements exist. |
 | MPC deployment cost | "Medium-to-high" is too vague for buyers | Named deployments or benchmarked analytics workloads with parties, rounds, bandwidth, and operational effort | Measured or deployment-backed | Needs evidence | **Unresolved** | Boston MPC provides recurring civic-deployment evidence, but not a general cost model. Deployment pages now distinguish recurring production from proposed use cases. |
