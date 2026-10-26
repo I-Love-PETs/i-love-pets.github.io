@@ -1,9 +1,10 @@
+---
+description: "Build a PET shortlist from permitted outputs and threat models, then test workload fit and the assumptions that could change your decision."
+---
+
 # Choose a PET
 
-!!! info "Review status"
-    Last reviewed: 2026-06-10
-    Evidence level: Expert judgment
-    Snapshot scope: Practical shortlisting guidance. Validate cost, maturity, and utility against the target workload before production decisions.
+--8<-- "decision-guidance.md"
 
 The right PET is usually the one that matches the **output you are allowed to reveal**, not the one with the strongest-sounding privacy claim.
 
@@ -14,9 +15,9 @@ Use this page to create a shortlist. Then write the threat model, benchmark the 
 | Situation | Primary PET | Supporting PETs | Avoid this trap |
 | --- | --- | --- | --- |
 | Several organizations need a shared model and data cannot centralize | Federated learning | Secure aggregation, DP, robust aggregation, TEEs for orchestration | Claiming privacy from FL alone |
-| Several organizations need an aggregate metric | Federated analytics or MPC | DP, thresholding, clean-room governance | Publishing small-cell outputs that reveal people or businesses |
+| Several organizations need an aggregate metric | Federated analytics or [MPC](../start-here/glossary.md#mpc) | DP, thresholding, clean-room governance | Publishing small-cell outputs that reveal people or businesses |
 | Parties need to find overlap without revealing nonmatches | PSI | DP on downstream counts, clean-room logging, legal controls | Treating the intersection itself as nonsensitive |
-| A service must run inference without seeing client inputs | HE or TEE confidential inference | Model compression, attestation, output controls | Choosing HE before checking operator support and latency |
+| A service must run inference without seeing client inputs | HE or TEE [confidential inference](../start-here/glossary.md#confidential-inference) | Model compression, attestation, output controls | Choosing HE before checking operator support and latency |
 | A team wants to publish data-like artifacts | DP synthetic data when a formal release claim is needed | Memorization tests, utility benchmarks, release review | Calling synthetic data safe because it is synthetic |
 | Sensitive documents must support RAG | Confidential RAG with tight access control | TEEs, redaction, audit logs, retrieval policy, output review | Hiding the runtime while leaking through retrieval or answers |
 
@@ -30,9 +31,9 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | Federated learning | 3 | 1 | 4 | 3 | 2 | Can every participant run trustworthy local training? |
 | Secure aggregation | 4 | 1 | 4 | 3 | 2 | How many participants are needed per round? |
-| Differential privacy | 2 | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | 2 | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
 | MPC | 5 | 2 | 4 | 2 | 1 | Who are the parties and what collusion is allowed? |
-| Homomorphic encryption | 5 | 2 | 3 | 1 | 2 | Is the computation narrow enough for HE? |
+| [Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) | 5 | 2 | 3 | 1 | 2 | Is the computation narrow enough for HE? |
 | TEEs | 4 | 2 | 4 | 4 | 3 | Is hardware trust and attestation acceptable? |
 | PSI | 5 for nonmatches | 2 | 5 | 4 | 3 | Is revealing the match set allowed? |
 | Synthetic data | 1-4 | 2-5 | 2-4 | 3 | 3 | How will you test memorization and downstream utility? |
@@ -87,7 +88,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Test per-document authorization, provenance, prompt/log retention, enclave image updates, attestation verification, support access, and incident response. |
 | What to measure | Retrieval precision, authorization failures, prompt/log retention, answer leakage rate, attestation coverage, incident response path. |
 
-*(Evidence: Needs evidence, 2026-06-10 — no public benchmark covers the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
+*(Evidence: Needs evidence, 2026-06-10 — this guide does not yet cite a benchmark covering the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
 
 ### A company wants to release a synthetic dataset
 
@@ -110,7 +111,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Recommended PET | Private set intersection. |
 | Alternative PETs | MPC if overlap is only one input to a richer joint computation; clean room if governance and workflow controls matter more than cryptographic nonmatch privacy. |
 | Why | PSI can hide nonmatching records while revealing an agreed match set or count. |
-| Tradeoffs | PSI is targeted and efficient, but it does not decide whether revealing the intersection is acceptable. Count-only outputs are safer but less useful. |
+| Tradeoffs | PSI is targeted and efficient, but it does not decide whether revealing the intersection is acceptable. Count-only output reveals less detail per query, but small or repeated queries can still expose membership. |
 | Failure modes | The match itself may be sensitive; one party can use repeated queries to learn more; weak identifiers create false matches; downstream use can violate expectations. |
 | Operational considerations | Define output type, repeated-query controls, match-use policy, identifier normalization, minimum cohorts, and audit logs. |
 | What to measure | Match precision, match recall, allowed output, repeated-query controls, minimum cohort size, identifier hygiene. |

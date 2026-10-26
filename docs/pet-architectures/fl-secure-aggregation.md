@@ -1,4 +1,21 @@
+---
+description: "FL + Secure Aggregation: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # FL + Secure Aggregation
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Individual participant updates before aggregation. |
+| Adversary | A curious coordinator and colluding participants within the chosen protocol threshold. |
+| Allowed output | Aggregate updates to the coordinator; approved models and metrics to downstream users. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Small-round aggregates, participation and dropout metadata, logs, and final models. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Authenticated participants, reviewed training code, correct key setup, and protocol-specific dropout and collusion thresholds. |
+| Non-goals | Poisoning resistance, formal privacy of the aggregate or model, or security of compromised sites. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -10,7 +27,10 @@ Participants, coordinator, model owner, secure-aggregation service, auditors, an
 
 ## Data Flow
 
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
+
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   I[Participant registry] -->|identity + eligibility| C[Coordinator]
   K[Key setup] -->|round keys| A
@@ -27,6 +47,10 @@ flowchart LR
   C -->|round logs + metrics| L[Audit log]
   S -->|dropout + threshold events| L
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -62,12 +86,14 @@ Federated learning, secure aggregation, participant authentication, optional DP,
 
 | Add | Use when | New risk |
 | --- | --- | --- |
-| Differential privacy | The released model needs record-level or patient-level contribution bounds | Utility loss and accounting complexity |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | The released model needs record-level or patient-level contribution bounds | Utility loss and accounting complexity |
 | Robust aggregation | Participants may be malicious or compromised | Harder to combine with hidden individual updates |
 | TEEs for orchestration | Coordinator code should be constrained by attestation | Hardware trust and side-channel assumptions |
 | Output review | Final model or metrics may leak membership | Requires release gates and model-audit ownership |
 
-## What This Does Not Protect Against
+<div id="what-this-does-not-protect-against"></div>
+
+## Does not protect
 
 - Poisoned updates by malicious participants.
 - Leakage from the final model.
@@ -87,7 +113,7 @@ Plan for participant dropouts, versioned training code, reproducible evaluation,
 
 Secure aggregation improves update privacy but makes debugging, anomaly detection, and malicious-client handling harder.
 
-## Failure Modes
+## Failure modes
 
 Gradient leakage without aggregation, poisoning, small participant rounds, key setup errors, weak participant identity, and plaintext operational logs.
 

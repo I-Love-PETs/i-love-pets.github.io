@@ -1,4 +1,11 @@
+---
+title: "PET Patterns"
+description: "Compare reusable PET patterns by protected assets, allowed outputs, assumptions, leakage, and failure modes."
+---
+
 # PET Patterns
+
+--8<-- "decision-guidance.md"
 
 Patterns are reusable designs, not recipes. Each one states when to use it, when not to use it, what can still go wrong, and which research problems remain open.
 

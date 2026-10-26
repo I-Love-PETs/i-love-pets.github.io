@@ -51,6 +51,9 @@ jobs:
       - name: Check built links and SEO artifacts
         run: python3 scripts/check_site.py
 
+      - name: Check v1.0 release conventions and metadata
+        run: python3 scripts/check_release.py
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

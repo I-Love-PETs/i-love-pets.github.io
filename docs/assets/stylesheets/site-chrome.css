@@ -96,14 +96,56 @@
   }
 
   .github-actions {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    flex-direction: column;
+    /* Repository actions must not cover reading content or navigation on phones. */
+    position: static;
+    flex-direction: row;
     align-items: stretch;
+    justify-content: center;
+    padding: 0.75rem;
+    background: var(--md-default-bg-color);
   }
 
   .github-actions__button {
     justify-content: center;
     min-width: 5.25rem;
   }
+}
+
+/* Give primary reading paths room to wrap, with contrast in both palettes. */
+.home-actions > p {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.md-typeset .home-actions .md-button {
+  color: var(--md-typeset-color);
+  border-color: currentColor;
+}
+
+.md-typeset .home-actions .md-button--primary {
+  background: #455a64;
+  border-color: #455a64;
+  color: #fff;
+}
+
+.md-typeset .home-actions .md-button:hover,
+.md-typeset .home-actions .md-button:focus-visible {
+  background: var(--md-typeset-color);
+  border-color: var(--md-typeset-color);
+  color: var(--md-default-bg-color);
+}
+
+.md-typeset .home-actions .md-button:focus-visible {
+  outline: 0.15rem solid var(--md-typeset-a-color);
+  outline-offset: 0.15rem;
+}
+
+.diagram-scroll {
+  overflow-x: auto;
+}
+
+.diagram-scroll:focus-visible {
+  outline: 0.1rem solid var(--md-typeset-a-color);
+  outline-offset: 0.1rem;
 }

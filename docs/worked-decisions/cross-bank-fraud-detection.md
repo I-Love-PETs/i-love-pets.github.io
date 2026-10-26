@@ -1,5 +1,7 @@
 # Worked Decision: Banks Jointly Detecting Fraud Rings
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -24,8 +26,8 @@ Several banks suspect the same fraud rings are moving money across their institu
 | Candidate | Why it is on the shortlist |
 | --- | --- |
 | Private set intersection (PSI) | Lets two or more banks find shared entities without revealing non-matching customers. The natural first tool when the core task is entity overlap. See [Private Set Intersection](../pet-patterns/private-set-intersection.md). |
-| Secure multi-party computation (MPC) | Computes a joint function (e.g., a cross-bank risk score on shared entities) without any party seeing others' inputs. Fits when the goal is a sensitive *joint computation*, not just overlap. |
-| Differential privacy (DP) | Bounds leakage on any *published* aggregate metric (e.g., "fraud rings detected this quarter"). Protects the reporting layer, not the operational matching. |
+| Secure multi-party computation ([MPC](../start-here/glossary.md#mpc)) | Computes a joint function (e.g., a cross-bank risk score on shared entities) without any party seeing others' inputs. Fits when the goal is a sensitive *joint computation*, not just overlap. |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) (DP) | Bounds leakage on any *published* aggregate metric (e.g., "fraud rings detected this quarter"). Protects the reporting layer, not the operational matching. |
 | Federated learning (FL) | If the goal becomes a shared fraud *model* rather than a specific joint computation, FL keeps training data local. A divergent path, kept for completeness. |
 | Clean-room governance | Contractual and audit controls around match use, repeated-query limits, and logging. Often the difference between a safe and an unsafe deployment regardless of the cryptography. |
 

@@ -1,5 +1,7 @@
 # By ML Task
 
+--8<-- "decision-guidance.md"
+
 ML task matters because PETs constrain different parts of the pipeline: data collection, training, inference, evaluation, logging, and release.
 
 ## Task Matrix
@@ -7,8 +9,8 @@ ML task matters because PETs constrain different parts of the pipeline: data col
 | ML task | Primary PET | Supporting PETs | What to measure | Do not claim |
 | --- | --- | --- | --- | --- |
 | Cross-silo model training | Federated learning | Secure aggregation, DP, robust aggregation | Per-site utility, update leakage, poisoning resilience, round size | Privacy from FL alone |
-| Federated analytics | Federated analytics or MPC | DP, thresholds, output review | Small-cell leakage, latency, analyst workflow, cost | That aggregates are automatically safe |
-| Private inference | HE or TEE confidential inference | Compression, quantization, attestation, key management | Latency, accuracy, supported operators, output leakage | That input privacy protects prediction privacy |
+| Federated analytics | Federated analytics or [MPC](../start-here/glossary.md#mpc) | DP, thresholds, output review | Small-cell leakage, latency, analyst workflow, cost | That aggregates are automatically safe |
+| [Private inference](../start-here/glossary.md#private-inference) | HE or TEE [confidential inference](../start-here/glossary.md#confidential-inference) | Compression, quantization, attestation, key management | Latency, accuracy, supported operators, output leakage | That input privacy protects prediction privacy |
 | Private RAG | Confidential RAG | TEEs, access control, redaction, audit logs | Retrieval authorization, answer leakage, prompt/log retention | That a protected runtime fixes bad permissions |
 | Private LLM fine-tuning | DP-SGD, FL, TEEs depending on data location | Secure aggregation, memorization audits, redaction | Utility, privacy budget, memorization, compute cost | That fine-tuning is safe because data stays local |
 | Synthetic data generation | DP synthetic data if release is public | Memorization tests, downstream utility tests | Membership inference, nearest-neighbor similarity, task utility | That synthetic means anonymous |

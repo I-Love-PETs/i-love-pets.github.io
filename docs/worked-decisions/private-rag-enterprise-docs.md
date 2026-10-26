@@ -1,5 +1,7 @@
 # Worked Decision: RAG Over Confidential Enterprise Documents
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -34,7 +36,7 @@ An enterprise wants employees to ask natural-language questions over a body of c
 | Rejected option | Why rejected |
 | --- | --- |
 | **Ordinary RAG with no access control** | Workable *only* if every user and system already shares one trust boundary and all documents are equally readable by all users. With per-document authorization, a flat retriever will surface restricted content the first time someone asks the right question. Rejected whenever authorization varies. |
-| **Homomorphic encryption for the whole pipeline** | HE can keep narrow inference inputs encrypted, but a full RAG pipeline — embedding, vector search, multi-document context assembly, generation — is far outside what HE handles at acceptable latency today. Rejected on feasibility for the pipeline; HE remains conceivable only for an isolated narrow step. |
+| **[Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) for the whole pipeline** | HE can keep narrow inference inputs encrypted, but a full RAG pipeline — embedding, vector search, multi-document context assembly, generation — is far outside what HE handles at acceptable latency today. Rejected on feasibility for the pipeline; HE remains conceivable only for an isolated narrow step. |
 | **TEE as the entire answer** | A TEE protects prompts and context *from the host*, but it does nothing about an over-broad retriever returning documents the user should not see, or an answer that quotes restricted text. Treating the TEE as a magic secure box while ignoring retrieval scope, logs, and output is the classic anti-pattern. Rejected as a standalone solution; retained as one layer. |
 | **DP on the documents or answers** | DP is built for aggregate release, not for serving exact passages to authorized readers. Adding DP noise to a contract lookup makes the answer wrong without fixing the actual exposure (who is allowed to see what). Wrong tool for this job. |
 | **Encrypt-at-rest and call it private** | Encryption at rest protects against storage theft, not against an authorized-looking query retrieving content the user should not see. Necessary hygiene, insufficient as the privacy design. Rejected as the *answer* (kept as baseline hygiene). |

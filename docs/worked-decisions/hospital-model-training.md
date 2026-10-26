@@ -1,5 +1,7 @@
 # Worked Decision: Training a Diagnostic Model Across Hospitals
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -25,7 +27,7 @@ A consortium of five hospitals wants a shared diagnostic model — say, detectin
 | --- | --- |
 | Cross-silo federated learning (FL) | Keeps raw records local; each site trains and shares only model updates. The natural fit when data cannot centralize. See [Cross-Silo Federated Learning](../pet-patterns/cross-silo-federated-learning.md). |
 | Secure aggregation | Hides individual site updates from the coordinator; the server sees only the aggregate. Directly addresses "a single site's update leaks its data." |
-| Differential privacy (DP) | Adds a formal bound on how much any single patient (or site) influences the model. The route to a formal individual-privacy claim. |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) (DP) | Adds a formal bound on how much any single patient (or site) influences the model. The route to a formal individual-privacy claim. |
 | Robust aggregation | Limits damage from a faulty or poisoned site update. Relevant because a multi-org setting has weak control over each participant. |
 | TEEs for orchestration | Run the aggregation server inside attested hardware to harden the coordinator. A supporting option, not the core. |
 
@@ -37,8 +39,8 @@ This is the section that carries the judgment. Each rejection names the constrai
 | --- | --- |
 | **Centralized training on pooled data** | The cleanest engineering path and the strongest utility — and forbidden by the stated constraint that raw records cannot move. If pooling were legally and operationally acceptable, it would likely win; here it is off the table. Rejected on legal/constraint grounds, not technical ones. |
 | **Plain FL with no secure aggregation or DP** | FL alone is not a privacy guarantee. Per-round updates can leak training data, and with only five sites a single site's contribution is often distinguishable. Claiming privacy "because it is federated" is the canonical anti-pattern. Rejected as insufficient. |
-| **MPC for the full training computation** | General MPC over deep-model training across five parties is operationally heavy and slow, and training is iterative (many rounds), multiplying the cost. MPC shines for bounded joint computations, not whole training loops. Rejected on cost/complexity. |
-| **Homomorphic encryption for training** | HE over full model training is currently impractical for non-trivial architectures: operator support and latency do not hold up across many iterations. Rejected on feasibility. |
+| **[MPC](../start-here/glossary.md#mpc) for the full training computation** | General MPC over deep-model training across five parties is operationally heavy and slow, and training is iterative (many rounds), multiplying the cost. MPC shines for bounded joint computations, not whole training loops. Rejected on cost/complexity. |
+| **[Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) for training** | HE over full model training is currently impractical for non-trivial architectures: operator support and latency do not hold up across many iterations. Rejected on feasibility. |
 | **DP applied aggressively from day one** | DP is on the *recommendation*, but applying a tight budget before knowing the utility cost is a trap. With heterogeneous, smaller-site data, an over-tight budget can destroy per-site utility, especially for rare subgroups. We include DP but stage it — measure first, then bound. Rejected as a *default*, retained as a *deliberate* control. |
 
 ## 4. Final Recommendation

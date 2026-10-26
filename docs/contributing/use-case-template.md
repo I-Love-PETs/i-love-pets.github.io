@@ -5,6 +5,16 @@ Use this template when the page starts from a domain need, not from a PET.
 ```markdown
 # Use Case
 
+## Evidence and review
+
+State Last reviewed and the scope of the review. Use the existing Evidence Policy
+levels: Measured, Deployment-backed, Literature-backed, Expert judgment, Needs evidence.
+Use its source-quality labels: Primary / official, Peer-reviewed / academic,
+Independent analysis, Vendor case study, Press / secondary, Unsourced / illustrative.
+Attach a source and its limits to each decision-critical factual claim. Explain
+why editorial guidance is plausible and what would change it. Do not promote
+illustrative examples to measured evidence.
+
 ## Decision Context
 
 Who is choosing, and what decision must they make?
@@ -54,3 +64,5 @@ Give one small next action: benchmark, threat-model workshop, data-flow diagram,
 - Does it include when the recommendation changes?
 - Are output leakage and governance risks included?
 - Is there a practical next step?
+
+Use the [Evidence Policy](../project-standards/evidence-policy.md) and [glossary](../start-here/glossary.md) without inventing new labels. Keep page-specific assumptions explicit; shared editorial guidance may use the include in `includes/decision-guidance.md`.

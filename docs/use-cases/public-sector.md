@@ -1,5 +1,7 @@
 # Public Sector
 
+--8<-- "decision-guidance.md"
+
 Public-sector PET decisions must balance public benefit, confidentiality, legitimacy, accessibility, procurement, and the need for understandable tradeoffs.
 
 ## Scenario Playbook

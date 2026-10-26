@@ -1,4 +1,21 @@
+---
+description: "FL + Differential Privacy: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # FL + Differential Privacy
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | The contribution of a declared record, person, or participant to released models and metrics. |
+| Adversary | Recipients of DP releases; the central DP operator remains trusted with pre-noise values in this design. |
+| Allowed output | Accounted models and metrics under the declared epsilon, delta, adjacency, and release policy. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Pre-noise updates, non-private checkpoints, logs, tuning results, and releases omitted from accounting. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Clipping, sampling, noise, privacy unit, and accounting match execution; see the assumption review below. |
+| Non-goals | Poisoning prevention, protection before the DP mechanism, or acceptable utility for every site. |
+
+--8<-- "decision-guidance.md"
 
 ## Goal
 
@@ -10,7 +27,10 @@ Participants, coordinator, model owner, privacy accountant, auditors, and model 
 
 ## Data Flow
 
+<div class="diagram-scroll" role="region" aria-label="Architecture diagram; scroll horizontally on small screens" tabindex="0" markdown>
+
 ```mermaid
+%%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   C[Coordinator] -->|model + clipping/noise config| A[Participant sites]
   A -->|clipped updates or gradients| S[Optional secure aggregation]
@@ -21,6 +41,10 @@ flowchart LR
   C -->|checkpoints + metrics policy| R[Release review]
   R -->|approved releases| U
 ```
+
+</div>
+
+On small screens, scroll the diagram horizontally to read the labels.
 
 ## Trust Boundaries
 
@@ -61,7 +85,9 @@ Federated learning, DP-SGD or noisy aggregate updates, privacy accounting, optio
 | Confidential training | Training infrastructure is outside the main trust boundary | Attestation and hardware trust become part of the claim |
 | Release governance | Multiple models, metrics, or synthetic artifacts are emitted | Requires a complete release ledger |
 
-## What This Does Not Protect Against
+<div id="what-this-does-not-protect-against"></div>
+
+## Does not protect
 
 - Poorly defined privacy units.
 - Unaccounted releases or repeated experiments.
@@ -81,7 +107,7 @@ Keep a budget ledger, bind DP parameters to training runs, and document failed t
 
 DP provides a formal output guarantee, but it can reduce utility and make training harder to tune.
 
-## Failure Modes
+## Failure modes
 
 Arbitrary epsilon choices, untracked composition, clipping that destroys utility, non-private checkpoints, and claims that omit the privacy unit.
 

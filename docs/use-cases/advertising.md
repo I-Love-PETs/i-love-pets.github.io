@@ -1,5 +1,7 @@
 # Advertising
 
+--8<-- "decision-guidance.md"
+
 Advertising PET decisions usually involve measurement under identifier loss, platform governance, small-segment leakage, and incentives that are not always aligned.
 
 ## Scenario Playbook
