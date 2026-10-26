@@ -2,20 +2,17 @@
 """Check v1.0 content conventions and generated social/diagram metadata."""
 from __future__ import annotations
 
-from collections import defaultdict
-from html.parser import HTMLParser
 from pathlib import Path
 import re
 import sys
-from urllib.parse import urljoin
 
 from mkdocs.config import load_config
 from mkdocs.utils.meta import get_data
 
 if __package__:
-    from .check_site import Page
+    from .check_site import Page, documentation_pages
 else:
-    from check_site import Page
+    from check_site import Page, documentation_pages
 
 FIELDS = ("Protected asset", "Adversary", "Allowed output", "Leakage surface", "Assumptions", "Non-goals")
 MERMAID = "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"
@@ -35,28 +32,8 @@ FRAMING_PROMPTS = (
 )
 
 
-class Metadata(HTMLParser):
-    def __init__(self, text: str):
-        super().__init__(convert_charrefs=True)
-        self.meta = defaultdict(list)
-        self.canonical = []
-        self.scripts = []
-        self.feed(text)
-
-    def handle_starttag(self, tag, attrs):
-        values = dict(attrs)
-        if tag == "meta":
-            key = values.get("property") or values.get("name")
-            if key:
-                self.meta[key].append(values.get("content", ""))
-        if tag == "link" and values.get("rel") == "canonical":
-            self.canonical.append(values.get("href", ""))
-        if tag == "script" and values.get("src"):
-            self.scripts.append(values["src"])
-
-
 def check_metadata(text: str, canonical: str, diagrams: bool) -> list[str]:
-    page = Metadata(text)
+    page = Page(text)
     failures = []
     for key in ("og:type", "og:site_name", "og:title", "og:description", "og:url", "twitter:card", "twitter:title", "twitter:description"):
         values = page.meta[key]
@@ -101,40 +78,34 @@ def check_headings(text: str, headings: tuple[str, ...]) -> list[str]:
             if not re.search(r"^##[ \t]+" + re.escape(heading) + r"[ \t]*$", text, re.M | re.I)]
 
 
-def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
+def check_release(config) -> list[str]:
+    docs = Path(config.docs_dir)
     failures = []
     titles = {}
-    for source in sorted(docs.rglob("*.md")):
-        relative = source.relative_to(docs)
-        if relative.as_posix() == "404.md":
-            continue
-        text = source.read_text(encoding="utf-8")
-        if relative.parts[0] in ("pet-patterns", "pet-architectures") and source.stem != "index":
+    for file, canonical in documentation_pages(config):
+        relative = Path(file.src_uri)
+        text = file.content_string
+        if relative.parts[0] in ("pet-patterns", "pet-architectures") and relative.stem != "index":
             failures.extend(f"{relative}: {error}" for error in check_structure(text))
-        if relative.parts[0] in LIMIT_HEADINGS and source.stem != "index":
+        if relative.parts[0] in LIMIT_HEADINGS and relative.stem != "index":
             failures.extend(f"{relative}: {error}" for error in check_headings(text, LIMIT_HEADINGS[relative.parts[0]]))
         if relative.parts[0] != "contributing" and PLACEHOLDER.search(text):
             failures.append(f"{relative}: unresolved placeholder marker")
-        if source.stem == "index":
-            target = relative.with_suffix(".html")
-        else:
-            target = relative.with_suffix("") / "index.html"
-        built = site / target
+        built = Path(file.abs_dest_path)
         if not built.is_file():
             failures.append(f"{relative}: missing built page")
             continue
         html = built.read_text(encoding="utf-8")
         _, authored = get_data(text)
         description = authored.get("description")
-        metadata = Metadata(html)
+        metadata = Page(html)
         if description and metadata.meta["og:description"] != [description]:
             failures.append(f"{relative}: authored description missing from social metadata")
         for title in metadata.meta["og:title"]:
             if title in titles:
                 failures.append(f"{relative}: repeated og:title (also used by {titles[title]})")
             titles[title] = relative
-        expected = urljoin(site_url, target.as_posix().removesuffix("index.html"))
-        failures.extend(f"{relative}: {error}" for error in check_metadata(html, expected, Page(html).has_mermaid))
+        failures.extend(f"{relative}: {error}" for error in check_metadata(html, canonical, Page(html).has_mermaid))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture"):
@@ -148,7 +119,7 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
 
 def main() -> int:
     config = load_config()
-    failures = check_release(Path(config.docs_dir), Path(config.site_dir), config.site_url)
+    failures = check_release(config)
     if failures:
         print("Release checks failed:\n" + "\n".join(f"- {item}" for item in failures))
         return 1

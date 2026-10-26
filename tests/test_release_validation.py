@@ -1,7 +1,8 @@
 """Regression cases for release checks that could otherwise pass silently."""
 import unittest
 from pathlib import Path
-from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, Metadata, check_metadata, check_structure, check_headings
+from scripts.check_site import Page
+from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, check_metadata, check_structure, check_headings
 
 
 class ReleaseValidationTests(unittest.TestCase):
@@ -19,7 +20,7 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_valid_pages_and_escaping(self):
         for diagrams in (False, True):
             self.assertEqual(check_metadata(self.page(diagrams), 'https://example.org/a/', diagrams), [])
-        self.assertEqual(Metadata(self.page()).meta['og:title'], ['Keys & "outputs"'])
+        self.assertEqual(Page(self.page()).meta['og:title'], ['Keys & "outputs"'])
 
     def test_wrong_canonical_and_duplicate_metadata(self):
         text = self.page() + '<meta name="og:title" content="duplicate">'

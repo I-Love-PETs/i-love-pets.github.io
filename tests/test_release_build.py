@@ -9,7 +9,8 @@ import unittest
 from mkdocs.commands.build import build
 from mkdocs.config import load_config
 
-from scripts.check_release import Metadata, check_release
+from scripts.check_site import Page, check_site
+from scripts.check_release import check_release
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,6 +29,7 @@ class ReleaseBuildTests(unittest.TestCase):
         (snippets / 'diagram.md').write_text('```mermaid\ngraph LR\n A --> B\n```\n')
         pages = {
             'index.md': '# Welcome\n',
+            'excluded.md': '# Excluded draft\n',
             'pet-patterns/index.md': '---\ntitle: Pattern catalog\n---\n# Pattern catalog\n',
             'pet-architectures/index.md': '---\ntitle: Architecture catalog\n---\n# Architecture catalog\n',
             'use-cases/missing.md': '# Incomplete use case\n',
@@ -60,12 +62,12 @@ class ReleaseBuildTests(unittest.TestCase):
             site_dir=str(cls.site), site_url='https://example.org/guide/',
             nav=[{'Home': 'index.md'}, {'One': [{'Overview': 'one/index.md'}]},
                  {'Two': [{'Overview': 'two/index.md'}]}],
-            hooks=[str(ROOT / 'scripts/check_site.py')], extra_css=[], extra_javascript=[],
+            hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md', extra_css=[], extra_javascript=[],
             validation={'nav': {'omitted_files': 'ignore'}},
         )
         cls.config.mdx_configs['pymdownx.snippets']['base_path'] = [str(snippets)]
         build(cls.config)
-        cls.errors = check_release(cls.docs, cls.site, cls.config.site_url)
+        cls.errors = check_release(cls.config)
 
     def built(self, target):
         return (self.site / target).read_text()
@@ -75,8 +77,8 @@ class ReleaseBuildTests(unittest.TestCase):
             with self.subTest(target=target):
                 text = self.built(target)
                 title = html.unescape(re.search(r'<title>(.*?)</title>', text)[1])
-                self.assertEqual(Metadata(text).meta['og:title'], [title])
-        self.assertEqual(Metadata(self.built('index.html')).meta['og:title'], [self.config.site_name])
+                self.assertEqual(Page(text).meta['og:title'], [title])
+        self.assertEqual(Page(self.built('index.html')).meta['og:title'], [self.config.site_name])
 
     def test_duplicate_social_titles_rejected(self):
         self.assertTrue(any('duplicate-b.md' in error and 'repeated og:title' in error for error in self.errors))
@@ -92,10 +94,10 @@ class ReleaseBuildTests(unittest.TestCase):
         for name in ('delimiter', 'empty'):
             with self.subTest(name=name):
                 self.assertFalse([error for error in self.errors if error.startswith(f'{name}.md:')])
-        self.assertEqual(Metadata(self.built('delimiter/index.html')).meta['og:description'], ['Before --- after'])
+        self.assertEqual(Page(self.built('delimiter/index.html')).meta['og:description'], ['Before --- after'])
 
     def test_bare_metadata_uses_fallbacks(self):
-        page = Metadata(self.built('bare/index.html'))
+        page = Page(self.built('bare/index.html'))
         self.assertEqual(page.meta['og:description'], [self.config.site_description])
         self.assertEqual(page.meta['og:title'], ['Bare metadata - ' + self.config.site_name])
 
@@ -108,3 +110,23 @@ class ReleaseBuildTests(unittest.TestCase):
         for name in ('pet-patterns/index.md', 'pet-architectures/index.md'):
             with self.subTest(name=name):
                 self.assertFalse([error for error in self.errors if error.startswith(name + ':')])
+
+    def test_excluded_docs_are_not_validated(self):
+        self.assertFalse([error for error in self.errors if error.startswith('excluded.md:')])
+
+    def test_non_directory_urls_follow_mkdocs(self):
+        config = load_config(
+            config_file=str(ROOT / 'mkdocs.yml'), docs_dir=str(self.docs),
+            site_dir=str(self.site.parent / 'flat-site'), site_url=self.config.site_url,
+            use_directory_urls=False, exclude_docs='/excluded.md',
+            nav=self.config.nav, hooks=[str(ROOT / 'scripts/check_site.py')],
+            extra_css=[], extra_javascript=[], validation={'nav': {'omitted_files': 'ignore'}},
+        )
+        config.mdx_configs['pymdownx.snippets']['base_path'] = self.config.mdx_configs['pymdownx.snippets']['base_path']
+        build(config)
+        errors = check_release(config)
+        self.assertFalse([error for error in errors if 'missing built page' in error or 'canonical' in error])
+        site = Path(config.site_dir)
+        (site / '404.html').write_text('<meta name="robots" content="noindex"><h1>Page not found</h1>')
+        (site / 'robots.txt').write_text(f'Sitemap: {config.site_url}sitemap.xml\n')
+        self.assertEqual(check_site(site, config.site_url, config), [])
