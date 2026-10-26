@@ -1,7 +1,3 @@
----
-title: "Advertising"
----
-
 # Advertising
 
 --8<-- "decision-guidance.md"

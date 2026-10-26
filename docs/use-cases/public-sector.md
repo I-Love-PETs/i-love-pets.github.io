@@ -1,7 +1,3 @@
----
-title: "Public Sector"
----
-
 # Public Sector
 
 --8<-- "decision-guidance.md"

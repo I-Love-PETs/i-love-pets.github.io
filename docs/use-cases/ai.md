@@ -1,7 +1,3 @@
----
-title: "AI"
----
-
 # AI
 
 --8<-- "decision-guidance.md"

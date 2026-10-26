@@ -76,8 +76,8 @@ Pattern and architecture pages require all six Decision framing fields, plus
 explicit Does not protect and Failure modes sections. Tool reviews and use cases
 keep the limits sections from their own templates: Protected Assets, Threat Model
 Support, When Not To Use, and Failure Modes for tool reviews; Failure Modes for
-use cases. Link terminology to
-stable glossary anchors and cite decision-critical claims near the claim.
+use cases. Link terminology to stable glossary anchors and cite decision-critical
+claims near the claim.
 
 Shared editorial review text lives in `includes/decision-guidance.md`, outside
 `docs/`, and is expanded by the already-supported Snippets extension. Its relative
