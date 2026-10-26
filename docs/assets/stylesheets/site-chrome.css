@@ -96,10 +96,13 @@
   }
 
   .github-actions {
-    right: 0.75rem;
-    bottom: 0.75rem;
-    flex-direction: column;
+    /* Repository actions must not cover reading content or navigation on phones. */
+    position: static;
+    flex-direction: row;
     align-items: stretch;
+    justify-content: center;
+    padding: 0.75rem;
+    background: var(--md-default-bg-color);
   }
 
   .github-actions__button {
@@ -136,17 +139,6 @@
 .md-typeset .home-actions .md-button:focus-visible {
   outline: 0.15rem solid var(--md-typeset-a-color);
   outline-offset: 0.15rem;
-}
-
-@media screen and (max-width: 44.984375em) {
-  /* Repository actions must not cover reading content or navigation on phones. */
-  .github-actions {
-    position: static;
-    flex-direction: row;
-    justify-content: center;
-    padding: 0.75rem;
-    background: var(--md-default-bg-color);
-  }
 }
 
 .diagram-scroll {
