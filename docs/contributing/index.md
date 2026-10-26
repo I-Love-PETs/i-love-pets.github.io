@@ -1,3 +1,7 @@
+---
+title: "Contributing"
+---
+
 # Contributing
 
 Contributions should make the guide more useful for decisions. Prefer a small, specific improvement over a broad shallow page.

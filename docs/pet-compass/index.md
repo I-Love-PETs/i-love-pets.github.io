@@ -1,4 +1,5 @@
 ---
+title: "PET Compass"
 description: "Find candidate PETs by data movement, adversary, and ML task, with explicit tradeoffs and reasons to change course."
 ---
 

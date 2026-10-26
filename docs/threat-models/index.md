@@ -1,3 +1,7 @@
+---
+title: "Threat Models"
+---
+
 # Threat Models
 
 Privacy claims are meaningless without a threat model. In PET systems, the threat

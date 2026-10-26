@@ -3,8 +3,8 @@
 {% block extrahead %}
   {{ super() }}
   {% if page and page.canonical_url %}
-    {% set title = page.meta.get('title', page.title) %}
-    {% set description = page.meta.get('description', config.site_description) %}
+    {% set title = config.site_name if page.is_homepage else (page.meta.get('title') or page.title | striptags) ~ ' - ' ~ config.site_name %}
+    {% set description = page.meta.get('description') or config.site_description %}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ config.site_name | e }}">
     <meta property="og:title" content="{{ title | e }}">
@@ -19,7 +19,7 @@
 {% block scripts %}
   {# Keep the existing Mermaid version. Load only on pages with diagrams and
      before Material's renderer, which otherwise fetches an unpinned version. #}
-  {% if page and 'class="mermaid"' in page.content %}
+  {% if page and page.content | has_mermaid %}
     <script src="https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"></script>
   {% endif %}
   {{ super() }}

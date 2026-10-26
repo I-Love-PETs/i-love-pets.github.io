@@ -1,3 +1,7 @@
+---
+title: "Use Cases"
+---
+
 # Use Cases
 
 --8<-- "decision-guidance.md"

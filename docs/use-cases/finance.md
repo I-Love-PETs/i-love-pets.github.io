@@ -1,3 +1,7 @@
+---
+title: "Finance"
+---
+
 # Finance
 
 --8<-- "decision-guidance.md"

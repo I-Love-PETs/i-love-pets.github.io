@@ -1,4 +1,5 @@
 ---
+title: "Worked Decisions"
 description: "Read worked PET decisions with explicit constraints, candidate designs, evaluation plans, and conditions that change the recommendation."
 ---
 

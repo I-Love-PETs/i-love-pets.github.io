@@ -1,4 +1,5 @@
 ---
+title: "Start Here"
 description: "Start with the six decision-framing questions, learn the PET families, and find a practical route through the guide."
 ---
 

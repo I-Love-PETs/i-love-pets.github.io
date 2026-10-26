@@ -7,10 +7,15 @@ from html.parser import HTMLParser
 from pathlib import Path
 import re
 import sys
-import yaml
 from urllib.parse import urljoin
 
 from mkdocs.config import load_config
+from mkdocs.utils.meta import get_data
+
+if __package__:
+    from .check_site import Page
+else:
+    from check_site import Page
 
 FIELDS = ("Protected asset", "Adversary", "Allowed output", "Leakage surface", "Assumptions", "Non-goals")
 MERMAID = "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"
@@ -53,6 +58,8 @@ def check_metadata(text: str, canonical: str, diagrams: bool) -> list[str]:
         values = page.meta[key]
         if len(values) != 1 or not values[0].strip():
             failures.append(f"missing, empty, or duplicate {key}")
+    if page.meta["og:title"] in (["Home"], ["Overview"]):
+        failures.append("og:title must identify the page, not its generic navigation label")
     if page.canonical != [canonical] or page.meta["og:url"] != [canonical]:
         failures.append("canonical and og:url must match the page URL")
     if page.meta["twitter:card"] != ["summary"]:
@@ -87,6 +94,7 @@ def check_structure(text: str, allow_placeholders: bool = False) -> list[str]:
 
 def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
     failures = []
+    titles = {}
     for source in sorted(docs.rglob("*.md")):
         relative = source.relative_to(docs)
         if relative.as_posix() == "404.md":
@@ -105,18 +113,17 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
             failures.append(f"{relative}: missing built page")
             continue
         html = built.read_text(encoding="utf-8")
-        if text.startswith("---\n"):
-            frontmatter = text.split("---", 2)
-            try:
-                authored = yaml.safe_load(frontmatter[1])
-                description = authored.get("description")
-            except (yaml.YAMLError, AttributeError, IndexError):
-                failures.append(f"{relative}: invalid front matter")
-                description = None
-            if description and Metadata(html).meta["og:description"] != [description]:
-                failures.append(f"{relative}: authored description missing from social metadata")
+        _, authored = get_data(text)
+        description = authored.get("description")
+        metadata = Metadata(html)
+        if description and metadata.meta["og:description"] != [description]:
+            failures.append(f"{relative}: authored description missing from social metadata")
+        for title in metadata.meta["og:title"]:
+            if title in titles:
+                failures.append(f"{relative}: repeated og:title (also used by {titles[title]})")
+            titles[title] = relative
         expected = urljoin(site_url, target.as_posix().removesuffix("index.html"))
-        failures.extend(f"{relative}: {error}" for error in check_metadata(html, expected, '```mermaid' in text))
+        failures.extend(f"{relative}: {error}" for error in check_metadata(html, expected, Page(html).has_mermaid))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture", "tool", "use-case"):

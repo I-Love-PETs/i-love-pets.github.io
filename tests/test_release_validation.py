@@ -58,3 +58,8 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_template_framing_prompts(self):
         template = Path('docs/contributing/pattern-template.md').read_text()
         self.assertTrue(any('placeholder' in error for error in check_structure(template)))
+
+    def test_generic_social_titles(self):
+        for title in ('Home', 'Overview'):
+            text = self.page().replace('Keys &amp; &quot;outputs&quot;', title)
+            self.assertTrue(any('title' in error for error in check_metadata(text, 'https://example.org/a/', False)))

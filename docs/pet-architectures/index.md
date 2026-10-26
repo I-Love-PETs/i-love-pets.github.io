@@ -1,4 +1,5 @@
 ---
+title: "PET Architectures"
 description: "Review PET architectures with actors, diagrams, trust boundaries, keys, logs, assumptions, and evaluation checks."
 ---
 

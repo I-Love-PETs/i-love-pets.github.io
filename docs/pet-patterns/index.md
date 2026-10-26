@@ -1,4 +1,5 @@
 ---
+title: "PET Patterns"
 description: "Compare reusable PET patterns by protected assets, allowed outputs, assumptions, leakage, and failure modes."
 ---
 

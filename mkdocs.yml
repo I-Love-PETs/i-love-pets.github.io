@@ -39,6 +39,7 @@ exclude_docs: |
 
 hooks:
   - scripts/error_page.py
+  - scripts/check_site.py
 
 validation:
   nav:

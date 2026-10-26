@@ -19,10 +19,13 @@ class Page(HTMLParser):
         self.ids: set[str] = set()
         self.targets: list[str] = []
         self.noindex = False
+        self.has_mermaid = False
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         values = dict(attrs)
+        if "mermaid" in values.get("class", "").split():
+            self.has_mermaid = True
         if values.get("id"):
             self.ids.add(values["id"])
         if tag == "meta" and values.get("name") == "robots":
@@ -30,6 +33,18 @@ class Page(HTMLParser):
         for attribute in ("href", "src"):
             if values.get(attribute):
                 self.targets.append(values[attribute])
+
+
+def on_page_markdown(markdown, page, config, files):
+    # A null title shadows MkDocs' heading fallback even when Jinja uses `or`.
+    if not page.meta.get("title"):
+        page.meta.pop("title", None)
+    return markdown
+
+
+def on_env(env, config, files):
+    env.filters["has_mermaid"] = lambda text: Page(text).has_mermaid
+    return env
 
 
 def check_site(site: Path, site_url: str) -> list[str]:
