@@ -14,7 +14,16 @@ from mkdocs.config import load_config
 
 FIELDS = ("Protected asset", "Adversary", "Allowed output", "Leakage surface", "Assumptions", "Non-goals")
 MERMAID = "https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js"
-PLACEHOLDER = re.compile(r"\b(?:TODO|TBD|FIXME|INSERT HERE)\b|\[Your Name\]|202\d-XX-XX|^# (?:Pattern|Architecture|Tool) Name$", re.M)
+PLACEHOLDER = re.compile(r"\b(?:TODO|TBD|FIXME|INSERT HERE)\b|\[Your Name\]|202\d-XX-XX|^# (?:(?:Pattern|Architecture|Tool|Problem) Name|Use Case)$", re.M)
+
+FRAMING_PROMPTS = (
+    "Name the data or artifacts to protect.",
+    "Name capabilities, corruption model, and collusion threshold.",
+    "Name the result, recipients, and permitted query frequency.",
+    "Include outputs, intermediates, metadata, logs, and side channels.",
+    "State concrete conditions on keys, hardware, parties, and accounting.",
+    "State excluded attacks and properties; do not imply complete privacy.",
+)
 
 
 class Metadata(HTMLParser):
@@ -60,15 +69,19 @@ def check_metadata(text: str, canonical: str, diagrams: bool) -> list[str]:
     return failures
 
 
-def check_structure(text: str) -> list[str]:
+def check_structure(text: str, allow_placeholders: bool = False) -> list[str]:
     failures = []
     for heading in ("Decision framing", "Does not protect", "Failure modes"):
         if not re.search(r"^## " + re.escape(heading) + r"\s*$", text, re.M):
             failures.append(f"missing {heading} section")
     framing = re.search(r"^## Decision framing\n(.*?)(?=^## |\Z)", text, re.M | re.S)
     for field in FIELDS:
-        if not framing or not re.search(r"^\| " + field + r" \|\s*\S", framing[1], re.M):
+        row = re.search(r"^\|[ \t]*" + re.escape(field) + r"[ \t]*\|([^\n]*)", framing[1], re.M) if framing else None
+        value = row[1].split("|", 1)[0].strip() if row else ""
+        if not value:
             failures.append(f"missing or empty {field}")
+        elif not allow_placeholders and (value in FRAMING_PROMPTS or PLACEHOLDER.search(value)):
+            failures.append(f"unresolved placeholder in {field}")
     return failures
 
 
@@ -108,7 +121,7 @@ def check_release(docs: Path, site: Path, site_url: str) -> list[str]:
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture", "tool", "use-case"):
         template = docs / "contributing" / f"{name}-template.md"
-        failures.extend(f"{template}: {error}" for error in check_structure(template.read_text(encoding="utf-8")))
+        failures.extend(f"{template}: {error}" for error in check_structure(template.read_text(encoding="utf-8"), allow_placeholders=True))
     return failures
 
 

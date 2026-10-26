@@ -1,6 +1,7 @@
 """Regression cases for release checks that could otherwise pass silently."""
 import unittest
-from scripts.check_release import MERMAID, Metadata, check_metadata, check_structure
+from pathlib import Path
+from scripts.check_release import FIELDS, MERMAID, PLACEHOLDER, Metadata, check_metadata, check_structure
 
 
 class ReleaseValidationTests(unittest.TestCase):
@@ -37,3 +38,23 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_fields_outside_framing_do_not_count(self):
         text = '## Decision framing\n\n## Does not protect\n| Protected asset | Records |\n\n## Failure modes\n'
         self.assertIn('missing or empty Protected asset', check_structure(text))
+
+    def framing(self, value='Records'):
+        return ('## Decision framing\n\n' +
+                ''.join(f'| {field} | {value} |\n' for field in FIELDS) +
+                '\n## Does not protect\n\n## Failure modes\n')
+
+    def test_empty_framing_cells(self):
+        for value in ('', ' ', '   ', '\t'):
+            with self.subTest(value=value):
+                self.assertIn('missing or empty Protected asset', check_structure(self.framing(value)))
+        self.assertEqual(check_structure(self.framing()), [])
+
+    def test_template_heading_placeholders(self):
+        for title in ('# Use Case', '# Problem Name', '# Pattern Name', '# Architecture Name', '# Tool Name'):
+            with self.subTest(title=title):
+                self.assertIsNotNone(PLACEHOLDER.search(title))
+
+    def test_template_framing_prompts(self):
+        template = Path('docs/contributing/pattern-template.md').read_text()
+        self.assertTrue(any('placeholder' in error for error in check_structure(template)))
