@@ -33,7 +33,7 @@ These studies were chosen because they span different PET families, threat model
 
 | Deep dive | PET family | Maturity | Source quality | Why it is worth studying |
 | --- | --- | --- | --- | --- |
-| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Production, one release per decade | Primary / official plus independent analysis | The largest-scale production DP deployment, with rich public criticism of the utility tradeoff |
+| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Production, batch / periodic | Primary / official plus independent analysis | Historical use of DP in official statistics, with documented utility tradeoffs and a subsequent change in policy |
 | [Boston Wage-Gap MPC](boston-wage-gap-mpc.md) | Secure multi-party computation | Ongoing batch program, repeated since 2015 | Primary / official plus third-party case study | A rare long-running civic MPC deployment where the hard part was trust and usability, not crypto |
 | [Ads Data Hub & Clean Rooms](ads-data-hub-clean-rooms.md) | Aggregation plus query controls (clean room) | Commercial production | Primary / official vendor documentation | A dominant commercial pattern that is often loosely called "privacy-preserving" |
 | [MELLODDY Federated Learning](melloddy-fl.md) | Federated learning plus secure aggregation | Completed consortium project | Primary / official plus peer-reviewed / academic | The largest cross-pharma FL experiment, instructive about what FL alone does and does not protect |

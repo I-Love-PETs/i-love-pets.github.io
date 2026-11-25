@@ -11,6 +11,8 @@ title: "Public-Sector Deployments"
 
 ### 2020 U.S. Census Disclosure Avoidance System
 
+The 2020 products are a historical case. The Bureau now says future statistical products will no longer use noise infusion under DAO 216-26. See its [policy notice](https://www.census.gov/programs-surveys/susb/about/glossary.operations.html) and the [Census deep dive](deep-dives/us-census-dp.md).
+
 | Field | Entry |
 | --- | --- |
 | Organization / project | U.S. Census Bureau 2020 Disclosure Avoidance System |

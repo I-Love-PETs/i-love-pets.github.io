@@ -23,7 +23,9 @@
 
 ## What It Helps Build
 
-OpenDP is a modular library of differentially private algorithms with a Rust core and Python and R bindings on that same core. You assemble a DP release by chaining **transformations** (deterministic data operations, e.g. a bounded sum) with **measurements** (randomised, DP-introducing operations, e.g. Laplace or Gaussian noise), and the library computes the resulting privacy loss for you via **privacy maps** ([OpenDP docs](https://docs.opendp.org/en/stable/index.html), [programming framework](https://docs.opendp.org/en/stable/api/user-guide/programming-framework/index.html)).
+OpenDP is a modular library of differentially private algorithms with a Rust core and Python and R bindings on that same core. You assemble a DP release by chaining **transformations** (deterministic data operations, e.g. a bounded sum) with **measurements** (randomised, DP-introducing operations, e.g. Laplace or Gaussian noise), and the library computes the resulting privacy loss for you via **privacy maps** ([OpenDP docs](https://docs.opendp.org/en/stable/index.html), [OpenDP quickstart](https://docs.opendp.org/en/stable/getting-started/quickstart.html)).
+
+For a first Python analysis, start with the higher-level Context API and the tabular workflow in the quickstart. Use the low-level building blocks when you need to inspect or assemble the mechanism directly.
 
 It is the engine under a [DP synthetic data release](../pet-patterns/dp-synthetic-data-release.md) or a [synthetic data release pipeline](../pet-architectures/synthetic-data-release-pipeline.md), and the natural tool for the DP work in [federated analytics](../pet-patterns/federated-analytics.md) where you need a defensible accountant rather than hand-rolled noise.
 

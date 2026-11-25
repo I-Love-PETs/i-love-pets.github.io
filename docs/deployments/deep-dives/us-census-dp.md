@@ -1,7 +1,12 @@
 # US Census Bureau 2020 Differential Privacy
 
 !!! warning "Read the evidence levels"
-    This is the largest production differential privacy deployment to date, and also one of the most publicly contested. Verified facts and disputed criticisms are both labeled below. Reference date: 2026-06-10.
+    This case documents differential privacy in production for 2020 Decennial Census products.
+
+!!! info "Policy update checked 2026-11-25"
+    The Department of Commerce issued DAO 216-26 on June 4, 2026. The Census Bureau states that future statistical products will no longer use noise infusion under this policy. Bureau guidance prefers coarsening, with suppression allowed where necessary. That changes what teams can plan for future releases. The 2020 products remain historical evidence of production DP. See [Census Bureau notice on noise infusion](https://www.census.gov/programs-surveys/susb/about/glossary.operations.html) and [Census Bureau guidance on statistical safeguards](https://www.census.gov/about/policies/privacy/statistical_safeguards.html).
+
+*(Evidence: Deployment-backed. Source quality: Primary / official. The cited notices establish Bureau policy, not what every future product design will be.)*
 
 ## Snapshot
 
@@ -23,13 +28,13 @@ Scale and timeframe:
 
 - **Geographic reach:** the entire United States, down to the census block, the finest published geography. *(Deployment-backed.)*
 - **First production output:** the P.L. 94-171 redistricting data files were released in **August 2021** using the TDA. *(Deployment-backed — Census release schedule and [TDA working paper](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html).)*
-- **Privacy-loss budget for redistricting data:** the Bureau set a total of **epsilon = 17.14 for persons and epsilon = 2.47 for housing units** (expressed via the zCDP-to-epsilon conversion the Bureau published). *(Deployment-backed — reported in [Census documentation](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html); note that a single global epsilon is a simplification of the Bureau's per-geography-level allocation.)*
+- **Privacy-loss budget for redistricting data:** the Bureau set a total of **epsilon = 17.14 for persons and epsilon = 2.47 for housing units** (the Bureau's published epsilon values for this product). *(Evidence: Deployment-backed. Source quality: Primary / official. See the [2021 production settings announcement](https://www.census.gov/newsroom/press-releases/2021/2020-census-key-parameters.html). These values do not describe later products or demonstration data.)*
 
-A defining design choice is the use of **invariants**: certain statistics the Bureau decided, as a matter of policy, to release exactly with no noise. State-level total population counts are invariant (a constitutional requirement for apportionment), as are the total number of housing units and group-quarters facilities by type. Everything outside the invariant set is noised. *(Deployment-backed — [TDA working paper](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html).)*
+A defining design choice is the use of **invariants**: certain statistics the Bureau decided, as a matter of policy, to release exactly with no noise. For redistricting data, these included state population totals, block-level housing unit counts, and block-level counts of group-quarters facilities for specified types. Block population and the number of people in group quarters were not invariants. *(Evidence: Deployment-backed. Source quality: Primary / official. See the [Bureau’s disclosure avoidance FAQ](https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/process/disclosure-avoidance/2020-das-updates/2020-das-faqs.html).)*
 
 ## Maturity
 
-**Production, but with a once-per-decade cadence.** This is not a pilot. The 2020 redistricting and demographic files are the official, legally operative census products. However, "production" here does not mean "continuously operated service." The DAS ran essentially once for the 2020 cycle, after multiple research demonstrations on 2010 data, and will be re-tuned before 2030. That cadence matters: there was effectively one shot to get parameters right, with limited ability to iterate against live feedback. *(Expert judgment, grounded in [Census documentation](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html).)*
+**Production, batch / periodic.** Treat the files as separate releases. The [2021 redistricting files](https://www.census.gov/newsroom/press-releases/2021/2020-census-key-parameters.html) and the [2023 Demographic and Housing Characteristics File](https://www.census.gov/data/tables/2023/dec/2020-census-dhc.html) describe different products. Earlier [demonstration files](https://www.census.gov/newsroom/press-releases/2021/census-bureau-releases-latest-privacy-protection-demonstration-data.html) used 2010 Census data to illustrate the method. Check which release an evaluation used before carrying its accuracy findings forward.
 
 ## Privacy Claim
 
@@ -54,6 +59,7 @@ A fair counter-point: several independent statisticians concluded that for many 
 
 ## Builder Lessons
 
+- **Plan for policy change.** A method that shipped can later become unavailable under a new mandate. Record the authority for the method, the date checked, and a fallback before the next release cycle. *(Evidence: Expert judgment, informed by the Bureau policy update above.)*
 - **Formal privacy forces an explicit, public utility tradeoff.** The Census fight is what honest DP looks like at scale: you must publish the budget, and stakeholders can then argue about it. That transparency is a feature, but be ready for the argument.
 - **Invariants are a pragmatic escape hatch with a cost.** Releasing some quantities exactly preserved critical legal correctness, but every invariant is a hole in the guarantee and can leak information that interacts with the noised release. Name your invariants explicitly.
 - **Post-processing is part of your privacy and utility story.** Non-negativity and consistency constraints change the error distribution. Do not treat post-processing as a cosmetic final step; analyze its bias.
@@ -62,7 +68,7 @@ A fair counter-point: several independent statisticians concluded that for many 
 
 ## What Remains Unclear
 
-- **The exact 2030 parameters and design are not settled** as of the 2026-06-10 reference date; the Bureau has signaled changes after the 2020 experience, but specifics may evolve. *(Needs evidence.)*
+- **The product-specific design for 2030 remains open in this case study.** Check the policy in force and the Bureau’s product documentation before assuming any statistical method will carry over. *(Needs evidence.)*
 - **The "right" epsilon was, and remains, a policy judgment, not a derived constant.** There is no consensus figure; the 17.14 / 2.47 split reflects the Bureau's negotiated balance, not an objective optimum. *(Expert judgment.)*
 - **Real-world harm from the residual error is genuinely contested.** Studies disagree on how much the documented small-area distortions changed actual districting or funding outcomes, partly because counterfactuals are hard to construct. *(Literature-backed that the dispute exists; the magnitude of practical harm is Needs evidence.)*
 
