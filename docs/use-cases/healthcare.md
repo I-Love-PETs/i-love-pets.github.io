@@ -33,6 +33,8 @@ For multi-hospital model training, start with **cross-silo FL + secure aggregati
 
 For healthcare metrics, start with **federated analytics + thresholds**, then add **DP** for public or repeated releases.
 
+These sketches assume raw records stay at the sites for federated training, and the coordinator follows the selected protocol. If the coordinator can deviate or the released model needs a patient-level contribution bound, revisit the training protocol and privacy accounting.
+
 ## Failure Modes
 
 - A global model works for large hospitals and fails at smaller sites.

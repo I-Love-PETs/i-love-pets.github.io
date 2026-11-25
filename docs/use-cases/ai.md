@@ -6,7 +6,7 @@ AI systems introduce privacy risk through training examples, prompts, embeddings
 
 ## Scenario Playbook
 
-| Scenario | Primary PET | Supporting PETs | Why | What can go wrong | What to measure |
+| Scenario | Approach / architecture | Supporting controls | Why | What can go wrong | What to measure |
 | --- | --- | --- | --- | --- | --- |
 | Enterprise private RAG over sensitive documents | Confidential RAG | TEEs, access control, redaction, log controls | Prompts and retrieved context cross trust boundaries | Bad permissions leak documents, logs store snippets, answers reveal restricted facts | Unauthorized retrieval rate, prompt/log retention, answer leakage |
 | Private inference for model API users | TEE confidential inference or HE | Attestation, model compression, output controls | Inputs should not be exposed to the provider | HE latency explodes, attestation is ignored, outputs leak | p95 latency, supported operators, attestation coverage |
@@ -33,6 +33,8 @@ AI systems introduce privacy risk through training examples, prompts, embeddings
 For private RAG, start with **access control + retrieval policy + log minimization**; add **TEEs** when runtime exposure crosses a trust boundary.
 
 For private inference, start with **TEE confidential inference** when hardware trust is acceptable and model support matters. Use **HE** only after operator and latency benchmarking.
+
+These sketches assume the model or retrieval host is a potential observer and that the data owner can enforce access and output policy. If the host is trusted, start with authorization-aware retrieval and log controls. If the host or hardware cannot be trusted with plaintext, assess local execution or a cryptographic design for the sensitive step.
 
 ## Failure Modes
 

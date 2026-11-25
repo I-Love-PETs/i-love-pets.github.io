@@ -8,7 +8,7 @@ Public-sector PET decisions must balance public benefit, confidentiality, legiti
 
 | Scenario | Primary PET | Supporting PETs | Why | What can go wrong | What to measure |
 | --- | --- | --- | --- | --- | --- |
-| Official statistics release | Differential privacy | Post-processing, utility evaluation, public documentation | Formal privacy can support broad public release | Utility disputes, misunderstood epsilon, small-area harm | Error by geography/group, privacy budget, stakeholder impact |
+| Official statistics release | Differential privacy | Post-processing, utility evaluation, public documentation | A formal contribution bound can support publication where the mandate permits DP | Utility disputes, misunderstood epsilon, small-area harm | Error by geography/group, privacy budget, stakeholder impact |
 | Agencies compute joint eligibility or outcomes | MPC or clean room | Audit logs, purpose controls, thresholds | Agencies can collaborate without broad raw-data pooling | Governance is unclear, outputs affect rights | Accuracy, appeals process, allowed use, auditability |
 | Public-health dashboard | Federated analytics | DP, suppression, grouping | Local agencies can keep source data local | Rare conditions and small geographies leak | Small-cell risk, timeliness, interpretability |
 | Open-data exploration | DP synthetic data | Residual-risk labels, utility tests | Public users get a data-like artifact | Synthetic data is treated as ground truth | Utility for intended tasks, memorization, misuse risk |
@@ -29,7 +29,9 @@ Public-sector PET decisions must balance public benefit, confidentiality, legiti
 
 ## Recommended Starting Stack
 
-For public statistics, start with **DP + transparent utility reporting**. For interagency computation, start with **MPC or a governed clean room**, then add thresholds and audit controls.
+For public statistics, consider **differential privacy** when the publication mandate permits it. Report task-level utility, including error for small geographies and groups. The [U.S. Census policy update](../deployments/deep-dives/us-census-dp.md#policy-update) shows why a historical deployment does not determine what is allowed today. For interagency computation, start with **MPC or a governed clean room**, then add thresholds and audit controls.
+
+These sketches assume a trusted curator for central DP and public recipients who can combine releases. If the curator must not see raw contributions or the mandate forbids noise, reconsider the processing and release model before choosing a mechanism.
 
 ## Failure Modes
 

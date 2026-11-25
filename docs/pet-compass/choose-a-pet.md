@@ -31,13 +31,15 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | Federated learning | 3 | 1 | 4 | 3 | 2 | Can every participant run trustworthy local training? |
 | Secure aggregation | 4 | 1 | 4 | 3 | 2 | How many participants are needed per round? |
-| [Differential privacy](../start-here/glossary.md#differential-privacy) | 2 | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | Varies. See the note below. | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
 | MPC | 5 | 2 | 4 | 2 | 1 | Who are the parties and what collusion is allowed? |
 | [Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) | 5 | 2 | 3 | 1 | 2 | Is the computation narrow enough for HE? |
 | TEEs | 4 | 2 | 4 | 4 | 3 | Is hardware trust and attestation acceptable? |
 | PSI | 5 for nonmatches | 2 | 5 | 4 | 3 | Is revealing the match set allowed? |
 | Synthetic data | 1-4 | 2-5 | 2-4 | 3 | 3 | How will you test memorization and downstream utility? |
 | Clean room | 2-4 | 2 | 4 | 3 | 3 | Is the main problem governance rather than cryptography? |
+
+[Central DP trusts a curator with pre-noise data](../pet-architectures/fl-differential-privacy.md#trust-boundaries). Local DP randomizes data before collection. Distributed DP can hide the pre-noise sum under separate assumptions about participation and collusion. Review those assumptions before comparing input confidentiality.
 
 ### Calibrate the shortlist
 

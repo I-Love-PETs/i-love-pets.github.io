@@ -70,7 +70,7 @@ A fraud model provider wants banks to send transaction features for scoring with
 ## Does not protect
 
 - Leakage through outputs, explanations, confidence scores, or repeated queries. *(Evidence: Literature-backed, 2026-06-10 — model extraction via prediction APIs is demonstrated in Tramèr et al., USENIX Security 2016; membership inference via confidence scores is shown in Shokri et al., IEEE S&P 2017.)*
-- Poor client key handling.
+- Feedback from client decryption. Standard CKKS input protection alone does not cover all protocols that expose decryption feedback. Keep decrypted values, detailed errors, and result-dependent telemetry local unless a review of the chosen scheme and protocol supports sharing them. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Li and Micciancio, EUROCRYPT 2021](https://eprint.iacr.org/2020/1533).)*
 - Model extraction by adversarial clients.
 - TEE side channels or invalid attestation workflows.
 - HE parameter mistakes or unsupported model operations.
@@ -110,7 +110,7 @@ Medium to high. HE is often harder to debug and optimize. TEEs are easier for mo
 - Is the output allowed to reveal the prediction?
 - Are model layers compatible with the PET?
 - What is p50/p95/p99 latency including encryption and transfer?
-- How are keys generated, stored, rotated, and revoked?
+- How are keys generated, stored, rotated, and revoked? Can callbacks, telemetry, or errors disclose information about client decryption to the evaluator?
 - Does the client verify attestation on every relevant deployment version?
 - Are repeated queries and model extraction monitored?
 

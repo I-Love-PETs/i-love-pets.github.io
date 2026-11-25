@@ -31,6 +31,8 @@ Finance PET decisions are shaped by adversarial behavior, regulatory obligations
 
 For cross-bank fraud signals, start with **PSI for overlap** or **MPC/federated analytics for joint metrics**. Move to **FL** only when the real output is a shared model.
 
+These sketches assume competing institutions can be curious and that the parties enforce query and purpose limits. If participants may deviate or collude beyond the selected protocol’s bound, change the protocol or narrow the permitted computation.
+
 ## Failure Modes
 
 - A party uses repeated PSI queries to learn another party's customer base.

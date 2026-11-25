@@ -1,6 +1,6 @@
 # Use Case Template
 
-Use this template when the page starts from a domain need, not from a PET.
+Use this template for a full playbook that starts from a domain need. Brief scenario sketches should state their scope, the key adversary and trust assumption, and when the recommendation changes.
 
 ```markdown
 # Use Case

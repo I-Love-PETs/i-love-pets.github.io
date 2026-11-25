@@ -60,7 +60,7 @@ On small screens, scroll the diagram horizontally to read the labels.
 
 ## Assumptions
 
-- The service never receives decryption keys.
+- The service never receives decryption keys. Keep plaintext results, detailed decryption errors, and result-dependent feedback out of callbacks and telemetry unless the scheme and protocol have been reviewed for that exposure. Li and Micciancio show why standard CKKS input protection alone is insufficient when the evaluator receives decryption feedback. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [EUROCRYPT 2021](https://eprint.iacr.org/2020/1533).)*
 - HE parameters are reviewed for security and correctness.
 - The model architecture fits supported operations.
 - Metadata and outputs are included in privacy review.
@@ -118,5 +118,5 @@ Unsupported model layers, insecure key storage, parameter mistakes, output leaka
 - Does the model fit HE-supported operators?
 - What is end-to-end p95 latency?
 - What accuracy is lost versus plaintext inference?
-- Who controls keys?
+- Who controls keys? What can the evaluator learn from client callbacks, telemetry, and decryption errors?
 - Are output and metadata leakage reviewed?

@@ -68,7 +68,7 @@ See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-releas
 | Adversary | An attacker who downloads the release and tries to re-identify individuals, confirm membership, or recover rare records; an over-trusting consumer who treats "synthetic" as "risk-free." |
 | Trust boundaries | After release, there is no boundary — the artifact is public (or broadly shared) and permanent. All protection must be baked in *before* publication. |
 | What this design protects | With DP, the formal influence of any single individual on the released generator is bounded. Memorization and membership tests can detect some failures in the scenarios tested. Passing them does not prove that rare records cannot appear in the output or that the implementation satisfies DP. |
-| What is **not** protected | DP bounds individual influence but does **not** guarantee zero utility loss, nor does it protect sensitive *population-level correlations* that may themselves be sensitive to disclose. Rare subgroups remain the highest-risk region even under DP. A non-DP generator protects *nothing* formally. Over-trust by downstream users is a human risk no algorithm removes. See [Membership Inference](../threat-models/membership-inference.md). |
+| What is **not** protected | Correctly implemented DP applies the stated neighboring-dataset bound to each protected individual. Rare subgroups may lose more utility, and population-level facts and harms outside the chosen privacy unit remain outside the guarantee. Non-DP synthesis supplies no DP guarantee by itself. Over-trust by downstream users is a human risk no algorithm removes. See [Membership Inference](../threat-models/membership-inference.md). |
 
 !!! warning "Synthetic is not a privacy guarantee"
     "It's synthetic" describes how the data was generated, not how private it is. Only a privacy mechanism (DP) plus evaluation (memorization, membership inference) supports a defensible claim. State the residual risk explicitly; do not let "synthetic" do the work that evidence should.
@@ -81,7 +81,7 @@ See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-releas
 | Memorization | Nearest-neighbor similarity between synthetic and training records; verbatim duplication rate | Needs evidence — the first test that catches copying |
 | Membership inference | Attacker success rate at distinguishing training members | Needs evidence — turns belief into a number |
 | Utility | Downstream task performance vs. real data; distributional fidelity | Expert judgment (2026-06-10): expect noticeable utility loss under meaningful DP; quantify it |
-| Rare-subgroup behavior | Utility and risk specifically for small/rare subgroups | Needs evidence — risk and utility both concentrate here |
+| Rare-subgroup behavior | Accuracy for small or rare subgroups, with uncertainty | Needs evidence — compare subgroup utility with the intended use |
 | Cost / effort | Generator training cost; evaluation effort; review/governance burden | Expert judgment (2026-06-10): evaluation and review often exceed generation cost |
 | Residual-risk clarity | Whether the release documents what it does *not* protect | Expert judgment (2026-06-10): a release without a residual-risk statement is incomplete |
 

@@ -62,7 +62,7 @@ Flower's defensible claim is **orchestration plus optional privacy building bloc
 
 ## Benchmarks Or Evidence
 
-- **Maturity / adoption** (Deployment-backed): published on PyPI with status "5 - Production/Stable", Apache-2.0 licensed, with roughly 400k+ monthly downloads and active releases — v1.30.0 was released 2026-05-20 ([PyPI `flwr`](https://pypi.org/project/flwr/), [changelog](https://flower.ai/docs/framework/ref-changelog.html)). Origin is a University of Oxford research project; it is widely used in research and industry.
+- **Packaging and maintenance:** [PyPI](https://pypi.org/project/flwr/) publishes the package and its Production/Stable classifier. The [project changelog](https://flower.ai/docs/framework/ref-changelog.html) records v1.30.0 in May 2026. These sources establish distribution and release history. Adoption of this reviewed stack in named production deployments remains Needs evidence.
 - **Privacy of updates** (Needs evidence): the *effectiveness* of SecAgg+ and DP for your specific model, data shape, and adversary is not something download counts demonstrate. There is no single number here; it must be measured per deployment.
 
 ## First Benchmark To Run
