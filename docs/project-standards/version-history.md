@@ -6,7 +6,7 @@ description: "Read the v1.0 definition of done, release-readiness checks, earlie
 
 !!! info "Release status"
     Status: v1.0 published decision framework
-    Last updated: 2026-09-18
+    Last updated: 2026-11-25
     Scope: v1.0 acceptance criteria, shipped milestones, and explicit evidence follow-ups.
 
 This page tracks what each site version is meant to change. It is not a changelog for every line edit; it is the editorial map readers and contributors can use to understand the maturity of the guide.
@@ -31,7 +31,7 @@ Run the commands in [Contributing](../contributing/index.md) and the repositoryâ
 - Install `requirements.txt`; run the strict MkDocs build, Markdown lint, and validator tests.
 - Check source and built internal links and anchors, navigation coverage, and local assets.
 - Check framing coverage, contributor structure, rendered evidence notes, and primary-path placeholder markers.
-- Check canonical URLs and OpenGraph/Twitter title and description metadata, including punctuation escaping.
+- Check canonical URLs and OpenGraph/Twitter titles, descriptions, image URLs, and image alt text.
 - Confirm Mermaid loads only on diagram pages and every diagram renders in a browser.
 - Check sitemap (including compressed copy), robots, and nested-path 404 recovery.
 - Review the homepage, chooser, a pattern, and diagram pages at mobile and desktop widths in light and dark mode. Check navigation, table scrolling, readable diagrams, focus visibility, and theme switching.

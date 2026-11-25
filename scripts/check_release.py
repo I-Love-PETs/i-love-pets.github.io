@@ -31,7 +31,8 @@ FRAMING_PROMPTS = (
 )
 
 
-def check_metadata(text: str | Page, canonical: str, diagrams: bool, mermaid_url: str) -> list[str]:
+def check_metadata(text: str | Page, canonical: str, diagrams: bool, mermaid_url: str,
+                   image_url: str = "", image_alt: str = "") -> list[str]:
     page = text if isinstance(text, Page) else Page(text)
     failures = []
     for key in ("og:type", "og:site_name", "og:title", "og:description", "og:url", "twitter:card", "twitter:title", "twitter:description"):
@@ -42,8 +43,14 @@ def check_metadata(text: str | Page, canonical: str, diagrams: bool, mermaid_url
         failures.append("og:title must identify the page, not its generic navigation label")
     if page.canonical != [canonical] or page.meta["og:url"] != [canonical]:
         failures.append("canonical and og:url must match the page URL")
-    if page.meta["twitter:card"] != ["summary"]:
-        failures.append("expected a text-first summary card")
+    card = "summary_large_image" if image_url else "summary"
+    if page.meta["twitter:card"] != [card]:
+        failures.append(f"expected twitter:card to be {card}")
+    if image_url:
+        if page.meta["og:image"] != [image_url] or page.meta["twitter:image"] != [image_url]:
+            failures.append("social image URLs must match the configured site asset")
+        if not image_alt.strip() or page.meta["og:image:alt"] != [image_alt] or page.meta["twitter:image:alt"] != [image_alt]:
+            failures.append("social image tags must supply the configured alt text")
     if page.meta["og:title"] != page.meta["twitter:title"] or page.meta["og:description"] != page.meta["twitter:description"]:
         failures.append("social titles and descriptions must agree")
     scripts = [src for src in page.scripts if "mermaid" in src.lower()]
@@ -81,6 +88,11 @@ def check_release(config) -> list[str]:
     docs = Path(config.docs_dir)
     failures = []
     titles = {}
+    image_path = config.extra.get("social_image", "")
+    image_url = config.site_url + image_path if image_path else ""
+    image_alt = config.extra.get("social_image_alt", "")
+    if image_path and not (Path(config.site_dir) / image_path).is_file():
+        failures.append(f"{image_path}: missing built social image")
     for file, canonical in documentation_pages(config):
         relative = Path(file.src_uri)
         text = file.content_string
@@ -104,7 +116,8 @@ def check_release(config) -> list[str]:
             if title in titles:
                 failures.append(f"{relative}: repeated og:title (also used by {titles[title]})")
             titles[title] = relative
-        failures.extend(f"{relative}: {error}" for error in check_metadata(metadata, canonical, metadata.has_mermaid, config.extra["mermaid_script"]))
+        failures.extend(f"{relative}: {error}" for error in check_metadata(
+            metadata, canonical, metadata.has_mermaid, config.extra["mermaid_script"], image_url, image_alt))
         if '--8<-- "decision-guidance.md"' in text and ('Evidence and assumptions' not in html or '--8&lt;--' in html):
             failures.append(f"{relative}: decision guidance include was not rendered")
     for name in ("pattern", "architecture"):

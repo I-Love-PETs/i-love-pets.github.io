@@ -25,6 +25,8 @@ class ReleaseBuildTests(unittest.TestCase):
         cls.docs = root / 'docs'
         cls.site = root / 'site'
         cls.docs.mkdir()
+        (cls.docs / 'assets').mkdir()
+        shutil.copy(ROOT / 'docs/assets/social-card.png', cls.docs / 'assets')
         snippets = root / 'includes'
         snippets.mkdir()
         shutil.copy(ROOT / 'includes/decision-guidance.md', snippets)
@@ -68,7 +70,11 @@ class ReleaseBuildTests(unittest.TestCase):
             nav=[{'Home': 'index.md'}, {'One': [{'Overview': 'one/index.md'}]},
                  {'Two': [{'Overview': 'two/index.md'}]}],
             hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md',
-            extra={'mermaid_script': 'https://cdn.example/mermaid@10.9.1/mermaid.min.js'}, extra_css=[], extra_javascript=[],
+            extra={
+                'mermaid_script': 'https://cdn.example/mermaid@10.9.1/mermaid.min.js',
+                'social_image': 'assets/social-card.png',
+                'social_image_alt': 'Privacy engineering & design',
+            }, extra_css=[], extra_javascript=[],
             validation={'nav': {'omitted_files': 'ignore'}, 'links': {'absolute_links': 'relative_to_docs'}},
         )
         cls.config.mdx_configs['pymdownx.snippets']['base_path'] = [str(snippets)]
@@ -88,6 +94,18 @@ class ReleaseBuildTests(unittest.TestCase):
 
     def test_duplicate_social_titles_rejected(self):
         self.assertTrue(any('duplicate-b.md' in error and 'repeated og:title' in error for error in self.errors))
+
+    def test_social_image_resolves_under_site_base_path(self):
+        image_url = urljoin(self.config.site_url, self.config.extra['social_image'])
+        self.assertTrue((self.site / 'assets/social-card.png').is_file())
+        for target in ('index.html', 'deep/nested/guidance/index.html'):
+            with self.subTest(target=target):
+                meta = Page(self.built(target)).meta
+                self.assertEqual(meta['og:image'], [image_url])
+                self.assertEqual(meta['twitter:image'], [image_url])
+                self.assertEqual(meta['og:image:alt'], ['Privacy engineering & design'])
+                self.assertEqual(meta['twitter:image:alt'], meta['og:image:alt'])
+                self.assertEqual(meta['twitter:card'], ['summary_large_image'])
 
     def test_rendered_diagrams_match_script_loading(self):
         for name, diagram in (('tilde', True), ('snippet', True), ('nested', False), ('prose', False)):

@@ -23,107 +23,19 @@ can inspect.
 
 New to PETs? [Start here](start-here/index.md) introduces the terms and the six-field decision framing.
 
-## Find Your Path
+<span id="find-your-path"></span>
+<span id="fast-routing"></span>
+<span id="what-makes-this-guide-useful"></span>
+<span id="how-to-use-this-site"></span>
 
-<div class="grid cards" markdown>
+## When to rule out a PET
 
-- :material-compass-outline: **I need to choose a PET**
+- **Skip plain federated learning if the coordinator must not see site updates.** Keeping records local still leaves updates visible. Check the trust boundary in the [hospital training decision](worked-decisions/hospital-model-training.md).
+- **Skip identity-revealing PSI if participants may learn only a count.** The match list is itself a disclosure. Compare the outputs in [Private Set Intersection](pet-patterns/private-set-intersection.md#do-not-use-psi-when).
+- **Skip a TEE if you cannot establish who can access the hardware.** Valid attestation depends on the platform's threat assumptions. See the [private inference decision](worked-decisions/private-model-inference.md).
 
-    ---
-
-    You have a real system and a privacy constraint. Start with the guided chooser.
-
-    [:octicons-arrow-right-24: Choose a PET](pet-compass/choose-a-pet.md)
-
-- :material-vector-square: **I need to design an architecture**
-
-    ---
-
-    You know your PET candidate and need actors, data flows, and trust boundaries.
-
-    [:octicons-arrow-right-24: PET Architectures](pet-architectures/index.md)
-
-- :material-magnify: **I need to evaluate a claim**
-
-    ---
-
-    A vendor or paper makes a privacy claim. Check it against the evidence policy and the claim register.
-
-    [:octicons-arrow-right-24: Evidence Policy](project-standards/evidence-policy.md) &nbsp;·&nbsp; [Claim Register](project-standards/claim-register.md)
-
-- :material-flask-outline: **I need a research problem**
-
-    ---
-
-    You want a concrete open problem with success criteria and a first contribution.
-
-    [:octicons-arrow-right-24: Fix My Itch](fix-my-itch/index.md)
-
-- :material-database-search-outline: **I need evidence from deployments**
-
-    ---
-
-    You want deployment maturity, source quality, and lessons from real production use.
-
-    [:octicons-arrow-right-24: Deployments](deployments/index.md)
-
-- :material-clipboard-check-outline: **I need a worked decision**
-
-    ---
-
-    You want to see a PET choice made under realistic constraints before you copy the pattern.
-
-    [:octicons-arrow-right-24: Worked Decisions](worked-decisions/index.md)
-
-- :material-tools: **I need to evaluate a PET tool**
-
-    ---
-
-    You want to know whether a library or platform fits a threat model, architecture, and first benchmark.
-
-    [:octicons-arrow-right-24: Tool Reviews](tool-reviews/index.md)
-
-</div>
-
-Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
-
-## Fast Routing
-
-| You have... | Go to... | Then check... |
-| --- | --- | --- |
-| A concrete use case but no PET shortlist | [Use Cases](use-cases/index.md) | [PET Compass](pet-compass/index.md) |
-| A PET candidate but no design | [PET Architectures](pet-architectures/index.md) | [Threat Models](threat-models/index.md) |
-| A vendor/tool claim | [Tool Reviews](tool-reviews/index.md) | [Evidence Policy](project-standards/evidence-policy.md) |
-| A proposed deployment claim | [Deployments](deployments/index.md) | [Claim Register](project-standards/claim-register.md) |
-| A research or contribution idea | [Fix My Itch](fix-my-itch/index.md) | [Contributing](contributing/index.md) |
-
-## What makes this guide useful
-
-Each design connects an allowed output to the people who may observe it, the
-assumptions needed to protect inputs, and the ways the system can still fail.
-Recommendations include reasons to change course. Deployment and benchmark
-pages distinguish sourced evidence from illustrative examples using one
-[Evidence Policy](project-standards/evidence-policy.md).
-
-You can use a page to prepare a design review, choose a first benchmark, or find
-a concrete research problem. Coverage is selective; [v1.0 readiness](project-standards/version-history.md#v10-definition-of-done)
-means a consistent decision framework and publishing baseline, not complete PET coverage.
-
-## How To Use This Site
-
-Use the site as a field guide, not a textbook.
-
-| If you need to... | Start with... | You should leave with... |
-| --- | --- | --- |
-| Pick a PET for a real system | [PET Compass](pet-compass/index.md) | A primary candidate, likely supporting PETs, and reasons to reject the wrong options |
-| Explain how a PET design works | [PET Architectures](pet-architectures/index.md) | Actors, data flows, trust boundaries, assumptions, and failure modes |
-| Compare recurring designs | [PET Patterns](pet-patterns/index.md) | When to use a pattern, when not to use it, and what to measure |
-| See a decision worked through end to end | [Worked Decisions](worked-decisions/index.md) | A recommended PET stack, what can go wrong, what to measure, and when the choice changes |
-| Check whether a privacy claim is credible | [Threat Models](threat-models/index.md) | The adversary, the protected asset, and what the PET does not protect |
-| Evaluate a tool or platform | [Tool Reviews](tool-reviews/index.md) | Fit, evidence level, operational risks, first benchmark, and when not to use it |
-| Exercise a benchmark scorecard | [Benchmark Example Runs](benchmarks/example-runs.md) | A hypothetical workload, scorecard fields, failure modes, and measurement plan |
-| Find a useful research problem | [Fix My Itch](fix-my-itch/index.md) | A concrete problem, current workaround, success criteria, and a first contribution |
-| Judge whether a deployment claim is meaningful | [Deployments](deployments/index.md) | Deployment maturity, source quality, lessons, and unresolved caveats |
+Use the [reader paths](start-here/reader-paths.md) for a guided walkthrough, or check the
+[Evidence Policy](project-standards/evidence-policy.md) before relying on a claim.
 
 ## Opinionated Defaults
 

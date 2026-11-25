@@ -10,7 +10,16 @@
     <meta property="og:title" content="{{ title | e }}">
     <meta property="og:description" content="{{ description | e }}">
     <meta property="og:url" content="{{ page.canonical_url | e }}">
-    <meta name="twitter:card" content="summary">
+    {% if config.extra.social_image %}
+      {% set image = config.site_url ~ config.extra.social_image %}
+      <meta property="og:image" content="{{ image | e }}">
+      <meta property="og:image:alt" content="{{ config.extra.social_image_alt | e }}">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="{{ image | e }}">
+      <meta name="twitter:image:alt" content="{{ config.extra.social_image_alt | e }}">
+    {% else %}
+      <meta name="twitter:card" content="summary">
+    {% endif %}
     <meta name="twitter:title" content="{{ title | e }}">
     <meta name="twitter:description" content="{{ description | e }}">
   {% endif %}

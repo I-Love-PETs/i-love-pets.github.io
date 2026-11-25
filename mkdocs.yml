@@ -60,6 +60,8 @@ plugins:
 
 extra:
   mermaid_script: https://unpkg.com/mermaid@10.9.1/dist/mermaid.min.js
+  social_image: assets/social-card.png
+  social_image_alt: I Love PETs, a field guide to privacy-enhancing technologies
 
 extra_css:
   - assets/stylesheets/site-chrome.css
@@ -92,36 +94,30 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 nav:
-  - Home: index.md
-  - Project Standards:
-      - Overview: project-standards/index.md
-      - Primary Reader: project-standards/primary-reader.md
-      - Evidence Policy: project-standards/evidence-policy.md
-      - Claim Register: project-standards/claim-register.md
-      - Review Cadence: project-standards/review-cadence.md
-      - Version History: project-standards/version-history.md
-  - Start Here:
-      - Overview: start-here/index.md
-      - Reader Paths: start-here/reader-paths.md
-      - What Are PETs?: start-here/what-are-pets.md
-      - PET Taxonomy: start-here/pet-taxonomy.md
-      - Glossary: start-here/glossary.md
-  - PET Compass:
-      - Overview: pet-compass/index.md
-      - Choose a PET: pet-compass/choose-a-pet.md
-      - By Data Movement: pet-compass/by-data-movement.md
-      - By Threat Model: pet-compass/by-threat-model.md
-      - By ML Task: pet-compass/by-ml-task.md
-      - Decision Tree: pet-compass/decision-tree.md
-  - Worked Decisions:
-      - Overview: worked-decisions/index.md
-      - Hospital Model Training: worked-decisions/hospital-model-training.md
-      - Cross-Bank Fraud Detection: worked-decisions/cross-bank-fraud-detection.md
-      - Private RAG for Enterprise Docs: worked-decisions/private-rag-enterprise-docs.md
-      - Synthetic Dataset Release: worked-decisions/synthetic-dataset-release.md
-      - Private Model Inference: worked-decisions/private-model-inference.md
-      - Public-Sector Statistics Release: worked-decisions/public-sector-statistics-release.md
-  - PET Patterns:
+  - Start:
+      - Home: index.md
+      - Start Here:
+          - Overview: start-here/index.md
+          - Reader Paths: start-here/reader-paths.md
+          - What Are PETs?: start-here/what-are-pets.md
+          - PET Taxonomy: start-here/pet-taxonomy.md
+          - Glossary: start-here/glossary.md
+      - Project Standards:
+          - Overview: project-standards/index.md
+          - Primary Reader: project-standards/primary-reader.md
+          - Evidence Policy: project-standards/evidence-policy.md
+          - Claim Register: project-standards/claim-register.md
+          - Review Cadence: project-standards/review-cadence.md
+          - Version History: project-standards/version-history.md
+      - Contributing:
+          - Overview: contributing/index.md
+          - Pattern Template: contributing/pattern-template.md
+          - Use Case Template: contributing/use-case-template.md
+          - Architecture Template: contributing/architecture-template.md
+          - Fix My Itch Template: contributing/fix-my-itch-template.md
+          - Tool Evaluation Framework: contributing/tool-evaluation-framework.md
+          - Tool Template: contributing/tool-template.md
+  - PETs:
       - Overview: pet-patterns/index.md
       - Federated Analytics: pet-patterns/federated-analytics.md
       - Cross-Silo Federated Learning: pet-patterns/cross-silo-federated-learning.md
@@ -131,22 +127,76 @@ nav:
       - Confidential Inference: pet-patterns/confidential-inference.md
       - Federated RAG: pet-patterns/federated-rag.md
       - Private LLM Fine-Tuning: pet-patterns/private-llm-finetuning.md
-  - Use Cases:
-      - Overview: use-cases/index.md
-      - Healthcare: use-cases/healthcare.md
-      - Finance: use-cases/finance.md
-      - Advertising: use-cases/advertising.md
-      - Public Sector: use-cases/public-sector.md
-      - AI: use-cases/ai.md
-  - PET Architectures:
-      - Overview: pet-architectures/index.md
-      - FL + Secure Aggregation: pet-architectures/fl-secure-aggregation.md
-      - FL + Differential Privacy: pet-architectures/fl-differential-privacy.md
-      - MPC Analytics Pipeline: pet-architectures/mpc-analytics-pipeline.md
-      - HE Private Inference API: pet-architectures/he-private-inference-api.md
-      - Confidential RAG: pet-architectures/confidential-rag.md
-      - Synthetic Data Release Pipeline: pet-architectures/synthetic-data-release-pipeline.md
-  - Fix My Itch:
+  - Choose:
+      - PET Compass:
+          - Overview: pet-compass/index.md
+          - Choose a PET: pet-compass/choose-a-pet.md
+          - By Data Movement: pet-compass/by-data-movement.md
+          - By Threat Model: pet-compass/by-threat-model.md
+          - By ML Task: pet-compass/by-ml-task.md
+          - Decision Tree: pet-compass/decision-tree.md
+      - Worked Decisions:
+          - Overview: worked-decisions/index.md
+          - Hospital Model Training: worked-decisions/hospital-model-training.md
+          - Cross-Bank Fraud Detection: worked-decisions/cross-bank-fraud-detection.md
+          - Private RAG for Enterprise Docs: worked-decisions/private-rag-enterprise-docs.md
+          - Synthetic Dataset Release: worked-decisions/synthetic-dataset-release.md
+          - Private Model Inference: worked-decisions/private-model-inference.md
+          - Public-Sector Statistics Release: worked-decisions/public-sector-statistics-release.md
+      - Use Cases:
+          - Overview: use-cases/index.md
+          - Healthcare: use-cases/healthcare.md
+          - Finance: use-cases/finance.md
+          - Advertising: use-cases/advertising.md
+          - Public Sector: use-cases/public-sector.md
+          - AI: use-cases/ai.md
+  - Design:
+      - PET Architectures:
+          - Overview: pet-architectures/index.md
+          - FL + Secure Aggregation: pet-architectures/fl-secure-aggregation.md
+          - FL + Differential Privacy: pet-architectures/fl-differential-privacy.md
+          - MPC Analytics Pipeline: pet-architectures/mpc-analytics-pipeline.md
+          - HE Private Inference API: pet-architectures/he-private-inference-api.md
+          - Confidential RAG: pet-architectures/confidential-rag.md
+          - Synthetic Data Release Pipeline: pet-architectures/synthetic-data-release-pipeline.md
+      - Threat Models:
+          - Overview: threat-models/index.md
+          - Honest-But-Curious: threat-models/honest-but-curious.md
+          - Malicious Adversary: threat-models/malicious-adversary.md
+          - Collusion: threat-models/collusion.md
+          - Inference Attacks: threat-models/inference-attacks.md
+          - Membership Inference: threat-models/membership-inference.md
+          - Side Channels: threat-models/side-channels.md
+  - Evidence:
+      - Deployments:
+          - Overview: deployments/index.md
+          - Healthcare: deployments/healthcare.md
+          - Finance: deployments/finance.md
+          - Advertising: deployments/advertising.md
+          - Public Sector: deployments/public-sector.md
+          - Deep Dives:
+              - Overview: deployments/deep-dives/index.md
+              - US Census Differential Privacy: deployments/deep-dives/us-census-dp.md
+              - Boston Wage-Gap MPC: deployments/deep-dives/boston-wage-gap-mpc.md
+              - Ads Data Hub & Clean Rooms: deployments/deep-dives/ads-data-hub-clean-rooms.md
+              - MELLODDY Federated Learning: deployments/deep-dives/melloddy-fl.md
+              - EXAM COVID-19 Federated Learning: deployments/deep-dives/exam-covid-fl.md
+              - Japanese Banks Federated Fraud Detection: deployments/deep-dives/japanese-banks-fl-fraud.md
+      - Benchmarks:
+          - Overview: benchmarks/index.md
+          - Scorecards: benchmarks/scorecards.md
+          - Benchmark Exercises: benchmarks/example-runs.md
+          - Privacy: benchmarks/privacy.md
+          - Utility: benchmarks/utility.md
+          - Cost: benchmarks/cost.md
+          - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
+      - Tool Reviews:
+          - Overview: tool-reviews/index.md
+          - Flower FL: tool-reviews/flower-fl.md
+          - OpenDP: tool-reviews/opendp.md
+          - Microsoft SEAL: tool-reviews/microsoft-seal.md
+          - Confidential Computing Platform: tool-reviews/confidential-computing-platform.md
+  - Open problems:
       - Overview: fix-my-itch/index.md
       - Good First Research Problems: fix-my-itch/good-first-research-problems.md
       - Industry Pain Points: fix-my-itch/industry-pain-points.md
@@ -158,47 +208,3 @@ nav:
       - Synthetic Data: fix-my-itch/synthetic-data.md
       - PET Composition: fix-my-itch/pet-composition.md
       - Benchmarks Needed: fix-my-itch/benchmarks-needed.md
-  - Threat Models:
-      - Overview: threat-models/index.md
-      - Honest-But-Curious: threat-models/honest-but-curious.md
-      - Malicious Adversary: threat-models/malicious-adversary.md
-      - Collusion: threat-models/collusion.md
-      - Inference Attacks: threat-models/inference-attacks.md
-      - Membership Inference: threat-models/membership-inference.md
-      - Side Channels: threat-models/side-channels.md
-  - Benchmarks:
-      - Overview: benchmarks/index.md
-      - Scorecards: benchmarks/scorecards.md
-      - Example Runs: benchmarks/example-runs.md
-      - Privacy: benchmarks/privacy.md
-      - Utility: benchmarks/utility.md
-      - Cost: benchmarks/cost.md
-      - Benchmark Wishlist: benchmarks/benchmark-wishlist.md
-  - Tool Reviews:
-      - Overview: tool-reviews/index.md
-      - Flower FL: tool-reviews/flower-fl.md
-      - OpenDP: tool-reviews/opendp.md
-      - Microsoft SEAL: tool-reviews/microsoft-seal.md
-      - Confidential Computing Platform: tool-reviews/confidential-computing-platform.md
-  - Deployments:
-      - Overview: deployments/index.md
-      - Healthcare: deployments/healthcare.md
-      - Finance: deployments/finance.md
-      - Advertising: deployments/advertising.md
-      - Public Sector: deployments/public-sector.md
-      - Deep Dives:
-          - Overview: deployments/deep-dives/index.md
-          - US Census Differential Privacy: deployments/deep-dives/us-census-dp.md
-          - Boston Wage-Gap MPC: deployments/deep-dives/boston-wage-gap-mpc.md
-          - Ads Data Hub & Clean Rooms: deployments/deep-dives/ads-data-hub-clean-rooms.md
-          - MELLODDY Federated Learning: deployments/deep-dives/melloddy-fl.md
-          - EXAM COVID-19 Federated Learning: deployments/deep-dives/exam-covid-fl.md
-          - Japanese Banks Federated Fraud Detection: deployments/deep-dives/japanese-banks-fl-fraud.md
-  - Contributing:
-      - Overview: contributing/index.md
-      - Pattern Template: contributing/pattern-template.md
-      - Use Case Template: contributing/use-case-template.md
-      - Architecture Template: contributing/architecture-template.md
-      - Fix My Itch Template: contributing/fix-my-itch-template.md
-      - Tool Evaluation Framework: contributing/tool-evaluation-framework.md
-      - Tool Template: contributing/tool-template.md
