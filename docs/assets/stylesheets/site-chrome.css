@@ -149,3 +149,19 @@
   outline: 0.1rem solid var(--md-typeset-a-color);
   outline-offset: 0.1rem;
 }
+
+.md-content .md-typeset a:not([class]) {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.md-copyright,
+.md-copyright__highlight,
+html .md-footer-meta.md-typeset .md-copyright a {
+  color: var(--md-footer-fg-color);
+}
+
+.md-typeset__scrollwrap[tabindex="0"]:focus-visible {
+  outline: 0.1rem solid var(--md-typeset-color);
+  outline-offset: -0.1rem;
+}
