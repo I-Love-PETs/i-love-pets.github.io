@@ -52,8 +52,17 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_empty_framing_cells(self):
         for value in ('', ' ', '   ', '\t'):
             with self.subTest(value=value):
-                self.assertIn('missing or empty Protected asset', check_structure(self.framing(value)))
+                self.assertEqual(check_structure(self.framing(value)),
+                                 [f'missing or empty {field}' for field in FIELDS])
         self.assertEqual(check_structure(self.framing()), [])
+
+    def test_each_empty_framing_cell_is_rejected(self):
+        for field in FIELDS:
+            for value in ('', ' ', '   ', '\t'):
+                with self.subTest(field=field, value=value):
+                    text = self.framing().replace(f'| {field} | Records |',
+                                                  f'| {field} | {value}|')
+                    self.assertEqual(check_structure(text), [f'missing or empty {field}'])
 
     def test_template_heading_placeholders(self):
         for title in ('# Use Case', '# Problem Name', '# Pattern Name', '# Architecture Name', '# Tool Name'):
