@@ -10,7 +10,7 @@
 | Organization / project | Privacy-preserving federated learning demonstration with five Japanese banks |
 | Domain | Finance / fraud and financial-crime detection |
 | Problem | Detect fraudulent financial transactions and criminal bank accounts across institutions without sharing transaction data with a third party |
-| PETs used | Federated learning with the Deepprotect privacy-preserving protocol |
+| PETs used | DeepProtect combines federated learning with additive homomorphic encryption of model updates. [NICT protocol summary](https://sfl.nict.go.jp/en/team-1.html). |
 | Deployment maturity | Demonstration experiment |
 | Source quality | Peer-reviewed / academic |
 | Source | [Journal of Information Processing: Privacy-Preserving Federated Learning for Detecting Fraudulent Financial Transactions in Japanese Banks](https://www.jstage.jst.go.jp/article/ipsjjip/30/0/30_789/_article) |
@@ -19,7 +19,9 @@
 
 The paper reports a demonstration experiment with five named banks: Chiba Bank, MUFG Bank, Chugoku Bank, Sumitomo Mitsui Trust Bank, and Iyo Bank. The authors state that the experiment used real transaction data and evaluated two fraud tasks: detecting fraudulent transactions in victim accounts and detecting criminal bank accounts. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
 
-The underlying protocol, called Deepprotect, supports privacy-preserving deep-learning training with stochastic gradient descent. The paper frames the work as a response to two finance realities: local banks may not have enough fraud examples alone, and transaction data contains personal information that is legally restricted from ordinary third-party sharing. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
+In the distributed DeepProtect design, learning participants encrypt local updates. The central server applies those updates while the model weights remain encrypted. Participants decrypt the updated model. In the symmetric-key design, they share the secret key and the server does not have it. The protection addresses a curious aggregation server. It does not, by itself, establish protection against collusion with a key holder. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Kanamori et al., §2](https://www.jstage.jst.go.jp/article/ipsjjip/30/0/30_789/_pdf).)*
+
+The five-bank experiment ran locally at NICT without an internet connection. The banks provided data with personal information deleted or modified under research arrangements. The paper does not establish who would hold keys in an independently operated production deployment. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Kanamori et al., §3](https://www.jstage.jst.go.jp/article/ipsjjip/30/0/30_789/_pdf).)*
 
 Reported outcome:
 
@@ -31,7 +33,7 @@ Reported outcome:
 
 ## Privacy Claim
 
-The supported claim is **collaborative model training without ordinary cross-bank data sharing**. The paper claims a privacy-preserving FL protocol for the training task and positions it against the legal and practical difficulty of sending transaction data to a third party.
+The experiment supports the feasibility of learning from data originating at several banks. The encrypted-update boundary above describes the protocol. Separate bank-operated training and key custody were outside the demonstration.
 
 The claim is not enough by itself to approve a production anti-fraud network. A production deployment would still need a threat model for collusion, malicious participants, identity alignment, inference from model outputs, false-positive handling, account-freeze governance, auditability, and customer-impact review. *(Evidence: Expert judgment. Source quality: Project analysis.)*
 

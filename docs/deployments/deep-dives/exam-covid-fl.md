@@ -35,6 +35,8 @@ These are study results, not procurement-grade claims for arbitrary hospital FL 
 
 The supported claim is **data-minimizing collaboration**: participating institutions did not send their raw local training data to a central pool. That is valuable, especially during a public-health emergency when legal and operational barriers can slow data sharing.
 
+In a separate evaluation, the authors sent only selected weight updates and reported comparable predictive performance when sharing 25% of updates. See [Dayan et al., Extended Data Fig. 5](https://www.nature.com/articles/s41591-021-01506-3). This reduces the updates shared in the tested setup. The study reports no epsilon/delta bound for that heuristic. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
+
 The unsupported claim would be stronger: "the collaboration was private." FL alone does not prevent leakage through gradients, model updates, final models, logs, or outputs. The EXAM paper is not a complete privacy evaluation against gradient leakage, membership inference, poisoning, or insider misuse. *(Evidence: Literature-backed for FL leakage as a class; Needs evidence for EXAM-specific attack resistance.)*
 
 ## Limitations
@@ -54,7 +56,7 @@ The unsupported claim would be stronger: "the collaboration was private." FL alo
 ## What Remains Unclear
 
 - Whether EXAM or derivative models entered routine clinical production at participating institutions. *(Needs evidence.)*
-- Whether secure aggregation, DP, membership-inference testing, or gradient-leakage testing was applied to the EXAM training run. *(Needs evidence.)*
+- The paper establishes the partial-sharing experiment. It does not establish secure aggregation, formal DP accounting, or results from membership-inference and gradient-leakage evaluations for the reported training run. *(Needs evidence.)*
 - How performance held up under later COVID variants, treatment changes, and hospital workflow changes. *(Needs evidence.)*
 
 ## Sources

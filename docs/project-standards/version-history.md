@@ -18,9 +18,9 @@ content, contributor conventions, and a trustworthy publishing baseline. It does
 not mean complete PET coverage or that every workload claim has measured evidence.
 
 - Every pattern and architecture states Protected asset, Adversary, Allowed output, Leakage surface, Assumptions, and Non-goals, with protection limits and failure modes.
-- Decision-critical claims use the existing Evidence Policy; unsupported guidance stays visibly Expert judgment or Needs evidence.
+- The [Evidence Policy](evidence-policy.md) applies across the guide. Older deployment notes and research cards still need migration to paired source labels and scoped review dates. The domain use cases are short scenario sketches with trust assumptions and change conditions.
 - The homepage and onboarding lead readers to a shortlist, a pattern, a worked decision, or an open problem.
-- Contributor templates preserve these conventions and terminology.
+- Contributor templates describe the conventions for new work. Existing research cards are moving to the prior-work standard as they are reviewed.
 - Publishing checks cover internal links, navigation, diagrams, social metadata, sitemap, robots, and the error page.
 
 ### v1.0 release-readiness checks
@@ -36,7 +36,7 @@ Run the commands in [Contributing](../contributing/index.md) and the repository�
 - Check sitemap (including compressed copy), robots, and nested-path 404 recovery.
 - Review the homepage, chooser, a pattern, and diagram pages at mobile and desktop widths in light and dark mode. Check navigation, table scrolling, readable diagrams, focus visibility, and theme switching.
 
-Browser review is a release gate, not something a successful static build proves.
+Record browser review separately from the static build. Factual accuracy and source currency require editorial review.
 Record the browser, viewports, inspected pages, and any limits in the release PR.
 Templates under Contributing are intentionally instructional; primary reader paths
 must not contain unfilled template prompts or placeholder dates.
@@ -111,7 +111,7 @@ v0.4 made I ❤️ PETs more usable as a decision kit: clearer use cases, reusab
 
 ## Known Follow-Ups
 
-- Replace hypothetical benchmark examples with measured or literature-backed runs where possible.
+- Add measured or literature-backed runs alongside the benchmark exercises where reproducible results are available.
 - Add source-backed claim notes for high-impact claims in the claim register.
 - Revisit fast-moving tool version and performance claims before major releases.
 - Add a lightweight stale-content check for pages with dated review metadata.

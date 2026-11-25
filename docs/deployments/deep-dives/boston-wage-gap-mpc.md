@@ -11,9 +11,9 @@
 | Domain | Public sector / civic data, labor economics |
 | Problem | Measure the Greater Boston gender and racial wage gap from real employer payroll data without any party seeing an individual company's confidential payroll |
 | PETs used | Secure multi-party computation (secret-sharing based secure summation / vector addition) |
-| Deployment maturity | Ongoing program, run six times (2015, 2016, 2017, 2019, 2021, 2023) |
+| Deployment maturity | Production, batch / periodic. See the documented report years below. |
 | Source quality | Primary / official plus third-party case study |
-| Source | [UN Statistics Wiki case study](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020); [BWWC data privacy page](https://thebwwc.org/mpc) |
+| Source | [UN Guide on PETs for Official Statistics, Case Study 1](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) and [BWWC report archive](https://thebwwc.org/wage-gap-studies) |
 
 ## What Was Actually Deployed
 
@@ -21,10 +21,10 @@ Employers that sign the BWWC's "100% Talent Compact" submit confidential payroll
 
 Parties and trust model:
 
-- **Input parties:** 100+ participating employers. *(Deployment-backed.)*
-- **Compute / output party:** the BWWC (computes and receives the aggregate). *(Deployment-backed.)*
-- **Compute party:** Boston University (sees neither inputs nor outputs). *(Deployment-backed.)*
-- **Trust assumption:** participants trust BU and the BWWC to behave **semi-honestly** (honest-but-curious), with the ability to audit the open-source code. The protocol is **not** hardened against a fully malicious compute party. *(Deployment-backed — [UN Statistics Wiki](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020).)*
+- **Input parties:** participating employers. The [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) describes more than 100 input organizations, with participation varying by report year. *(Evidence: Deployment-backed.)*
+- **Compute / output party:** BWWC computes and receives the aggregate. *(Evidence: Deployment-backed. [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf).)*
+- **Compute party:** Boston University receives a share and helps compute the aggregate. The [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) assigns the output role to BWWC. *(Evidence: Deployment-backed.)*
+- **Trust assumption:** BWWC and BU follow the protocol and do not collude. The [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) describes a semi-honest model and auditable code. *(Evidence: Deployment-backed.)*
 
 Scale across cycles (employer-reported payroll, not self-reported survey data):
 
@@ -33,14 +33,14 @@ Scale across cycles (employer-reported payroll, not self-reported survey data):
 | 2016 | 69 | ~112,600 | First report; baseline. *(Deployment-backed — [BWWC](https://thebwwc.org/wage-gap-studies).)* |
 | 2017 | 114 | ~166,700 | ~16% of Greater Boston workforce. *(Deployment-backed — [BU Hariri](https://www.bu.edu/hic/2018/01/31/mayor-walsh-bwwc-release-2017-wage-gap-report/).)* |
 | 2019 | 123 | ~140,000 | *(Deployment-backed — [BWWC](https://thebwwc.org/wage-gap-studies).)* |
-| 2021 | 134 | ~156,000 | ~$17.4B in annual wages. *(Deployment-backed.)* |
+| 2021 | 134 | ~156,000 | $17.4 billion in annual wages. *(Evidence: Deployment-backed. Source quality: Primary / official. [BWWC report archive](https://thebwwc.org/wage-gap-studies).)* |
 | 2023 | 103 | ~165,000 | ~17% of Greater Boston demographic. *(Deployment-backed — [BU Hariri](https://www.bu.edu/hic/2023/12/19/boston-womens-workforce-council-finds-30-percent-decline-gender-wage-gap/).)* |
 
 The code is open source under the BU `multiparty` GitHub organization, which was central to the trust story. *(Deployment-backed — [UN Statistics Wiki](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020).)*
 
 ## Maturity
 
-**Ongoing, genuinely repeated program — arguably the strongest "production civic MPC" example available.** The same platform has been run six times since 2015 on real payroll data, and the UN's privacy-preserving-techniques wiki classifies its implementation status as production. It has also been reused by other Boston-area non-profits (for example the Greater Boston Chamber of Commerce). This is meaningfully more mature than a one-off study, though it is a periodic batch measurement rather than an always-on service. *(Deployment-backed — [UN Statistics Wiki](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020).)*
+**Production, batch / periodic.** The [BWWC report archive](https://thebwwc.org/wage-gap-studies) and the BU releases in the table document repeated use on employer payroll data. The [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) classifies it as production. The table lists report years without treating them as a count of computation runs.
 
 ## Privacy Claim
 
@@ -51,7 +51,7 @@ The claimed property is **input privacy via secure computation**: no party — n
 What MPC did **not** protect, and the practical constraints:
 
 - **The output is not differentially private.** MPC protects the *inputs* during computation; it says nothing about whether the published aggregate itself leaks information. Aggregates over coarse job/gender/race cells across 100+ large employers are low-risk, but the guarantee is about input confidentiality, not output privacy. *(Expert judgment, consistent with the protocol described in the [UN Statistics Wiki](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020).)*
-- **Semi-honest, not malicious-secure.** The deployment assumes the two compute domains do not collude and follow the protocol. A malicious or colluding compute party is outside the threat model. *(Deployment-backed.)*
+- **Semi-honest security.** The guarantee relies on the two compute parties following the protocol and keeping their views separate. The [UN case study](https://unstats.un.org/bigdata/task-teams/privacy/guide/2023_UN%20PET%20Guide.pdf) does not establish protection against active deviation or collusion.
 - **Garbage-in still applies, and is hard to fix.** Because inputs are encrypted/secret-shared, data-entry errors are very difficult to detect or correct after submission. The team had to push validation to the client (browser) side before secret-sharing. *(Deployment-backed — the BU team explicitly cites this as a lesson in the [UN Statistics Wiki](https://unstats.un.org/wiki/pages/viewpage.action?pageId=150012020).)*
 - **Coverage and selection bias.** Participants are self-selected Compact signers, roughly one in six area employees; the measurement is not a random sample of the regional economy. This is a methodology limit, not a PET failure, but it bounds what the numbers mean. *(Expert judgment, grounded in BWWC's own coverage statements.)*
 

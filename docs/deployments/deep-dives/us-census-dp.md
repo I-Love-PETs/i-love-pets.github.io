@@ -3,6 +3,8 @@
 !!! warning "Read the evidence levels"
     This case documents differential privacy in production for 2020 Decennial Census products.
 
+## Policy update
+
 !!! info "Policy update checked 2026-11-25"
     The Department of Commerce issued DAO 216-26 on June 4, 2026. The Census Bureau states that future statistical products will no longer use noise infusion under this policy. Bureau guidance prefers coarsening, with suppression allowed where necessary. That changes what teams can plan for future releases. The 2020 products remain historical evidence of production DP. See [Census Bureau notice on noise infusion](https://www.census.gov/programs-surveys/susb/about/glossary.operations.html) and [Census Bureau guidance on statistical safeguards](https://www.census.gov/about/policies/privacy/statistical_safeguards.html).
 
@@ -16,7 +18,7 @@
 | Domain | Public sector / official statistics |
 | Problem | Publish detailed population tables down to the census-block level while provably limiting what any attacker can reconstruct about individual respondents |
 | PETs used | Differential privacy via the TopDown Algorithm (TDA), using zero-concentrated differential privacy (zCDP) for privacy-loss accounting |
-| Deployment maturity | Production, single decennial release (one-off cadence, repeats each decade) |
+| Deployment maturity | Historical production across multiple 2020 Census data products. Future releases follow current policy. |
 | Source quality | Primary / official plus independent analysis |
 | Source | [Census Bureau working paper: The 2020 Census DAS TopDown Algorithm](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html) |
 
@@ -50,12 +52,10 @@ Two honest caveats on the claim itself:
 What DP did **not** do, and the criticisms it drew:
 
 - **It did not protect invariants.** State totals and several housing/group-quarters counts are exact by design, so no privacy is claimed for them. *(Deployment-backed.)*
-- **Small geographies and small subgroups absorb disproportionate relative error.** Independent analyses found the noise introduces larger *relative* discrepancies for small areas and for some racial and ethnic subgroups and rural populations, even though absolute error is bounded. *(Literature-backed — [Harvard DAS evaluation, Kenny et al.](https://redistrictingonline.org/wp-content/uploads/2021/03/MA-Harvard-DAS-Evaluation-052821.pdf); a peer-reviewed analysis of disproportionate discrepancies appears in [PMC11105149](https://pmc.ncbi.nlm.nih.gov/articles/PMC11105149/).)*
-- **Post-processing can introduce bias.** Enforcing non-negativity and hierarchical consistency is not a neutral operation; it can systematically push small counts upward and distort the distribution in ways that are hard to model. *(Literature-backed — discussed by [Kenny et al.](https://redistrictingonline.org/wp-content/uploads/2021/03/MA-Harvard-DAS-Evaluation-052821.pdf) and in [the redistricting case study, PMC8494446](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/).)*
-- **Redistricting and Voting Rights Act analysis concerns.** Critics argued the noise could complicate "one person, one vote" compliance and analysis of minority voting power at fine geographies. Advocacy groups raised specific concerns about Latino, Asian American, and Native American counts. *(Literature-backed / advocacy — [Advancing Justice AAJC preliminary report](https://www.advancingjustice-aajc.org/report/preliminary-report-impact-differential-privacy-2020-census-latinos-asian-americans).)*
-- **Litigation.** The State of Alabama sued to block the use of differential privacy (and the timing of releases), arguing it impaired the state's ability to draw lawful districts. The differential-privacy theory met substantial skepticism and did not prevail in halting the method. *(Deployment-backed — court filings in [Alabama v. U.S. Dept. of Commerce, M.D. Ala. 3:21-cv-00211](https://storage.courtlistener.com/recap/gov.uscourts.almd.75040/gov.uscourts.almd.75040.27.0.pdf).)*
-
-A fair counter-point: several independent statisticians concluded that for many *aggregate* redistricting uses the practical impact was modest, while agreeing the impact concentrates in the smallest units. The disagreement is largely about whether that concentrated error is tolerable, not about whether it exists. *(Literature-backed — [Kenny et al.](https://redistrictingonline.org/wp-content/uploads/2021/03/MA-Harvard-DAS-Evaluation-052821.pdf).)*
+- **Error varies by geography and subgroup.** [Kenny et al. (2021)](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/) studied the April 2021 DAS 12.2 demonstration on 2010 Census data. The earlier Harvard evaluation is a related version of the same research. A [separate rural and subgroup study](https://pmc.ncbi.nlm.nih.gov/articles/PMC11105149/) used the final demonstration on 2010 Census data, which applied the production redistricting epsilon settings. Neither analyzed the actual 2020 production counts. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
+- **Post-processing can introduce bias.** Kenny et al. found systematic discrepancies by geography and demographic group under the April demonstration settings. Check the post-processing rules and product version before carrying those results forward. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Kenny et al. (2021)](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/).)*
+- **Redistricting and voting rights.** Kenny et al. examined how the April demonstration data affected analyses of majority-minority districts and partisan bias in simulated plans. The results describe those simulations. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Kenny et al. (2021)](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/).)*
+- **Litigation.** The State of Alabama challenged the disclosure avoidance method and the timing of the redistricting release in [Alabama v. U.S. Department of Commerce, No. 3:21-cv-00211](https://storage.courtlistener.com/recap/gov.uscourts.almd.75040/gov.uscourts.almd.75040.27.0.pdf). The cited filing documents the dispute. *(Evidence: Deployment-backed. Source quality: Primary / official.)*
 
 ## Builder Lessons
 
@@ -70,13 +70,11 @@ A fair counter-point: several independent statisticians concluded that for many 
 
 - **The product-specific design for 2030 remains open in this case study.** Check the policy in force and the Bureau’s product documentation before assuming any statistical method will carry over. *(Needs evidence.)*
 - **The "right" epsilon was, and remains, a policy judgment, not a derived constant.** There is no consensus figure; the 17.14 / 2.47 split reflects the Bureau's negotiated balance, not an objective optimum. *(Expert judgment.)*
-- **Real-world harm from the residual error is genuinely contested.** Studies disagree on how much the documented small-area distortions changed actual districting or funding outcomes, partly because counterfactuals are hard to construct. *(Literature-backed that the dispute exists; the magnitude of practical harm is Needs evidence.)*
+- **Effects on actual districting and funding decisions** remain unverified by the evaluations cited here. *(Needs evidence.)*
 
 ## Sources
 
 - U.S. Census Bureau, [The 2020 Census Disclosure Avoidance System TopDown Algorithm](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html) (working paper, 2022).
-- Kenny, Kuriwaki, McCartan, Rosenman, Simko, Imai, [The Impact of the U.S. Census Disclosure Avoidance System on Redistricting and Voting Rights Analysis](https://redistrictingonline.org/wp-content/uploads/2021/03/MA-Harvard-DAS-Evaluation-052821.pdf).
-- [The use of differential privacy for census data and its impact on redistricting](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/) (PMC8494446).
-- [The 2020 US Census Differential Privacy Method Introduces Disproportionate Discrepancies](https://pmc.ncbi.nlm.nih.gov/articles/PMC11105149/) (PMC11105149).
-- Asian Americans Advancing Justice AAJC, [Preliminary Report: Impact of Differential Privacy and the 2020 Census on Latinos, Asian Americans and Redistricting](https://www.advancingjustice-aajc.org/report/preliminary-report-impact-differential-privacy-2020-census-latinos-asian-americans).
+- Kenny et al., [The use of differential privacy for census data and its impact on redistricting](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/), PNAS, 2021 (April DAS 12.2 demonstration on 2010 data).
+- [The 2020 US Census Differential Privacy Method Introduces Disproportionate Discrepancies](https://pmc.ncbi.nlm.nih.gov/articles/PMC11105149/) (final demonstration on 2010 data with the production redistricting epsilon settings).
 - [Alabama v. U.S. Dept. of Commerce, M.D. Ala., No. 3:21-cv-00211, court filing](https://storage.courtlistener.com/recap/gov.uscourts.almd.75040/gov.uscourts.almd.75040.27.0.pdf).

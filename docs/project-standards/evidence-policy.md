@@ -63,7 +63,13 @@ Use these labels when reviewing pages:
 
 ## Resolved and Unresolved Claim Status
 
-Each entry in the [Claim Register](claim-register.md) carries a **Resolved** or **Unresolved** status. A claim is **Resolved** when sufficient evidence has been identified or the claim has been narrowed and labelled so readers can calibrate their confidence (inline notes are in place on the relevant pages). A claim is **Unresolved** when it remains too broad, too vague, or unsourced for decision use. The register records a dated note explaining what evidence was found or what is still missing. Status is re-evaluated on each editorial pass; inline evidence notes on content pages use the form `*(Evidence: <level>, <date> — <one-line note>.)*`.
+Each entry in the [Claim Register](claim-register.md) carries a **Resolved** or **Unresolved** status. A claim is **Resolved** when sufficient evidence has been identified or the claim has been narrowed and labelled so readers can calibrate their confidence (inline notes are in place on the relevant pages). A claim is **Unresolved** when it remains too broad, too vague, or unsourced for decision use. The register records a dated note explaining what evidence was found or what is still missing. Status is re-evaluated on each editorial pass.
+
+## Evidence Note Formats
+
+For new or substantially revised claims, put the evidence level, source quality where applicable, a link, and the relevant scope or limit beside the claim. Use the paired inline note shown above or equivalent labeled fields in a table. Shared notes are fine for nearby claims that rely on the same source and scope. Add a date to time-sensitive notes and say what was checked.
+
+Some older deployment and deep-dive pages use compact notes such as `*(Deployment-backed — [source](...))*` and page-level reference dates. Read those notes alongside the snapshot and cited sources. Migrate them to the paired format when revisiting the claims.
 
 ## Claims That Need Evidence
 

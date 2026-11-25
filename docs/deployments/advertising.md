@@ -56,11 +56,11 @@ title: "Advertising Deployments"
 | Deployment maturity | Historical production feature. Google announced retirement on 2025-10-17. |
 | Source quality | Primary / official |
 | What worked | Chrome shipped browser-mediated conversion reporting with privacy controls. The documentation remains useful as a record of the design. |
-| Challenges | Google cited limited adoption and ecosystem feedback when announcing retirement. Teams with existing integrations should check the current removal status and plan a migration. |
+| Challenges | Google cited limited adoption and ecosystem feedback when announcing retirement. Google’s current feature status lists Chrome Attribution Reporting as deprecated and removed. Check the status page for platform-specific details. |
 | Lessons for builders | Platform PETs must be evaluated as product migrations: developer ergonomics and business utility can dominate cryptographic elegance. |
-| Source | [Google retirement announcement](https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies) and [Privacy Sandbox feature status](https://privacysandbox.google.com/overview/status#attribution-reporting) |
+| Source | [Google retirement announcement](https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies) and [Privacy Sandbox feature status](https://privacysandbox.google.com/overview/status) |
 
-*(Evidence: Deployment-backed. Source quality: Primary / official. Status checked 2026-11-25. The announcement establishes the retirement decision. Check feature status for browser removal timing.)*
+*(Evidence: Deployment-backed. Source quality: Primary / official. Status checked 2026-11-25. The October 2025 announcement records the retirement decision. The feature status page tracks browser removal separately.)*
 
 ## Common Proposed Use Cases
 

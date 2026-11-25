@@ -1,7 +1,7 @@
 # Google Ads Data Hub and Data Clean Rooms
 
 !!! warning "Read the evidence levels"
-    "Clean room" is a product and governance pattern, not a single cryptographic guarantee. This page separates what the platform enforces from what marketing language implies. Reference date: 2026-06-10.
+    This page describes Google’s documented controls. Privacy mode and control descriptions checked on 2026-11-25.
 
 ## Snapshot
 
@@ -10,7 +10,7 @@
 | Organization / project | Google Ads Data Hub (ADH); the broader data clean room pattern (Google BigQuery data clean rooms, and comparable offerings from other vendors) |
 | Domain | Advertising and marketing measurement |
 | Problem | Let an advertiser join its first-party data with a platform's event-level ad logs for measurement and analytics, without either party exposing raw user-level records to the other |
-| PETs used | Output-side **aggregation thresholds**, **difference checks**, optional **noise injection**, plus **query restrictions** (allowed-SQL controls). A clean room is primarily an access-control and output-control pattern, not strong cryptographic input privacy |
+| PETs used | Static query checks, data access budgets, aggregation checks, and a choice of noise injection or legacy difference checks. |
 | Deployment maturity | Commercial production, widely used |
 | Source quality | Primary / official vendor documentation |
 | Source | [Ads Data Hub methodology](https://developers.google.com/ads-data-hub/resources/description-of-methodology); [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks) |
@@ -19,12 +19,12 @@
 
 Ads Data Hub lets an advertiser run SQL queries that join their own customer data with Google's event-level ad data inside Google's BigQuery-backed environment. The advertiser never receives the raw event-level rows; they receive only query *outputs* that pass a set of privacy checks. The general "data clean room" pattern is the same shape: two or more parties bring data into a governed environment where only approved, aggregated outputs leave. *(Deployment-backed — [ADH introduction](https://developers.google.com/ads-data-hub/guides/intro); [BigQuery data clean rooms](https://docs.cloud.google.com/bigquery/docs/data-clean-rooms).)*
 
-The privacy enforcement is on the **output**, via several layered mechanisms:
+Ads Data Hub applies two sets of controls. [Static checks and data access budgets](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks) screen SQL and limit repeated access to underlying data. Aggregation thresholds apply to results and vary by mode and input data.
 
-- **Aggregation thresholds.** Results generally must aggregate a minimum number of users before they can be returned. Google's documentation describes a baseline requirement on the order of **50 users** for most queries, with **click and conversion** queries able to report on as few as **~10**. *(Deployment-backed — [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
-- **Difference checks.** ADH compares the results of successive/related queries to block attempts to isolate an individual by differencing two nearly identical aggregates. *(Deployment-backed — [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
-- **Noise injection (optional).** Random noise can be added to aggregation results, which in turn permits lower user thresholds (documented on the order of ~20 for impressions and ~10 for clicks/conversions when noise is applied). *(Deployment-backed — [Noise injection](https://developers.google.com/ads-data-hub/marketers/guides/noise-injection).)*
-- **Restricted SQL surface.** Only an allow-listed set of SQL functions is permitted, and the system blocks queries that look like re-identification attempts. Rate limits also apply (documented as ~10 concurrent queries and ~10 queries per minute per advertiser). *(Deployment-backed — [Allowed functions](https://developers.google.com/ads-data-hub/marketers/reference/allowed-functions); [Policies](https://developers.google.com/ads-data-hub/resources/policies).)*
+- **Aggregation thresholds.** Google documents approximately 20 unique users per row in noise mode, 50 in difference-check mode, and 10 for click- and conversion-only queries. Check the current requirements for your query. *(Evidence: Deployment-backed. Source quality: Primary / official. [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
+- **Legacy difference-check mode.** The service compares results with past query results to limit disclosure from combining them. Rows may be removed when a check fails. *(Evidence: Deployment-backed. Source quality: Primary / official. [Difference checks](https://developers.google.com/ads-data-hub/marketers/guides/legacy-diff-checks).)*
+- **Noise mode (the documented default).** Google adds calibrated noise to aggregates and uses implicit or explicit clamping to bound user contributions. Noise mode does not rely on difference checks. Google states that its MRC accreditation does not extend to queries in noise mode. *(Evidence: Deployment-backed. Source quality: Primary / official. [Noise injection](https://developers.google.com/ads-data-hub/marketers/guides/noise-injection).)*
+- **Restricted SQL surface.** Both modes retain static SQL checks and data access limits. Use sandbox data to iterate on queries without drawing conclusions about production disclosure from that testing. *(Evidence: Deployment-backed. Source quality: Primary / official. [Privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
 
 ## Maturity
 
@@ -34,13 +34,13 @@ The privacy enforcement is on the **output**, via several layered mechanisms:
 
 The honest framing of the claim is: **the consuming party cannot retrieve raw user-level rows, and outputs are constrained so that small-cohort results that could single out an individual are blocked, noised, or refused.** It is an *output-disclosure-control* model layered on *access control* — you query inside the owner's environment and only aggregated results come out. *(Deployment-backed — [methodology](https://developers.google.com/ads-data-hub/resources/description-of-methodology) and [privacy checks](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
 
-What it is generally **not** claimed to be: a formal differential privacy system with a published, end-to-end privacy-loss budget across all queries. Thresholds, difference checks, and optional noise are heuristic and policy-driven disclosure controls, not a single composed DP guarantee. *(Expert judgment, based on the absence of a published global epsilon in the [official methodology](https://developers.google.com/ads-data-hub/resources/description-of-methodology).)*
+The public docs describe controls and API behavior. They do not establish a composed privacy-loss budget for the full sequence of queries an advertiser runs. An `ANON_*` aggregation or a data access budget is insufficient evidence of that guarantee. *(Evidence: Expert judgment, based on the scope of the [documented mechanics](https://developers.google.com/ads-data-hub/marketers/guides/noise-injection).)*
 
 ## Limitations
 
 - **The platform owner is fully trusted and sees everything.** The clean room protects the parties *from each other*, not from the operator. Google (or any clean-room host) has access to the underlying data and the infrastructure. If your threat model includes the operator, a clean room does not address it. *(Expert judgment, inherent to the architecture.)*
 - **Threshold-and-difference controls are not a formal privacy guarantee.** Minimum-aggregation rules plus difference checks reduce trivial singling-out, but they are not equivalent to differential privacy; sophisticated multi-query reconstruction risk is mitigated operationally rather than provably bounded. *(Expert judgment / literature-backed in the general clean-room critique literature.)*
-- **Noise is optional and is a utility tradeoff.** Lower thresholds are unlocked by adding noise, so practitioners face the familiar accuracy-versus-disclosure tension; turning noise off raises thresholds. *(Deployment-backed — [Noise injection](https://developers.google.com/ads-data-hub/marketers/guides/noise-injection).)*
+- **Mode affects what you can measure.** Expect noise and contribution clamping in noise mode, and possible redaction in difference-check mode. Measure the effect of each behavior on the decision the output supports. *(Evidence: Expert judgment, informed by the [privacy checks documentation](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks).)*
 - **"Clean room" is a marketing umbrella.** Different vendors mean different things by the term, ranging from "encrypted match plus aggregate" to "trusted-execution-backed compute" to "just a governed SQL sandbox." The label alone tells you almost nothing about the actual guarantee. *(Expert judgment.)*
 
 ## Builder Lessons
@@ -52,8 +52,8 @@ What it is generally **not** claimed to be: a formal differential privacy system
 
 ## What Remains Unclear
 
-- **Exact, current thresholds and noise parameters can change** and are version-dependent; the figures above (~50 users baseline, ~10 for clicks/conversions, ~20/~10 with noise) reflect Google's documentation as reviewed and should be re-checked against the live docs. *(Deployment-backed at time of review; treat specific numbers as Needs evidence going forward.)*
-- **The precise noise mechanism and whether it composes to any formal guarantee** are not fully specified in the public marketer docs; absent a published epsilon, assume it does not provide a composed DP guarantee. *(Needs evidence.)*
+- **Exact thresholds and noise behavior** depend on the mode and query. Confirm the current [thresholds and controls](https://developers.google.com/ads-data-hub/marketers/guides/privacy-checks) and measure utility with the approved configuration.
+- **A composed privacy guarantee for the intended set of queries** is not established by the cited product documentation. *(Needs evidence.)*
 - **Independent third-party evaluations of re-identification resistance** for production clean rooms are scarce relative to vendor self-description. *(Needs evidence.)*
 
 ## Sources
