@@ -12,7 +12,9 @@ Membership itself can be sensitive, even if the record content is not revealed.
 
 ## Mitigations
 
-Differential privacy, train/test discipline, memorization audits, access controls, and avoiding overfitting.
+Use [differential privacy](../start-here/glossary.md#differential-privacy) when the released artifact needs a formal membership bound. Access controls and regularization can reduce risk in some settings. Use an audit to measure residual risk under the stated attacker access.
+
+Report the true-positive rate at a low false-positive rate, with uncertainty. A single average accuracy or AUC can hide exposure among the examples most vulnerable to inference. See [Carlini et al. on LiRA (IEEE S&P 2022)](https://arxiv.org/abs/2112.03570). *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
 
 Mitigation is strongest when it is built into the release process. Running a
 membership test after the model is already integrated usually produces a hard

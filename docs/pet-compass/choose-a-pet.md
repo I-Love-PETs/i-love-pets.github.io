@@ -102,7 +102,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Define privacy unit, budget owner, release review, memorization tests, utility benchmarks, versioning, and downstream-use warnings. |
 | What to measure | Downstream task utility, nearest-neighbor similarity, membership inference risk, privacy budget, rare subgroup behavior. |
 
-*(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Statistical Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
+*(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
 
 ### Two organizations want to find overlapping users
 
@@ -128,7 +128,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Own key lifecycle, attestation verification, model update workflow, p95 latency benchmark, output policy, and support/debugging boundaries. |
 | What to measure | End-to-end latency, ciphertext size, accuracy loss, supported operators, attestation verification, output leakage. |
 
-*(Evidence: Expert judgment, 2026-06-10 — the latency and operator-support constraints on HE are widely noted in literature (e.g., Boura et al., "TFHE: Fast Fully Homomorphic Encryption Over the Torus", JoC 2020) but no single cross-workload benchmark for HE vs. TEE vs. client-side inference is publicly available. Needs evidence for specific model families.)*
+*(Evidence: Expert judgment, 2026-06-10 — Compare operator support, network overhead, and end-to-end latency on the actual model. Scheme-specific results such as [Chillotti et al. on TFHE](https://tfhe.github.io/tfhe/) do not rank HE, TEE, or client-side inference on this workload.)*
 
 ## Anti-Patterns
 

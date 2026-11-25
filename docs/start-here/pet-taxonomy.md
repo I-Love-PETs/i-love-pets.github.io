@@ -127,6 +127,6 @@ Use this taxonomy to understand PET families. Use [PET Compass](../pet-compass/i
 ## Selected References
 
 - Dwork and Roth, [*The Algorithmic Foundations of Differential Privacy*](https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf), 2014. Use for DP definitions, composition, and post-processing guarantees.
-- Bonawitz et al., [*Practical Secure Aggregation for Privacy-Preserving Machine Learning on User-Held Data*](https://arxiv.org/abs/1611.04482), 2016/2017. Use for secure aggregation assumptions and dropout-aware protocol design.
+- Bonawitz et al., [*Practical Secure Aggregation for Privacy-Preserving Machine Learning*](https://doi.org/10.1145/3133956.3133982), CCS 2017. Use for secure aggregation assumptions and dropout-aware protocol design.
 - Goldreich, Micali, and Wigderson, [*How to Play Any Mental Game*](https://doi.org/10.1145/28395.28420), STOC 1987. Use as a foundational MPC reference, not as a deployment guide.
 - NIST, [*Guidelines for Evaluating Differential Privacy Guarantees*](https://doi.org/10.6028/NIST.SP.800-226), SP 800-226, 2025. Use for practitioner review of DP promises and hazards.

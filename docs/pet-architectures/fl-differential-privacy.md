@@ -23,7 +23,7 @@ Train a shared model while bounding the influence of a privacy unit on the relea
 
 ## Actors
 
-Participants, coordinator, model owner, privacy accountant, auditors, and model users.
+Participants, training coordinator, a trusted central DP operator, model owner, privacy accountant, auditors, and model users. In the diagram, the consortium appoints the central DP operator as the sole recipient of pre-noise aggregates. A coordinator who also performs that role has the same trust obligations.
 
 ## Data Flow
 
@@ -33,8 +33,9 @@ Participants, coordinator, model owner, privacy accountant, auditors, and model 
 %%{init: {"flowchart": {"useMaxWidth": false}}}%%
 flowchart LR
   C[Coordinator] -->|model + clipping/noise config| A[Participant sites]
-  A -->|clipped updates or gradients| S[Optional secure aggregation]
-  S -->|aggregate update| D[DP mechanism]
+  A -->|bounded contributions| S[Optional secure aggregation]
+  S -->|pre-noise aggregate| D[Trusted central DP operator]
+  A -.->|bounded contributions without secure aggregation| D
   D -->|noisy aggregate update| C
   C -->|privacy-accounted model| U[Model users]
   D -->|budget ledger| P[Privacy accountant]
@@ -51,7 +52,7 @@ On small screens, scroll the diagram horizontally to read the labels.
 | Boundary | What crosses | Who can see it | Risk |
 | --- | --- | --- | --- |
 | Coordinator to sites | Model, code, DP parameters | Sites | Misconfigured clipping or noise |
-| Sites to DP mechanism | Updates or gradients | DP mechanism / coordinator depending on design | Update leakage before noise |
+| Sites to DP operator | Secure aggregate, or individual site contributions if secure aggregation is omitted | Trusted central DP operator | Pre-noise values and operator logs fall inside the trusted boundary |
 | DP mechanism to accountant | Privacy events | Privacy accountant | Incorrect composition accounting |
 | Coordinator to release review | Checkpoints, metrics, model candidates | Reviewers | Unaccounted releases can bypass DP claim |
 | Coordinator to users | Final model | Model users | Memorization if DP assumptions fail |
@@ -61,7 +62,20 @@ On small screens, scroll the diagram horizontally to read the labels.
 - The privacy unit is defined before training.
 - Clipping, sampling, and accounting match the actual training process.
 - Every release is included in composition accounting.
-- Utility is evaluated under the chosen budget, not after relaxing it.
+- Utility evaluation and any selection that uses private data follow the budget and release policy.
+
+### Match clipping and accounting to the privacy unit
+
+| Unit and adjacency | What to bound |
+| --- | --- |
+| One site joins or leaves | Clip the full contribution of each site once per round. Calibrate noise to the bound for the actual aggregation rule and account for site participation over all rounds. |
+| One patient joins or leaves | Bound the total influence of that patient's records. For example, where each patient belongs to one site, use a per-step mechanism with a clipped per-patient contribution and an accountant for the implemented patient sampling and releases. If patients can appear at several sites, enforce a cross-site contribution bound or account for their combined participation. |
+
+Document the sensitivity of the actual mechanism, including any weighting or normalization. Clipping a site update does not establish a patient-level guarantee by itself. Use public or proxy data to tune, or account for private model selection and diagnostics when they influence what is released. See [NIST SP 800-226](https://doi.org/10.6028/NIST.SP.800-226). *(Evidence: Literature-backed. Source quality: Primary / official.)*
+
+### If no operator can see the pre-noise aggregate
+
+Consider distributed DP, where sites contribute calibrated noise before secure aggregation so the coordinator receives only a noisy sum. Validate the noise that remains after the assumed dropouts and collusion, as well as quantization and the privacy accounting. Central DP applied after the coordinator sees the exact sum cannot protect that sum from the coordinator. See [Kairouz, Liu, and Steinke (ICML 2021)](https://proceedings.mlr.press/v139/kairouz21a.html). *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)*
 
 ## Assumption Review
 

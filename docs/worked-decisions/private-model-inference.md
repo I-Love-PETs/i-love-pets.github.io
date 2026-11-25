@@ -56,13 +56,15 @@ Branch on model breadth and latency tolerance:
 
 | Element | Position |
 | --- | --- |
-| Adversary | A curious provider/operator who wants to read client inputs; a curious infrastructure host; an external attacker; a client trying to extract the model via its outputs. |
+| Adversary | A curious provider/operator who wants to read client inputs; a curious infrastructure host; an external attacker; a client trying to extract the model via its outputs. Assess physical access to the host as a separate capability. |
 | Trust boundaries | The client does not trust the provider with plaintext. With a TEE, trust is shifted to the hardware vendor and the attestation chain. With HE, no plaintext leaves the client at all (strongest boundary), at a latency cost. |
 | What this design protects | TEE: the host/operator cannot read inputs *if attestation is verified and side channels are controlled*. HE: inputs remain encrypted throughout computation, so the provider never sees plaintext. Output controls limit what predictions reveal. |
 | What is **not** protected | TEE security rests on the **hardware-trust and attestation assumptions** and is vulnerable to side channels and supply-chain compromise if unaddressed. HE protects the input but the **returned output** can still leak attributes, and HE does nothing about model-extraction via repeated queries. Neither protects against a client probing the model, nor against insecure **logging** of decrypted results. See [Side Channels](../threat-models/side-channels.md) and [Inference Attacks](../threat-models/inference-attacks.md). |
 
-!!! warning "Attestation is the whole TEE claim"
-    A TEE's privacy claim is exactly as strong as the attestation the client enforces. If the client sends input without verifying the enclave, the provider could be running anything. Enforce attestation in the request path or do not claim TEE protection.
+!!! warning "Verify attestation and check the hardware threat model"
+    Verify the evidence against the approved runtime and bind it to the channel before sending inputs or releasing keys. That verification depends on the platform and its attestation keys remaining trustworthy. [TEE.fail](https://tee.fail/) showed why physical access can invalidate that assumption on tested systems. Check [platform-specific side channels and physical access](../threat-models/side-channels.md) before choosing this route.
+
+*(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. The physical-access findings apply to the tested platforms and configurations.)*
 
 ## 6. What To Measure
 
@@ -84,7 +86,7 @@ Branch on model breadth and latency tolerance:
 | Inputs turn out not to be very sensitive | Use **plain hosted inference**; do not pay PET overhead you do not need. |
 | HE latency/operator support proves unworkable on the real model | Fall back to **TEE [confidential inference](../start-here/glossary.md#confidential-inference)** for the general case. |
 | Hardware trust is unacceptable (no TEE allowed) | For narrow models, push on **HE**; otherwise reconsider whether the service can be offered privately at all, or move computation client-side. |
-| Side-channel risk on the TEE is judged too high | Harden the enclave, restrict co-tenancy, or move to a cryptographic approach for the most sensitive paths. |
+| Physical access or side-channel exposure falls outside the platform threat model | Require verifiable controls for that exposure, or move sensitive work to the client or a cryptographic design. |
 | Model-extraction via outputs becomes a concern | Add **output controls and query rate limits**; input confidentiality alone does not stop model theft. |
 
 !!! note "The honest summary"

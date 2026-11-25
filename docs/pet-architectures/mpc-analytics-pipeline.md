@@ -93,7 +93,7 @@ MPC, participant authentication, schema validation, query approval, output thres
 
 - Outputs that reveal sensitive facts.
 - Collusion beyond the stated threshold.
-- Malicious inputs if the protocol is only semi-honest.
+- Active deviations with a semi-honest protocol. Even malicious security does not establish whether an input is truthful or authorized.
 - Poor schema alignment.
 - Operational metadata leakage.
 

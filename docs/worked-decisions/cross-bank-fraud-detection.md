@@ -46,9 +46,9 @@ Several banks suspect the same fraud rings are moving money across their institu
 Match the tool to which question dominates:
 
 - **If the task is primarily entity overlap:** lead with **PSI**, hardened by **clean-room governance** — repeated-query limits, minimum-cohort thresholds before any match is actioned, and audit logging of who queried what. Add **DP** on any aggregate that gets published or reported.
-- **If the task is a sensitive joint computation** (e.g., a combined risk score over shared entities, or counts over joint flows): lead with **MPC** for that bounded computation, using PSI as the entity-alignment step feeding it, and **DP** on published metrics.
+- **If the task is a sensitive joint computation** (e.g., a combined risk score over shared entities, or counts over joint flows): lead with **MPC** for that bounded computation, keeping the alignment inside the protected computation if match identities are outside the allowed output, and **DP** on published metrics.
 
-A pragmatic combined stack: **PSI to align entities → MPC for the joint risk computation on aligned entities → DP on any externally reported aggregate → clean-room controls (query limits, thresholds, audit) wrapping the whole thing.** See [MPC Analytics Pipeline](../pet-architectures/mpc-analytics-pipeline.md).
+A pragmatic combined stack: **PSI to align entities → MPC for the joint risk computation on aligned entities → DP on any externally reported aggregate → clean-room controls (query limits, thresholds, audit) wrapping the whole thing.** Verify each bank’s eligibility rules at ingestion, bound input set sizes, and record authorized query purposes. A malicious-secure protocol handles deviations from the protocol, while these controls address valid inputs the bank had no right to submit. See [MPC Analytics Pipeline](../pet-architectures/mpc-analytics-pipeline.md).
 
 !!! tip "Start with the question, not the cryptography"
     "Do we need overlap, or do we need a joint computation?" decides whether PSI or MPC is the spine. Many programs over-engineer toward MPC when a governed PSI plus thresholds would meet the need at a fraction of the cost.
@@ -60,10 +60,10 @@ A pragmatic combined stack: **PSI to align entities → MPC for the joint risk c
 | Adversary | A curious-but-competitive partner bank trying to learn another's customers; a colluding subset of banks; a curious coordinator; an external attacker. |
 | Trust boundaries | Each bank trusts only its own systems. The coordinator is at most semi-trusted. PSI/MPC are chosen precisely so no party (including the coordinator) sees another's raw inputs. |
 | What this design protects | Non-matching customers stay hidden (PSI). Raw transactions and inputs to the joint computation stay private (MPC). Published aggregates carry a formal leakage bound (DP). Query governance limits probing via repetition. |
-| What is **not** protected | The *agreed output* — the match set or joint score — is revealed by design and is itself sensitive; governance, not cryptography, controls its use. A **colluding majority** can break standard MPC/PSI assumptions; the design must state the collusion threshold it tolerates. Repeated legitimate queries still leak slowly unless rate-limited. Weak or inconsistent identifiers cause false matches that harm customers. See [Collusion](../threat-models/collusion.md) and [Inference Attacks](../threat-models/inference-attacks.md). |
+| What is **not** protected | The *agreed output* — the match set or joint score — is revealed by design and is itself sensitive; governance, not cryptography, controls its use. The tolerated coalition depends on the chosen protocol and which roles share administrative control. Repeated legitimate queries still leak slowly unless rate-limited. Weak or inconsistent identifiers cause false matches that harm customers. See [Collusion](../threat-models/collusion.md) and [Inference Attacks](../threat-models/inference-attacks.md). |
 
 !!! warning "Collusion assumptions are the load-bearing wall"
-    PSI and MPC guarantees are stated relative to a collusion bound (e.g., "secure against any minority of colluding parties"). If real-world incentives make majority collusion plausible — or if the coordinator can collude with one bank — the guarantee you are relying on may not hold. Write the tolerated collusion threshold down and check it against reality.
+    For a bilateral PSI design that protects against one corrupt protocol party, verify that the deployed protocol covers that party’s behavior and gives the coordinator no extra view. If both banks take part in the coalition, they can already pool both inputs. A multi-bank computation needs a fresh analysis that includes the coordinator and key holders. See [Collusion](../threat-models/collusion.md) and the [two-sided malicious intersection-sum study](https://eprint.iacr.org/2020/385) for an example of a guarantee scoped to a specific output and protocol.
 
 ## 6. What To Measure
 
@@ -83,7 +83,7 @@ A pragmatic combined stack: **PSI to align entities → MPC for the joint risk c
 | --- | --- |
 | The need shifts from "who overlaps" to "a shared predictive model" | Move toward **federated learning** for a joint fraud model, layering secure aggregation and DP. |
 | Latency budget cannot absorb MPC | Fall back to **governed PSI plus thresholds** for the operational path and reserve MPC for periodic offline analytics. |
-| Collusion analysis shows majority collusion is realistic | Standard PSI/MPC guarantees weaken; strengthen governance, reduce the party set, or introduce a strongly trusted (e.g., regulator-operated, TEE-backed) coordinator. |
+| A plausible coalition exceeds the protocol’s bound | Choose a protocol with the required security, separate operator roles, or reconsider which output is safe to compute. |
 | Regulators permit a supervised central utility | Re-evaluate a **governed central clean room** — sometimes the lawful, audited path beats multi-party cryptography on cost and speed. |
 | Identifier quality is poor | Fix identifier hygiene first; bad matches make any PET output untrustworthy. |
 | Only the *reported statistics* leave the consortium | The crypto can be lighter; invest in **DP and small-cell suppression** on the release rather than heavyweight joint computation. |

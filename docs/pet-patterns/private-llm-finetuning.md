@@ -105,7 +105,7 @@ High. Private fine-tuning touches data governance, ML training, privacy accounti
 
 - Training examples appear verbatim in model outputs.
 - Experiment trackers store sensitive prompts or gradients.
-- DP budget is chosen after utility tuning, invalidating the claim.
+- Private utility scores or candidate runs influence the released model without being covered by its privacy accounting. Use public or proxy data for tuning, or choose an accounted private selection procedure. See [NIST SP 800-226](https://doi.org/10.6028/NIST.SP.800-226).
 - FL updates leak site-specific information.
 - A tuned adapter is shared more broadly than the data owner intended.
 - Synthetic examples reproduce sensitive records.

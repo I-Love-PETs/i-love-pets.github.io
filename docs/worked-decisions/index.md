@@ -56,7 +56,7 @@ When you adapt one of these decisions, your first job is to upgrade the evidence
 | [Private RAG for enterprise docs](private-rag-enterprise-docs.md) | Answer questions over confidential documents without leaking them | Confidential RAG: access-controlled retrieval + TEE inference + output and log governance |
 | [Synthetic dataset release](synthetic-dataset-release.md) | Publish a usable stand-in for a sensitive dataset | DP synthetic data with memorization tests, or query access if a release is not truly required |
 | [Private model inference](private-model-inference.md) | Serve a model without seeing client inputs | TEE confidential inference for general models; HE only for narrow, latency-tolerant scoring |
-| [Public-sector statistics release](public-sector-statistics-release.md) | Publish population statistics without re-identifying residents | Centralized DP with a documented privacy unit and budget, plus small-cell suppression |
+| [Public-sector statistics release](public-sector-statistics-release.md) | Publish population statistics without re-identifying residents | Centralized DP with an explicit privacy unit and budget, with any suppression based on DP outputs or an accounted selection rule |
 
 ## Choose The Closest Worked Decision
 

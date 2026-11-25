@@ -27,7 +27,7 @@ Use TEEs when performance and model flexibility matter and hardware trust is acc
 
 ## When Not To Use
 
-Avoid this pattern when side-channel risk is unacceptable or when attestation cannot be made understandable to relying parties.
+Avoid this pattern when clients cannot verify the approved runtime before releasing inputs, or when the deployment cannot meet the hardware's threat assumptions. For example, if a party outside your trust boundary can physically access the host, require a defensible physical security boundary or evaluate client-side execution, [encrypted inference](../start-here/glossary.md#encrypted-inference), or MPC. See the tested platform examples under [Side Channels](../threat-models/side-channels.md).
 
 ## Typical Architecture
 

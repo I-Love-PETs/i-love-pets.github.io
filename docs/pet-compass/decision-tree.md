@@ -45,11 +45,11 @@ Primary recommendation: **FL + secure aggregation + optional DP** when data cann
 
 | Question | If yes | If no |
 | --- | --- | --- |
-| Can one operator be trusted to run the computation? | Clean room or governed analytics | MPC or federated analytics |
+| Can one operator be trusted with individual contributions? | Clean room or governed analytics | MPC, or federated analytics with secure aggregation if the approved result is a sum and the protocol matches the adversary |
 | Could small cells reveal people, sites, or businesses? | Add DP, thresholds, grouping, and output review | Still track repeated queries |
 | Do parties define the metric the same way? | Continue | Fix schema and semantics before choosing a PET |
 
-Primary recommendation: **federated analytics** for simple distributed metrics; **MPC** when no single operator should see intermediate values.
+Use **federated analytics** for simple distributed metrics. If the operator must not see individual contributions, use a protocol that protects them, such as secure aggregation for a permitted sum or MPC for a more general computation. Check the collusion assumptions and what the released aggregate reveals.
 
 | Decision field | Recommendation |
 | --- | --- |

@@ -25,9 +25,13 @@ Two or more parties need to learn which records overlap without revealing nonmat
 
 Use PSI for cohort matching, fraud signals, contact discovery, and measurement joins.
 
-## When Not To Use
+<span id="when-not-to-use"></span>
 
-Avoid PSI if revealing the intersection is too sensitive or repeated matching enables profiling.
+## Do not use PSI when
+
+- **The match identities themselves are sensitive.** For example, if two services may learn how many users overlap but neither may learn who, choose a protocol that returns only the count. Check whether small counts still reveal membership.
+- **Participants can submit arbitrary identifiers or retry against changing cohorts.** A correct protocol can still answer an unauthorized membership question. Tie input eligibility to an approved source, bound set size, and restrict and audit repeated queries.
+- **The only permitted output is a downstream statistic.** Compute the statistic over the join inside the protected computation so the recipient never gets the intermediate match set. See the [MPC analytics pipeline](../pet-architectures/mpc-analytics-pipeline.md).
 
 ## Typical Architecture
 
@@ -35,7 +39,7 @@ Parties encode records, run a PSI protocol, and reveal the intersection or aggre
 
 ## Threat Model
 
-Commonly honest-but-curious parties. Malicious variants are needed when parties may submit malformed inputs.
+Use a malicious-secure variant if parties may deviate from the protocol. Input authorization is a separate control: a valid protocol input can still be fabricated or unauthorized.
 
 ## Privacy Properties
 

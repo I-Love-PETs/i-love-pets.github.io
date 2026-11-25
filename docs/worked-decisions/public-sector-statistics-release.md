@@ -7,7 +7,7 @@
     Evidence level: Expert judgment
     Snapshot scope: A worked reasoning example. Figures are illustrative and labeled. Validate the privacy unit, budget, and small-cell behavior against the real tabulation plan and legal mandate before publication.
 
-A public-sector agency must publish population statistics — counts and cross-tabulations by geography, age, and other attributes — for transparency, funding allocation, and research. The classic failure is publishing many overlapping tables, including small cells (e.g., "3 residents of a rare category in a small area"), and enabling re-identification by differencing those tables. The decision is how to publish *useful* statistics while making a *defensible* statement that individuals cannot be re-identified.
+A public-sector agency must publish population statistics — counts and cross-tabulations by geography, age, and other attributes — for transparency, funding allocation, and research. The classic failure is publishing many overlapping tables, including small cells (e.g., "3 residents of a rare category in a small area"), and enabling re-identification by differencing those tables. The decision is how to publish *useful* statistics while bounding what the combined release reveals about any one individual.
 
 ## 1. Decision Context
 
@@ -25,8 +25,8 @@ A public-sector agency must publish population statistics — counts and cross-t
 
 | Candidate | Why it is on the shortlist |
 | --- | --- |
-| Centralized [differential privacy](../start-here/glossary.md#differential-privacy) | The agency holds the data and adds calibrated noise to published statistics under a global privacy budget — the modern standard for defensible official statistics. The natural fit. |
-| Small-cell suppression / thresholding | Withholding or coarsening cells below a minimum count. Long-standing practice; useful *alongside* DP, weak on its own. |
+| Centralized [differential privacy](../start-here/glossary.md#differential-privacy) | The agency holds the data and applies a calibrated mechanism across the release. Consider this when a formal contribution bound is needed and the publication mandate permits it. |
+| Small-cell suppression / thresholding | Withhold or combine cells using the DP outputs or fixed public rules. A rule based on confidential counts needs its own privacy accounting. |
 | Privacy budget accounting | Tracking total budget spent across all released tabulations so the guarantee holds for the whole release, not per table. The discipline that makes DP meaningful here. |
 | Federated analytics / [MPC](../start-here/glossary.md#mpc) | If the population data are split across agencies that cannot pool, these compute aggregates without centralizing. A different topology, kept for completeness. |
 | DP query interface (alternative to bulk tables) | Serve statistics on demand with per-query DP and budget limits, instead of (or alongside) publishing fixed tables. |
@@ -48,8 +48,10 @@ A centralized DP release with disciplined accounting:
 1. **Define the privacy unit explicitly** — typically per person (or per household, if mandated). This is the foundation of any defensible claim.
 2. **Adopt centralized differential privacy** for published statistics, with noise calibrated to the privacy unit and the sensitivity of each tabulation.
 3. **Account for the privacy budget across the entire release.** Track total budget spent over all tables so the guarantee covers the combined publication, not each table alone. Name a **budget owner**.
-4. **Keep small-cell suppression / coarsening as a supporting control**, especially for the most granular geographies — defense in depth alongside DP, not a substitute.
+4. **Suppress or coarsen using the noisy outputs.** For example, publish only cells whose already-noised counts exceed a fixed public threshold. The publish/omit decision is itself an output. If selection must use confidential counts, use a DP selection mechanism and include its cost in the release budget.
 5. **Consider a DP query interface** for specialized or research demand, with per-query budget limits, instead of publishing ever more fixed tables.
+
+*(Evidence: Literature-backed. Source quality: Primary / official. See [NIST SP 800-226](https://doi.org/10.6028/NIST.SP.800-226) on post-processing and composition. Selection based on raw counts can reveal information outside the guarantee.)*
 
 Publish the privacy parameters and accounting approach so the guarantee is auditable. For the underlying mechanism family, see [DP Synthetic Data Release](../pet-patterns/dp-synthetic-data-release.md) (related DP tooling) and the broader [Benchmark Scorecards](../benchmarks/scorecards.md) for utility framing.
 
@@ -62,7 +64,7 @@ Publish the privacy parameters and accounting approach so the guarantee is audit
 | --- | --- |
 | Adversary | An external analyst combining published tables (and external data) to re-identify individuals via differencing and small cells; a curious researcher pushing a query interface to its limits. |
 | Trust boundaries | The agency is trusted with the raw data (centralized DP). The boundary that matters is the *publication boundary* — once statistics are out, protection cannot be added retroactively. |
-| What this design protects | With centralized DP and global budget accounting, the formal influence of any single individual on the *entire set* of published statistics is bounded. Suppression adds defense in depth for the smallest cells. |
+| What this design protects | With centralized DP and global budget accounting, the formal influence of any single individual on the *entire set* of published statistics is bounded. Suppression based only on DP output and public information preserves that bound. |
 | What is **not** protected | DP bounds individual influence but does **not** make outputs exact; users must accept noise. It does **not** protect against an attacker with auxiliary data drawing population-level inferences that are not about any one person. If the **budget is set too loosely** or accounting is wrong, the practical guarantee weakens sharply. Suppression alone is **differenceable**. Permanent publication means errors cannot be recalled. See [Inference Attacks](../threat-models/inference-attacks.md). |
 
 !!! warning "Composition is where DP releases live or die"
@@ -73,7 +75,7 @@ Publish the privacy parameters and accounting approach so the guarantee is audit
 | Question | Metric | Evidence level (illustrative target) |
 | --- | --- | --- |
 | Privacy (formal) | Total privacy budget across the full release, and the privacy unit it protects | Needs evidence — must be set, owned, and reported |
-| Composition correctness | Whether budget accounting actually covers all published tabulations and query access | Expert judgment (2026-06-10): the most common gap; audit it |
+| Composition correctness | Whether accounting covers all tabulations, query access, and any private selection of cells or table shapes | Expert judgment (2026-06-10): the most common gap; audit it |
 | Utility | Accuracy of key statistics vs. their public purpose (funding thresholds, research validity) | Expert judgment (2026-06-10): expect visible noise at fine geographies; quantify against use needs |
 | Small-cell behavior | Re-identification risk at the smallest geographies/categories before and after suppression | Needs evidence — risk concentrates here |
 | Differencing resistance | Whether combining released tables can recover suppressed or individual values | Needs evidence — red-team the release |
@@ -88,8 +90,8 @@ Publish the privacy parameters and accounting approach so the guarantee is audit
 | Users only need specific statistics on demand | Replace bulk table publication with a **DP query interface** under a budget cap — fewer tables, controlled composition. |
 | Utility at fine geographies is unacceptable under a defensible budget | Coarsen geography/categories or reduce the number of releases to fit the budget; do not inflate the budget to rescue granularity. |
 | Legal mandate fixes both the tables and the budget | Treat both as hard constraints and optimize utility within them; document any unavoidable residual risk. |
-| Auxiliary-data linkage risk proves higher than assumed | Tighten the budget and strengthen suppression; revisit which attributes are published at all. |
+| Auxiliary-data linkage risk proves higher than assumed | Reassess the privacy budget and which attributes should be public. Check that any revised selection rule uses public inputs, DP outputs, or an accounted private mechanism. |
 | Stakeholders cannot accept noisy outputs | Invest in education and clear documentation of why exact publication is unsafe; exact tables are not a safe option here. |
 
 !!! note "The honest summary"
-    Safe statistical publication is a *composition* problem: the guarantee must hold across every table you release, not one at a time. Centralized DP with a named budget owner and real accounting provides a defensible claim; suppression is helpful backup, not the guarantee. Decide the budget and privacy unit before you decide how much to publish.
+    Safe statistical publication is a *composition* problem: the guarantee must hold across every table you release, not one at a time. Give the budget an owner and include the choice of what to publish in the privacy review. Decide the budget and privacy unit before choosing the table set.
