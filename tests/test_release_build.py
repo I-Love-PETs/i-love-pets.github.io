@@ -1,7 +1,6 @@
 """Build real Material pages to exercise release validation and template output."""
 import html
 from pathlib import Path
-import re
 import shutil
 import tempfile
 import unittest
@@ -48,6 +47,7 @@ class ReleaseBuildTests(unittest.TestCase):
             'nested.md': '# Nested example\n\n````markdown\n```mermaid\ngraph LR\n A --> B\n```\n````\n',
             'prose.md': '# Literal markup\n\nAn example of `class="mermaid"` in prose.\n',
             'delimiter.md': '---\ndescription: "Before --- after"\n---\n# Delimiter\n',
+            'punctuation.md': '---\ntitle: \'Keys & "outputs"\'\ndescription: \'A < B & "quoted"\'\n---\n# Punctuation\n',
             'empty.md': '---\n---\n# Empty metadata\n',
             'bare.md': '---\ntitle:\ndescription:\n---\n# Bare metadata\n',
             'duplicate-a.md': '---\ntitle: Repeated\n---\n# Duplicate A\n',
@@ -67,9 +67,9 @@ class ReleaseBuildTests(unittest.TestCase):
         cls.config = load_config(
             config_file=str(ROOT / 'mkdocs.yml'), docs_dir=str(cls.docs),
             site_dir=str(cls.site), site_url='https://example.org/guide/',
-            nav=[{'Home': 'index.md'}, {'One': [{'Overview': 'one/index.md'}]},
+            nav=[{'Start': [{'Home': 'index.md'}]}, {'One': [{'Overview': 'one/index.md'}]},
                  {'Two': [{'Overview': 'two/index.md'}]}],
-            hooks=[str(ROOT / 'scripts/check_site.py')], exclude_docs='/excluded.md',
+            hooks=[str(ROOT / 'scripts/site_hooks.py')], exclude_docs='/excluded.md',
             extra={
                 'mermaid_script': 'https://cdn.example/mermaid@10.9.1/mermaid.min.js',
                 'social_image': 'assets/social-card.png',
@@ -87,10 +87,42 @@ class ReleaseBuildTests(unittest.TestCase):
     def test_social_titles_match_document_titles(self):
         for target in ('index.html', 'one/index.html', 'two/index.html'):
             with self.subTest(target=target):
-                text = self.built(target)
-                title = html.unescape(re.search(r'<title>(.*?)</title>', text)[1])
-                self.assertEqual(Page(text).meta['og:title'], [title])
-        self.assertEqual(Page(self.built('index.html')).meta['og:title'], [self.config.site_name])
+                page = Page(self.built(target))
+                self.assertEqual(len(page.document_titles), 1)
+                self.assertEqual(page.meta['og:title'], page.document_titles)
+
+    def test_nested_home_uses_the_site_name_for_all_titles(self):
+        page = Page(self.built('index.html'))
+        self.assertEqual(page.document_titles, [self.config.site_name])
+        self.assertEqual(page.meta['og:title'], [self.config.site_name])
+        self.assertEqual(page.meta['twitter:title'], [self.config.site_name])
+
+    def test_release_rejects_a_homepage_with_a_navigation_title(self):
+        path = self.site / 'index.html'
+        original = path.read_text()
+        title = html.escape(self.config.site_name)
+        replacements = (
+            f'<title>{title}</title>',
+            f'<meta property="og:title" content="{title}">',
+            f'<meta name="twitter:title" content="{title}">',
+        )
+        try:
+            for tag in replacements:
+                with self.subTest(tag=tag):
+                    self.assertIn(tag, original)
+                    path.write_text(original.replace(tag, tag.replace(title, 'Home - ' + title), 1))
+                    self.assertIn('index.md: browser and social titles must match the site name', check_release(self.config))
+        finally:
+            path.write_text(original)
+
+    def test_social_metadata_escapes_authored_punctuation(self):
+        meta = Page(self.built('punctuation/index.html')).meta
+        title = [f'Keys & "outputs" - {self.config.site_name}']
+        description = ['A < B & "quoted"']
+        self.assertEqual(meta['og:title'], title)
+        self.assertEqual(meta['twitter:title'], title)
+        self.assertEqual(meta['og:description'], description)
+        self.assertEqual(meta['twitter:description'], description)
 
     def test_duplicate_social_titles_rejected(self):
         self.assertTrue(any('duplicate-b.md' in error and 'repeated og:title' in error for error in self.errors))
@@ -143,7 +175,7 @@ class ReleaseBuildTests(unittest.TestCase):
             config_file=str(ROOT / 'mkdocs.yml'), docs_dir=str(self.docs),
             site_dir=str(self.site.parent / 'flat-site'), site_url=self.config.site_url,
             use_directory_urls=False, exclude_docs='/excluded.md',
-            nav=self.config.nav, hooks=[str(ROOT / 'scripts/check_site.py')],
+            nav=self.config.nav, hooks=[str(ROOT / 'scripts/site_hooks.py')],
             extra_css=[], extra_javascript=[], validation={'nav': {'omitted_files': 'ignore'}, 'links': {'absolute_links': 'relative_to_docs'}},
         )
         config.mdx_configs['pymdownx.snippets']['base_path'] = self.config.mdx_configs['pymdownx.snippets']['base_path']

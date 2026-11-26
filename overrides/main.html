@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
+{% set is_root_page = page and page.file.src_uri == "index.md" %}
+
+{% block htmltitle %}
+  {% if is_root_page %}
+    <title>{{ config.site_name | e }}</title>
+  {% else %}
+    {{ super() }}
+  {% endif %}
+{% endblock %}
+
 {% block extrahead %}
   {{ super() }}
   {% if page and page.canonical_url %}
-    {% set title = config.site_name if page.is_homepage else (page.meta.get('title') or page.title | striptags) ~ ' - ' ~ config.site_name %}
+    {% set title = config.site_name if is_root_page else (page.meta.get('title') or page.title | striptags) ~ ' - ' ~ config.site_name %}
     {% set description = page.meta.get('description') or config.site_description %}
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="{{ config.site_name | e }}">

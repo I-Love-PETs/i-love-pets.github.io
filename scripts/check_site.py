@@ -3,10 +3,8 @@
 
 from __future__ import annotations
 
-from collections import defaultdict
 import gzip
 import sys
-from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
 from xml.etree import ElementTree
@@ -16,49 +14,10 @@ from mkdocs.structure.files import get_files
 from mkdocs.structure.pages import Page as MkDocsPage
 
 
-class Page(HTMLParser):
-    def __init__(self, text: str):
-        super().__init__(convert_charrefs=True)
-        self.meta = defaultdict(list)
-        self.canonical = []
-        self.scripts = []
-        self.ids: set[str] = set()
-        self.targets: list[str] = []
-        self.noindex = False
-        self.has_mermaid = False
-        self.feed(text)
-
-    def handle_starttag(self, tag, attrs):
-        values = dict(attrs)
-        if "mermaid" in (values.get("class") or "").split():
-            self.has_mermaid = True
-        if tag == "meta":
-            key = values.get("property") or values.get("name")
-            if key:
-                self.meta[key].append(values.get("content", ""))
-        if tag == "link" and values.get("rel") == "canonical":
-            self.canonical.append(values.get("href", ""))
-        if tag == "script" and values.get("src"):
-            self.scripts.append(values["src"])
-        if values.get("id"):
-            self.ids.add(values["id"])
-        if tag == "meta" and values.get("name") == "robots":
-            self.noindex = "noindex" in values.get("content", "")
-        for attribute in ("href", "src"):
-            if values.get(attribute):
-                self.targets.append(values[attribute])
-
-
-def on_page_markdown(markdown, page, config, files):
-    # A null title shadows MkDocs' heading fallback even when Jinja uses `or`.
-    if not page.meta.get("title"):
-        page.meta.pop("title", None)
-    return markdown
-
-
-def on_env(env, config, files):
-    env.filters["has_mermaid"] = lambda text: Page(text).has_mermaid
-    return env
+if __package__:
+    from .rendered_page import Page
+else:
+    from rendered_page import Page
 
 
 def documentation_pages(config):

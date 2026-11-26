@@ -39,8 +39,6 @@ def check_metadata(text: str | Page, canonical: str, diagrams: bool, mermaid_url
         values = page.meta[key]
         if len(values) != 1 or not values[0].strip():
             failures.append(f"missing, empty, or duplicate {key}")
-    if page.meta["og:title"] in (["Home"], ["Overview"]):
-        failures.append("og:title must identify the page, not its generic navigation label")
     if page.canonical != [canonical] or page.meta["og:url"] != [canonical]:
         failures.append("canonical and og:url must match the page URL")
     card = "summary_large_image" if image_url else "summary"
@@ -110,6 +108,14 @@ def check_release(config) -> list[str]:
         _, authored = get_data(text)
         description = authored.get("description")
         metadata = Page(html)
+        if file.src_uri == "index.md":
+            expected_title = [config.site_name]
+            if (metadata.document_titles != expected_title or metadata.meta["og:title"] != expected_title
+                    or metadata.meta["twitter:title"] != expected_title):
+                failures.append("index.md: browser and social titles must match the site name")
+        elif any(title.removesuffix(f" - {config.site_name}") in ("Home", "Overview")
+                 for title in metadata.meta["og:title"]):
+            failures.append(f"{relative}: og:title uses a generic navigation label")
         if description and metadata.meta["og:description"] != [description]:
             failures.append(f"{relative}: authored description missing from social metadata")
         for title in metadata.meta["og:title"]:

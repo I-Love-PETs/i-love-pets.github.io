@@ -16,7 +16,9 @@ class ReleaseValidationTests(unittest.TestCase):
                   'og:url': 'https://example.org/a/', 'twitter:card': 'summary',
                   'twitter:title': 'Keys &amp; &quot;outputs&quot;', 'twitter:description': 'A &lt; B'}
         text = '<link rel="canonical" href="https://example.org/a/">'
-        text += ''.join(f'<meta name="{key}" content="{value}">' for key, value in values.items())
+        for key, value in values.items():
+            attribute = 'property' if key.startswith('og:') else 'name'
+            text += f'<meta {attribute}="{key}" content="{value}">'
         if diagrams:
             text += f'<script src="{MERMAID}"></script>'
         return text + '<script src="/assets/javascripts/bundle.example.js"></script>'
@@ -27,10 +29,15 @@ class ReleaseValidationTests(unittest.TestCase):
         self.assertEqual(Page(self.page()).meta['og:title'], ['Keys & "outputs"'])
 
     def test_wrong_canonical_and_duplicate_metadata(self):
-        text = self.page() + '<meta name="og:title" content="duplicate">'
+        text = self.page() + '<meta property="og:title" content="duplicate">'
         errors = check_metadata(text, 'https://example.org/b/', False, MERMAID)
         self.assertTrue(any('duplicate og:title' in error for error in errors))
         self.assertTrue(any('canonical' in error for error in errors))
+
+    def test_open_graph_tags_require_property_attribute(self):
+        text = self.page().replace('property="og:title"', 'name="og:title"')
+        errors = check_metadata(text, 'https://example.org/a/', False, MERMAID)
+        self.assertIn('missing, empty, or duplicate og:title', errors)
 
     def test_missing_and_global_mermaid(self):
         self.assertTrue(check_metadata(self.page(), 'https://example.org/a/', True, MERMAID))
@@ -72,11 +79,6 @@ class ReleaseValidationTests(unittest.TestCase):
     def test_template_framing_prompts(self):
         template = Path('docs/contributing/pattern-template.md').read_text()
         self.assertTrue(any('placeholder' in error for error in check_structure(template)))
-
-    def test_generic_social_titles(self):
-        for title in ('Home', 'Overview'):
-            text = self.page().replace('Keys &amp; &quot;outputs&quot;', title)
-            self.assertTrue(any('title' in error for error in check_metadata(text, 'https://example.org/a/', False, MERMAID)))
 
     def test_limits_headings_ignore_case_and_require_whole_heading(self):
         self.assertEqual(check_headings('## failure modes\n', ('Failure Modes',)), [])

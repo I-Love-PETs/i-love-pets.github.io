@@ -42,7 +42,7 @@ watch:
 
 hooks:
   - scripts/error_page.py
-  - scripts/check_site.py
+  - scripts/site_hooks.py
 
 validation:
   nav:
