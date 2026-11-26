@@ -16,14 +16,16 @@
 | Field | Answer |
 | --- | --- |
 | What it helps build | A [DP synthetic data release](../pet-patterns/dp-synthetic-data-release.md) or, more directly, differentially private statistics and aggregate releases with formal, tracked privacy loss |
-| PET family | DP (low-level library with a verified core and privacy accounting) |
+| PET family | DP (Context API for supported dataframe analyses, plus lower-level mechanism composition) |
 | Best fit | Releasing aggregate statistics from a sensitive tabular dataset with a defensible, end-to-end `epsilon`/`delta` budget |
 | Fit label | Strong fit (for rigorous DP statistics); narrow fit as a turnkey product |
 | Evidence level | Literature-backed (programming-framework paper + per-mechanism proofs); Deployment-backed for adoption |
 
 ## What It Helps Build
 
-OpenDP is a modular library of differentially private algorithms with a Rust core and Python and R bindings on that same core. You assemble a DP release by chaining **transformations** (deterministic data operations, e.g. a bounded sum) with **measurements** (randomised, DP-introducing operations, e.g. Laplace or Gaussian noise), and the library computes the resulting privacy loss for you via **privacy maps** ([OpenDP docs](https://docs.opendp.org/en/stable/index.html), [programming framework](https://docs.opendp.org/en/stable/api/user-guide/programming-framework/index.html)).
+OpenDP is a modular library of differentially private algorithms with a Rust core and Python and R bindings on that same core. You assemble a DP release by chaining **transformations** (deterministic data operations, e.g. a bounded sum) with **measurements** (randomised, DP-introducing operations, e.g. Laplace or Gaussian noise), and the library computes the resulting privacy loss for you via **privacy maps** ([OpenDP docs](https://docs.opendp.org/en/stable/index.html), [OpenDP quickstart](https://docs.opendp.org/en/stable/getting-started/quickstart.html)).
+
+For a first Python analysis, start with the [Context and Polars workflow](https://docs.opendp.org/en/stable/getting-started/tabular-data/index.html). Use the low-level building blocks when you need to inspect or assemble the mechanism directly.
 
 It is the engine under a [DP synthetic data release](../pet-patterns/dp-synthetic-data-release.md) or a [synthetic data release pipeline](../pet-architectures/synthetic-data-release-pipeline.md), and the natural tool for the DP work in [federated analytics](../pet-patterns/federated-analytics.md) where you need a defensible accountant rather than hand-rolled noise.
 
@@ -44,13 +46,13 @@ Use OpenDP when:
 - you must release statistics or a synthetic dataset from sensitive records and need a **formal, end-to-end privacy budget** you can defend to a regulator or DPO;
 - you want privacy accounting handled by a vetted library (privacy maps, composition, RDP / zCDP / approximate-DP measures) rather than hand-derived;
 - you value a security-reviewed Rust core with the same logic exposed to Python and R;
-- you can express your release as a chain of transformations and measurements.
+- you can express your release as a supported dataframe query or compose it from vetted transformations and measurements.
 
 ## When Not To Use
 
 Avoid, or budget heavily, when:
 
-- you want a turnkey "add DP to my SQL/ML" product. OpenDP is deliberately **low-level**; the maintainers themselves point to higher-level tools such as SmartNoise SDK (which is built on OpenDP) for SQL-style interfaces;
+- you need arbitrary SQL or ML to become private automatically. The dataframe interface supports specific expressions and mechanisms. Custom composition uses the low-level API. SmartNoise SDK is an alternative to assess separately, with its current maintenance status and fit unverified here;
 - your team cannot reason about sensitivity bounds, clipping, and `epsilon` budgets — misdeclared bounds silently break the guarantee;
 - your privacy concern is about data *in transit or at rest*, not about what a released output leaks (use encryption / access control / a [TEE](confidential-computing-platform.md));
 - you need high-dimensional DP deep learning specifically — a gradient-perturbation library like Opacus may fit that workload more directly (note this as a comparison to evaluate, not a settled verdict).
@@ -71,9 +73,9 @@ OpenDP claims **provable differential privacy** for releases assembled from its 
 Per the framework's DP row: **privacy accounting and a utility curve for a specific release.**
 
 1. Pick one concrete release (e.g. grouped counts or a mean over a sensitive column).
-2. Build it with `enable_features("contrib")` only where unavoidable, declaring explicit bounds/sensitivity; chain a transformation (e.g. `make_sum`) with a measurement (`make_laplace`/`make_gaussian`).
+2. Use [Context and Polars](https://docs.opendp.org/en/stable/getting-started/tabular-data/essential-statistics.html) to declare the privacy unit, contribution bounds, and budget before running a supported count or bounded mean. Check the vetting status of the chosen components.
 3. Sweep `epsilon` (and `delta` if using approximate-DP) and plot a **utility curve**: accuracy/confidence-interval width vs privacy spent, using OpenDP's accuracy helpers.
-4. For releases with sensitive grouping keys, exercise the thresholded mechanisms (`make_laplace_threshold`) and confirm rare categories are suppressed.
+4. For sensitive grouping keys, use the [documented private grouping path](https://docs.opendp.org/en/stable/getting-started/tabular-data/grouping.html). Record the cost of selecting keys and measure which groups are omitted.
 5. Record the *total* budget under composition — the number you would actually have to defend.
 
 ## Operational Notes
@@ -94,7 +96,7 @@ Per the framework's DP row: **privacy accounting and a utility curve for a speci
 
 ## Review Verdict
 
-**Recommend for rigorous DP statistics; flag as low-level.** OpenDP is a defensible representative of the DP family for this guide: it is grounded in a published framework, ships proofs, reports audits, and has credible institutional adoption. The honest caveats are its self-declared WIP status and its deliberately low-level interface — for SQL/ML-style ergonomics, evaluate a higher-level layer built on it (e.g. SmartNoise SDK). Recommend it where you need a defensible budget and have the expertise to declare correct bounds; otherwise watch.
+**Recommend for supported DP statistics.** Start with Context and Polars for a tabular workload. Use lower-level composition when you need a custom mechanism and can review its bounds and accounting. Pin the version and validate the actual query and its utility before adopting the library.
 
 ## Related Pages
 

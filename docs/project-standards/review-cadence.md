@@ -44,6 +44,10 @@ Fast-moving pages should include a short review note near the top:
     Snapshot scope: Public tooling and benchmarks available at review time.
 ```
 
+A review date applies to the stated snapshot scope. For a focused update, date the claim or subsection actually checked. Source edits, publication dates, and checks of product documentation are different from measurements of a workload.
+
+Older deployment pages may still have a reference date or claim-level notes. Add the scoped review block as part of the next substantive review. The release validator checks structure and rendered output. Verification of facts and source currency is an editorial check.
+
 ## Stale Claim Policy
 
 If a claim is plausibly stale and not easy to verify, mark it as needing evidence rather than preserving confident language.

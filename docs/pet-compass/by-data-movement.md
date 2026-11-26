@@ -1,5 +1,7 @@
 # By Data Movement
 
+--8<-- "decision-guidance.md"
+
 Data movement is the first hard constraint. It does not decide the PET alone, but it rules out many bad ideas quickly.
 
 ## Decision Matrix
@@ -7,7 +9,7 @@ Data movement is the first hard constraint. It does not decide the PET alone, bu
 | Data movement pattern | Use this when... | Candidate PETs | Avoid this when... | Hidden cost |
 | --- | --- | --- | --- | --- |
 | Raw data centralizes | One party is allowed to process data and can be held accountable | Centralized processing, DP, minimization, access controls | The central operator is not trusted or cannot legally receive the data | Concentrated breach and misuse risk |
-| Raw data stays at each party | Participants can compute locally and send protected artifacts | FL, federated analytics, secure aggregation, MPC, PSI | Participants cannot run reliable infrastructure or agree on protocols | Coordination, versioning, identity, and dropouts |
+| Raw data stays at each party | Participants can compute locally and send protected artifacts | FL, federated analytics, secure aggregation, [MPC](../start-here/glossary.md#mpc), PSI | Participants cannot run reliable infrastructure or agree on protocols | Coordination, versioning, identity, and dropouts |
 | Data enters a controlled environment | Data can move only into a governed or confidential boundary | Clean rooms, TEEs, confidential computing | The platform operator is in the adversary model and hardware trust is unacceptable | Policy, attestation, logging, and procurement |
 | Only encrypted inputs move | The service must not see plaintext inputs | HE, MPC, PSI | The workload is broad, interactive, or latency-sensitive without benchmarking | Cost, limited operators, complex debugging |
 | Model updates move | Training data remains local but gradients, weights, or metrics leave | FL, secure aggregation, DP, robust aggregation | You cannot tolerate update leakage or poisoning risk | Updates are still sensitive artifacts |
@@ -24,7 +26,7 @@ Use centralization when:
 - the workload needs high fidelity, low latency, or operational simplicity;
 - the privacy claim is about controlled processing, not cryptographic separation.
 
-Add **differential privacy** when the released output must limit the contribution of one person, account, device, or organization. DP is an output guarantee; it does not make sloppy data handling safe.
+Add **[differential privacy](../start-here/glossary.md#differential-privacy)** when the released output must limit the contribution of one person, account, device, or organization. DP is an output guarantee; it does not make sloppy data handling safe.
 
 ## Raw Data Cannot Move
 
@@ -33,7 +35,7 @@ Add **differential privacy** when the released output must limit the contributio
 | Train a shared model | Cross-silo FL | Update leakage, poisoning, non-IID data, weak local operations |
 | Compute aggregate metrics | Federated analytics or MPC | Small-cell leakage, collusion, expensive protocols |
 | Find common records | PSI | The intersection may itself be sensitive |
-| Serve inference | HE or TEE confidential inference | HE latency, TEE trust assumptions, output leakage |
+| Serve inference | HE or TEE [confidential inference](../start-here/glossary.md#confidential-inference) | HE latency, TEE trust assumptions, output leakage |
 | Release data-like artifacts | DP synthetic data | Memorization, weak utility, misunderstood residual risk |
 
 The phrase "data cannot move" is underspecified. Ask whether **records**, **features**, **labels**, **identifiers**, **gradients**, **embeddings**, **prompts**, **logs**, or **outputs** can move. Many failures happen because teams protect one artifact and leak another.

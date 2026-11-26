@@ -1,5 +1,7 @@
 # Worked Decision: Releasing a Synthetic Version of a Sensitive Dataset
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -35,7 +37,7 @@ A team holds a sensitive tabular dataset — say, customer records or patient-de
 | --- | --- |
 | **Non-DP generative model, released as "synthetic = safe"** | The headline trap. Standard generators can and do memorize rare records and reproduce outliers verbatim, and offer no formal individual-privacy bound. Releasing without a privacy evaluation is how "synthetic" data leaks real people. Rejected as unsafe by default. |
 | **Classic de-identification / k-anonymity on the real data** | Removing identifiers and generalizing fields is well known to be vulnerable to linkage attacks, and it degrades utility while still shipping real (if masked) records. For a public-style release this is weaker than DP synthetic data. Rejected as insufficient. |
-| **DP with an arbitrarily tight budget chosen for optics** | DP is on the recommendation, but a budget picked to *sound* strong, without checking utility, typically produces a synthetic dataset that is useless — destroying the reason to release it. Rejected as a *reflex*; the budget must be chosen against measured utility. |
+| **DP with an arbitrarily tight budget chosen for optics** | DP is on the recommendation, but a budget picked to *sound* strong, without checking utility, typically produces a synthetic dataset that is useless — destroying the reason to release it. Rejected as a *reflex*; evaluate utility under a defensible budget and account for any private selection that influences the release. |
 | **Releasing high-fidelity individual-level data broadly** | If consumers truly need high-fidelity individual records, no synthetic method will both preserve that fidelity and protect individuals; the honest move is *restricted sharing* under contract, not a public synthetic release. Rejected for broad release; redirected to controlled access. |
 | **Skipping memorization/membership testing to ship faster** | Without these tests, the privacy statement is unfalsifiable. A release you cannot evaluate is a release you cannot defend. Rejected — testing is non-negotiable. |
 
@@ -44,8 +46,8 @@ A team holds a sensitive tabular dataset — say, customer records or patient-de
 Choose by the claim the release must support:
 
 - **If the release needs a formal individual-privacy claim:** train a **DP synthetic data generator**, then *gate the release on evaluation*:
-  1. **Choose the privacy unit and budget deliberately** (typically per-individual), and tune the budget against **measured downstream utility** — not against optics.
-  2. Run **memorization / nearest-neighbor tests** to confirm the generator is not copying records.
+  1. **Choose the privacy unit and a defensible budget** before tuning. Measure utility on public or proxy data, or account for private tuning and selection in the release.
+  2. Run **memorization / nearest-neighbor tests** to look for copying under the tested conditions. A clean result cannot rule out memorization or establish DP.
   3. Run a **membership-inference evaluation** to quantify residual risk.
   4. Run **utility benchmarks** on the intended downstream tasks, including rare-subgroup behavior.
   5. Publish with an **honest residual-risk statement** and the privacy parameters.
@@ -54,8 +56,10 @@ Choose by the claim the release must support:
 
 See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-release-pipeline.md).
 
-!!! tip "Tune the budget to utility, then state it"
-    The right DP budget is the one that meets your utility bar with the strongest guarantee achievable — discovered by measurement, not chosen for the press release. Then publish the actual parameters so reviewers can judge them.
+!!! tip "Include private selection in the budget"
+    If a utility score computed from private data determines which model or budget you publish, cover that selection in the guarantee. Publish the privacy unit, parameters, and accounting scope. See [NIST SP 800-226](https://doi.org/10.6028/NIST.SP.800-226).
+
+*(Evidence: Literature-backed. Source quality: Primary / official. The guidance covers the guarantee and its accounting. Test downstream utility on the intended tasks.)*
 
 ## 5. Threat Model
 
@@ -63,8 +67,8 @@ See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-releas
 | --- | --- |
 | Adversary | An attacker who downloads the release and tries to re-identify individuals, confirm membership, or recover rare records; an over-trusting consumer who treats "synthetic" as "risk-free." |
 | Trust boundaries | After release, there is no boundary — the artifact is public (or broadly shared) and permanent. All protection must be baked in *before* publication. |
-| What this design protects | With DP, the formal influence of any single individual on the released generator is bounded. Memorization and membership tests provide empirical evidence that rare records are not reproduced and membership is hard to infer. |
-| What is **not** protected | DP bounds individual influence but does **not** guarantee zero utility loss, nor does it protect sensitive *population-level correlations* that may themselves be sensitive to disclose. Rare subgroups remain the highest-risk region even under DP. A non-DP generator protects *nothing* formally. Over-trust by downstream users is a human risk no algorithm removes. See [Membership Inference](../threat-models/membership-inference.md). |
+| What this design protects | With DP, the formal influence of any single individual on the released generator is bounded. Memorization and membership tests can detect some failures in the scenarios tested. Passing them does not prove that rare records cannot appear in the output or that the implementation satisfies DP. |
+| What is **not** protected | Correctly implemented DP applies the stated neighboring-dataset bound to each protected individual. Rare subgroups may lose more utility, and population-level facts and harms outside the chosen privacy unit remain outside the guarantee. Non-DP synthesis supplies no DP guarantee by itself. Over-trust by downstream users is a human risk no algorithm removes. See [Membership Inference](../threat-models/membership-inference.md). |
 
 !!! warning "Synthetic is not a privacy guarantee"
     "It's synthetic" describes how the data was generated, not how private it is. Only a privacy mechanism (DP) plus evaluation (memorization, membership inference) supports a defensible claim. State the residual risk explicitly; do not let "synthetic" do the work that evidence should.
@@ -77,7 +81,7 @@ See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-releas
 | Memorization | Nearest-neighbor similarity between synthetic and training records; verbatim duplication rate | Needs evidence — the first test that catches copying |
 | Membership inference | Attacker success rate at distinguishing training members | Needs evidence — turns belief into a number |
 | Utility | Downstream task performance vs. real data; distributional fidelity | Expert judgment (2026-06-10): expect noticeable utility loss under meaningful DP; quantify it |
-| Rare-subgroup behavior | Utility and risk specifically for small/rare subgroups | Needs evidence — risk and utility both concentrate here |
+| Rare-subgroup behavior | Accuracy for small or rare subgroups, with uncertainty | Needs evidence — compare subgroup utility with the intended use |
 | Cost / effort | Generator training cost; evaluation effort; review/governance burden | Expert judgment (2026-06-10): evaluation and review often exceed generation cost |
 | Residual-risk clarity | Whether the release documents what it does *not* protect | Expert judgment (2026-06-10): a release without a residual-risk statement is incomplete |
 
@@ -87,7 +91,7 @@ See [Synthetic Data Release Pipeline](../pet-architectures/synthetic-data-releas
 | --- | --- |
 | Consumers only need aggregate statistics | Replace the release with a **DP query interface** — revocable and lower-risk. |
 | Required fidelity is incompatible with any acceptable DP budget | Stop trying to release publicly; move to **restricted contractual sharing** of real data under access controls. |
-| Memorization or membership tests fail | Do **not** release. Re-train with a tighter budget or different generator and re-test until evidence supports the claim. |
+| Memorization or membership tests fail | Do **not** release. Investigate the mechanism, accounting, and intended release. If you try again, account for private tuning and selection that influences the final release. |
 | Population-level correlations are themselves sensitive | DP on individuals will not cover this; add disclosure review and possibly suppress or coarsen those relationships. |
 | A regulator demands a specific formal guarantee | DP becomes mandatory with a documented budget and accounting; design to that requirement from the start. |
 | Utility under DP is acceptable but reviewers distrust "synthetic" | Lead with the **evidence package** (budget, memorization, membership results) rather than the word "synthetic." |

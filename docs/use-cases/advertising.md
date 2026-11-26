@@ -1,5 +1,7 @@
 # Advertising
 
+--8<-- "decision-guidance.md"
+
 Advertising PET decisions usually involve measurement under identifier loss, platform governance, small-segment leakage, and incentives that are not always aligned.
 
 ## Scenario Playbook
@@ -28,6 +30,8 @@ Advertising PET decisions usually involve measurement under identifier loss, pla
 ## Recommended Starting Stack
 
 For platform measurement, start with a **clean room + output thresholds**. For list overlap, start with **PSI + strict output limits**. Add DP or private aggregation when repeated aggregate releases need stronger protection.
+
+These sketches assume a governed platform and a curious analyst who can combine allowed outputs. If the platform must not see contributions or the match list itself is sensitive, choose a protocol whose inputs and outputs match that boundary before choosing a clean room.
 
 ## Failure Modes
 

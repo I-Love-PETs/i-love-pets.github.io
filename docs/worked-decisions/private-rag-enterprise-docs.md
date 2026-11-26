@@ -1,5 +1,7 @@
 # Worked Decision: RAG Over Confidential Enterprise Documents
 
+--8<-- "decision-guidance.md"
+
 !!! info "Review status"
     Last reviewed: 2026-06-10
     Evidence level: Expert judgment
@@ -34,7 +36,7 @@ An enterprise wants employees to ask natural-language questions over a body of c
 | Rejected option | Why rejected |
 | --- | --- |
 | **Ordinary RAG with no access control** | Workable *only* if every user and system already shares one trust boundary and all documents are equally readable by all users. With per-document authorization, a flat retriever will surface restricted content the first time someone asks the right question. Rejected whenever authorization varies. |
-| **Homomorphic encryption for the whole pipeline** | HE can keep narrow inference inputs encrypted, but a full RAG pipeline — embedding, vector search, multi-document context assembly, generation — is far outside what HE handles at acceptable latency today. Rejected on feasibility for the pipeline; HE remains conceivable only for an isolated narrow step. |
+| **[Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) for the whole pipeline** | HE can keep narrow inference inputs encrypted, but a full RAG pipeline — embedding, vector search, multi-document context assembly, generation — is far outside what HE handles at acceptable latency today. Rejected on feasibility for the pipeline; HE remains conceivable only for an isolated narrow step. |
 | **TEE as the entire answer** | A TEE protects prompts and context *from the host*, but it does nothing about an over-broad retriever returning documents the user should not see, or an answer that quotes restricted text. Treating the TEE as a magic secure box while ignoring retrieval scope, logs, and output is the classic anti-pattern. Rejected as a standalone solution; retained as one layer. |
 | **DP on the documents or answers** | DP is built for aggregate release, not for serving exact passages to authorized readers. Adding DP noise to a contract lookup makes the answer wrong without fixing the actual exposure (who is allowed to see what). Wrong tool for this job. |
 | **Encrypt-at-rest and call it private** | Encryption at rest protects against storage theft, not against an authorized-looking query retrieving content the user should not see. Necessary hygiene, insufficient as the privacy design. Rejected as the *answer* (kept as baseline hygiene). |
@@ -61,6 +63,7 @@ See [Confidential RAG](../pet-architectures/confidential-rag.md) for the referen
 | Adversary | A curious employee probing for documents above their clearance; a curious operator/host of the RAG infrastructure; an external attacker; an over-eager model that synthesizes restricted content. |
 | Trust boundaries | The data owner may not trust the runtime host — hence TEEs and attestation. The asking user is authenticated but only partially trusted (authorization-limited). The model is treated as a component that can leak through its outputs. |
 | What this design protects | Users receive only content their permissions allow (authorization-aware retrieval + output policy). The host cannot read prompts/context (TEE, if attestation is verified). Sensitive fields are minimized in prompts/logs. Retained logs are bounded and access-controlled. |
+| Embeddings and index | Keep vectors and the index within the document trust boundary. [Morris et al. (EMNLP 2023)](https://aclanthology.org/2023.emnlp-main.765/) showed text recovery from embeddings for the tested models, so an exposed vector store can reveal source material. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic.)* |
 | What is **not** protected | If authorization metadata is wrong or stale, the retriever faithfully enforces the *wrong* policy — garbage in, leak out. The model can still **infer** restricted facts from authorized fragments; output policy mitigates but does not eliminate this. Attestation that nobody verifies protects nothing. Prompt-injection in documents can subvert the assistant. Side channels on the TEE are out of scope unless specifically addressed. See [Side Channels](../threat-models/side-channels.md) and [Inference Attacks](../threat-models/inference-attacks.md). |
 
 !!! warning "Unverified attestation is not a control"

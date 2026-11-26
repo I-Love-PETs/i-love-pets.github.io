@@ -1,3 +1,7 @@
+---
+title: "Deployments"
+---
+
 # Deployments
 
 !!! warning "Treat deployment claims carefully"

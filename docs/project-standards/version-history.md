@@ -1,11 +1,51 @@
+---
+description: "Read the v1.0 definition of done, release-readiness checks, earlier milestones, and remaining evidence gaps."
+---
+
 # Version History
 
 !!! info "Release status"
-    Status: Current through the v0.7 evidence-backed guidance release
-    Last updated: 2026-06-17
-    Scope: Shipped milestones and near-term cleanup work for decision-ready PET guidance.
+    Status: v1.0 published decision framework
+    Last updated: 2026-11-25
+    Scope: v1.0 acceptance criteria, shipped milestones, and explicit evidence follow-ups.
 
 This page tracks what each site version is meant to change. It is not a changelog for every line edit; it is the editorial map readers and contributors can use to understand the maturity of the guide.
+
+## v1.0 definition of done
+
+v1.0 means a stable decision framework, a consistent evidence model, usable core
+content, contributor conventions, and a trustworthy publishing baseline. It does
+not mean complete PET coverage or that every workload claim has measured evidence.
+
+- Every pattern and architecture states Protected asset, Adversary, Allowed output, Leakage surface, Assumptions, and Non-goals, with protection limits and failure modes.
+- The [Evidence Policy](evidence-policy.md) applies across the guide. Older deployment notes and research cards still need migration to paired source labels and scoped review dates. The domain use cases are short scenario sketches with trust assumptions and change conditions.
+- The homepage and onboarding lead readers to a shortlist, a pattern, a worked decision, or an open problem.
+- Contributor templates describe the conventions for new work. Existing research cards are moving to the prior-work standard as they are reviewed.
+- Publishing checks cover internal links, navigation, diagrams, social metadata, sitemap, robots, and the error page.
+
+### v1.0 release-readiness checks
+
+Run the commands in [Contributing](../contributing/index.md) and the repository’s
+`CONTRIBUTING.md`; CI and deployment run the same automated gates.
+
+- Install `requirements.txt`; run the strict MkDocs build, Markdown lint, and validator tests.
+- Check source and built internal links and anchors, navigation coverage, and local assets.
+- Check framing coverage, contributor structure, rendered evidence notes, and primary-path placeholder markers.
+- Check canonical URLs and OpenGraph/Twitter titles, descriptions, image URLs, and image alt text.
+- Confirm Mermaid loads only on diagram pages and every diagram renders in a browser.
+- Check sitemap (including compressed copy), robots, and nested-path 404 recovery.
+- Review the homepage, chooser, a pattern, and diagram pages at mobile and desktop widths in light and dark mode. Check navigation, table scrolling, readable diagrams, focus visibility, and theme switching.
+
+Record browser review separately from the static build. Factual accuracy and source currency require editorial review.
+Record the browser, viewports, inspected pages, and any limits in the release PR.
+Templates under Contributing are intentionally instructional; primary reader paths
+must not contain unfilled template prompts or placeholder dates.
+
+## v0.9 — Quality and SEO baseline
+
+Merged before v1.0: pinned build dependencies, evidence labels for benchmark and
+tool guidance, expanded benchmark methods, strict publishing checks, and a
+canonical sitemap, robots file, and friendly 404 page.
 
 ## v0.7 — Evidence-Backed Guidance
 
@@ -71,7 +111,7 @@ v0.4 made I ❤️ PETs more usable as a decision kit: clearer use cases, reusab
 
 ## Known Follow-Ups
 
-- Replace hypothetical benchmark examples with measured or literature-backed runs where possible.
+- Add measured or literature-backed runs alongside the benchmark exercises where reproducible results are available.
 - Add source-backed claim notes for high-impact claims in the claim register.
 - Revisit fast-moving tool version and performance claims before major releases.
 - Add a lightweight stale-content check for pages with dated review metadata.

@@ -1,4 +1,11 @@
+---
+title: "PET Architectures"
+description: "Review PET architectures with actors, diagrams, trust boundaries, keys, logs, assumptions, and evaluation checks."
+---
+
 # PET Architectures
+
+--8<-- "decision-guidance.md"
 
 Architecture pages turn PET choices into deployable system shapes. They emphasize actors, data flow, trust boundaries, PET stack, deployment notes, tradeoffs, and failure modes.
 

@@ -1,3 +1,7 @@
+---
+title: "Deployment Deep Dives"
+---
+
 # Deployment Deep Dives
 
 !!! warning "Deeper studies, same evidence discipline"
@@ -14,7 +18,7 @@ The [Deployments overview](../index.md) tracks PET deployments as a broad eviden
 
 ## Evidence Levels
 
-Each major claim on these pages carries one of four labels. Today's reference date is 2026-06-17.
+Use the [Evidence Policy](../../project-standards/evidence-policy.md) for the full taxonomy. These four levels appear most often in the deep dives. Each page or note dates the scope it covers. A dated policy or tool check does not indicate a fresh review of the entire case.
 
 | Label | Meaning |
 | --- | --- |
@@ -29,10 +33,10 @@ These studies were chosen because they span different PET families, threat model
 
 | Deep dive | PET family | Maturity | Source quality | Why it is worth studying |
 | --- | --- | --- | --- | --- |
-| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Production, one release per decade | Primary / official plus independent analysis | The largest-scale production DP deployment, with rich public criticism of the utility tradeoff |
-| [Boston Wage-Gap MPC](boston-wage-gap-mpc.md) | Secure multi-party computation | Ongoing batch program, repeated since 2015 | Primary / official plus third-party case study | A rare long-running civic MPC deployment where the hard part was trust and usability, not crypto |
+| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Historical production | Primary / official plus independent analysis | Historical use of DP in official statistics, with documented utility tradeoffs and a subsequent change in policy |
+| [Boston Wage-Gap MPC](boston-wage-gap-mpc.md) | Secure multi-party computation | Recurring batch program, first report listed: 2016 | Primary / official plus third-party case study | A rare long-running civic MPC deployment where the hard part was trust and usability, not crypto |
 | [Ads Data Hub & Clean Rooms](ads-data-hub-clean-rooms.md) | Aggregation plus query controls (clean room) | Commercial production | Primary / official vendor documentation | A dominant commercial pattern that is often loosely called "privacy-preserving" |
-| [MELLODDY Federated Learning](melloddy-fl.md) | Federated learning plus secure aggregation | Completed consortium project | Primary / official plus peer-reviewed / academic | The largest cross-pharma FL experiment, instructive about what FL alone does and does not protect |
+| [MELLODDY Federated Learning](melloddy-fl.md) | Federated learning plus secure aggregation | Completed consortium project | Primary / official plus peer-reviewed / academic | An industrial-scale cross-pharma experiment that separates the server and participant views |
 | [EXAM COVID-19 Federated Learning](exam-covid-fl.md) | Federated learning | Research prototype / demonstration experiment | Peer-reviewed / academic | A strong healthcare feasibility study that separates "raw data stayed local" from clinical production evidence |
 | [Japanese Banks Federated Fraud Detection](japanese-banks-fl-fraud.md) | Federated learning | Demonstration experiment | Peer-reviewed / academic | A finance demonstration with named banks and real transaction data, but no public production claim |
 

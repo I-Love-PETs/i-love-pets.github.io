@@ -1,3 +1,7 @@
+---
+title: "Benchmarks"
+---
+
 # Benchmarks
 
 !!! info "Review status"

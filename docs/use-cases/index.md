@@ -1,4 +1,10 @@
+---
+title: "Use Cases"
+---
+
 # Use Cases
+
+--8<-- "decision-guidance.md"
 
 Use cases translate PET choices into domain constraints. The same PET can be wise in one domain and irresponsible in another.
 

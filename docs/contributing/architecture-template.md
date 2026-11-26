@@ -5,6 +5,27 @@ Use this template when the page explains a concrete system shape rather than a g
 ```markdown
 # Architecture Name
 
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Name the data or artifacts to protect. |
+| Adversary | Name capabilities, corruption model, and collusion threshold. |
+| Allowed output | Name the result, recipients, and permitted query frequency. |
+| Leakage surface | Include outputs, intermediates, metadata, logs, and side channels. |
+| Assumptions | State concrete conditions on keys, hardware, parties, and accounting. |
+| Non-goals | State excluded attacks and properties; do not imply complete privacy. |
+
+## Evidence and review
+
+State Last reviewed and the scope of the review. Use the existing Evidence Policy
+levels: Measured, Deployment-backed, Literature-backed, Expert judgment, Needs evidence.
+Use its source-quality labels: Primary / official, Peer-reviewed / academic,
+Independent analysis, Vendor case study, Press / secondary, Unsourced / illustrative.
+Attach a source and its limits to each decision-critical factual claim. Explain
+why editorial guidance is plausible and what would change it. Do not promote
+illustrative examples to measured evidence.
+
 ## Goal
 
 What should the architecture achieve?
@@ -33,7 +54,7 @@ Explain the role of each PET. Do not just list names.
 
 What is protected, from whom, and under which assumptions?
 
-## What This Does Not Protect Against
+## Does not protect
 
 Name output leakage, compromised endpoints, side channels, weak governance, or bad data quality.
 
@@ -45,7 +66,7 @@ What must be configured, monitored, rotated, audited, or reviewed?
 
 State privacy, utility, cost, latency, and operational tradeoffs.
 
-## Failure Modes
+## Failure modes
 
 How does the design fail in practice?
 
@@ -61,3 +82,5 @@ What should be tested before production?
 - Are data flows clear?
 - Are assumptions listed?
 - Are operational risks included?
+
+Use the [Evidence Policy](../project-standards/evidence-policy.md) and [glossary](../start-here/glossary.md) without inventing new labels. Keep page-specific assumptions explicit; shared editorial guidance may use the include in `includes/decision-guidance.md`.

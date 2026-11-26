@@ -1,3 +1,7 @@
+---
+title: "Finance Deployments"
+---
+
 # Finance Deployments
 
 !!! warning "Deployment evidence"
@@ -31,10 +35,10 @@
 | Organization / project | Demonstration experiment with five Japanese banks |
 | Domain | Finance |
 | Problem | Test privacy-preserving federated learning for fraudulent financial transaction detection using real transaction data across banks. |
-| PETs used | Federated learning |
+| PETs used | DeepProtect combines federated learning with homomorphic encryption of updates ([NICT protocol summary](https://sfl.nict.go.jp/en/team-1.html)). |
 | Deployment maturity | Demonstration experiment |
 | Source quality | Peer-reviewed / academic |
-| What worked | The paper reports a multi-bank demonstration using real transaction data and names participating banks. |
+| What worked | The authors ran the experiment locally at NICT using data provided by five banks. See the [DeepProtect case study](deep-dives/japanese-banks-fl-fraud.md#what-was-actually-deployed) for the distinction between the experiment and the distributed key boundary. |
 | Challenges | The authors describe it as a demonstration experiment; it should not be treated as evidence of production deployment. |
 | Lessons for builders | Fraud FL needs real data, cross-bank governance, and operational design beyond model training. |
 | Source | [IPSJ Journal of Information Processing: Privacy-Preserving Federated Learning for Detecting Fraudulent Financial Transactions in Japanese Banks](https://www.jstage.jst.go.jp/article/ipsjjip/30/0/30_789/_article) |

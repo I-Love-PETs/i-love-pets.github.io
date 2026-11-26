@@ -1,12 +1,8 @@
 # I ❤️ PETs
 
-A practical field guide to Privacy-Enhancing Technologies.
+[Read the I ❤️ PETs field guide](https://i-love-pets.github.io/) or [start with the PET chooser](https://i-love-pets.github.io/pet-compass/choose-a-pet/).
 
-I ❤️ PETs helps privacy engineers, platform engineers, and architects decide which privacy-enhancing technology fits a real system they may need to scope in the next few weeks.
-
-Researchers, product teams, policy teams, and students are welcome secondary readers, but the editorial center is the builder responsible for a PET decision.
-
-This is not another awesome list. Existing repositories already collect papers, frameworks, tools, datasets, tutorials, and links. This project focuses on guidance: decision support, architecture patterns, threat models, real-world deployment lessons, open research problems, and implementation tradeoffs.
+I ❤️ PETs helps privacy engineers, platform engineers, and architects decide which privacy-enhancing technologies fit their system and when to rule them out. Start by deciding what the system may reveal and to whom. Then check the adversary, trust assumptions, leakage, and failure modes before committing to a design.
 
 ## What This Project Helps You Answer
 

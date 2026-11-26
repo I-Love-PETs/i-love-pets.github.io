@@ -1,124 +1,53 @@
+---
+description: "Choose privacy-enhancing technologies by allowed output, adversary, assumptions, leakage, and failure modes. A practical guide for engineers and architects."
+---
+
 # I ❤️ PETs
 
-A practical field guide to Privacy-Enhancing Technologies.
+A practical field guide to Privacy-Enhancing Technologies for privacy engineers,
+platform engineers, and architects deciding what to build and what to test.
 
-## Find Your Path
+**Start with what the system is allowed to reveal.** Then name the adversary,
+assumptions, leakage surfaces, and failure modes. The guide connects those choices
+to reusable patterns, concrete architectures, worked decisions, and evidence you
+can inspect.
 
-<div class="grid cards" markdown>
+<div class="home-actions" markdown>
 
-- :material-compass-outline: **I need to choose a PET**
-
-    ---
-
-    You have a real system and a privacy constraint. Start with the guided chooser.
-
-    [:octicons-arrow-right-24: Choose a PET](pet-compass/choose-a-pet.md)
-
-- :material-vector-square: **I need to design an architecture**
-
-    ---
-
-    You know your PET candidate and need actors, data flows, and trust boundaries.
-
-    [:octicons-arrow-right-24: PET Architectures](pet-architectures/index.md)
-
-- :material-magnify: **I need to evaluate a claim**
-
-    ---
-
-    A vendor or paper makes a privacy claim. Check it against the evidence policy and the claim register.
-
-    [:octicons-arrow-right-24: Evidence Policy](project-standards/evidence-policy.md) &nbsp;·&nbsp; [Claim Register](project-standards/claim-register.md)
-
-- :material-flask-outline: **I need a research problem**
-
-    ---
-
-    You want a concrete open problem with success criteria and a first contribution.
-
-    [:octicons-arrow-right-24: Fix My Itch](fix-my-itch/index.md)
-
-- :material-database-search-outline: **I need evidence from deployments**
-
-    ---
-
-    You want deployment maturity, source quality, and lessons from real production use.
-
-    [:octicons-arrow-right-24: Deployments](deployments/index.md)
-
-- :material-clipboard-check-outline: **I need a worked decision**
-
-    ---
-
-    You want to see a PET choice made under realistic constraints before you copy the pattern.
-
-    [:octicons-arrow-right-24: Worked Decisions](worked-decisions/index.md)
-
-- :material-tools: **I need to evaluate a PET tool**
-
-    ---
-
-    You want to know whether a library or platform fits a threat model, architecture, and first benchmark.
-
-    [:octicons-arrow-right-24: Tool Reviews](tool-reviews/index.md)
+[Choose a PET](pet-compass/choose-a-pet.md){ .md-button .md-button--primary }
+[Explore patterns](pet-patterns/index.md){ .md-button }
+[Worked decisions](worked-decisions/index.md){ .md-button }
+[Open problems](fix-my-itch/index.md){ .md-button }
 
 </div>
 
-Not sure where to start? Read the [guided reader paths](start-here/reader-paths.md).
+New to PETs? [Start here](start-here/index.md) introduces the terms and the six-field decision framing.
 
-## Fast Routing
+<span id="find-your-path"></span>
+<span id="fast-routing"></span>
+<span id="what-makes-this-guide-useful"></span>
+<span id="how-to-use-this-site"></span>
 
-| You have... | Go to... | Then check... |
-| --- | --- | --- |
-| A concrete use case but no PET shortlist | [Use Cases](use-cases/index.md) | [PET Compass](pet-compass/index.md) |
-| A PET candidate but no design | [PET Architectures](pet-architectures/index.md) | [Threat Models](threat-models/index.md) |
-| A vendor/tool claim | [Tool Reviews](tool-reviews/index.md) | [Evidence Policy](project-standards/evidence-policy.md) |
-| A proposed deployment claim | [Deployments](deployments/index.md) | [Claim Register](project-standards/claim-register.md) |
-| A research or contribution idea | [Fix My Itch](fix-my-itch/index.md) | [Contributing](contributing/index.md) |
+## When to rule out a PET
 
-## This Is Not Another Awesome List
+- **Skip plain federated learning if the coordinator must not see site updates.** Keeping records local still leaves updates visible. Check the trust boundary in the [hospital training decision](worked-decisions/hospital-model-training.md).
+- **Skip identity-revealing PSI if participants may learn only a count.** The match list is itself a disclosure. Compare the outputs in [Private Set Intersection](pet-patterns/private-set-intersection.md#do-not-use-psi-when).
+- **Skip a TEE if you cannot establish who can access the hardware.** Valid attestation depends on the platform's threat assumptions. See the [private inference decision](worked-decisions/private-model-inference.md).
 
-Existing repositories catalog papers and tools. This site is for the moment after
-someone asks, "What should we actually build, buy, evaluate, or research?"
-
-The guide is intentionally biased toward engineering review. A useful answer here
-names the protected asset, the adversary, the allowed output, the operational
-assumptions, and the measurement that would falsify the design. If a PET choice
-cannot survive those questions, the right next step is not a bigger diagram; it is
-a narrower claim.
-
-I ❤️ PETs focuses on:
-
-- choosing the right PET for a constraint, not a buzzword;
-- drawing architectures with explicit trust boundaries;
-- spotting privacy claims that are missing a threat model;
-- turning vague "future work" into concrete research problems;
-- learning from deployments without pretending every pilot is production.
-
-## How To Use This Site
-
-Use the site as a field guide, not a textbook.
-
-| If you need to... | Start with... | You should leave with... |
-| --- | --- | --- |
-| Pick a PET for a real system | [PET Compass](pet-compass/index.md) | A primary candidate, likely supporting PETs, and reasons to reject the wrong options |
-| Explain how a PET design works | [PET Architectures](pet-architectures/index.md) | Actors, data flows, trust boundaries, assumptions, and failure modes |
-| Compare recurring designs | [PET Patterns](pet-patterns/index.md) | When to use a pattern, when not to use it, and what to measure |
-| See a decision worked through end to end | [Worked Decisions](worked-decisions/index.md) | A recommended PET stack, what can go wrong, what to measure, and when the choice changes |
-| Check whether a privacy claim is credible | [Threat Models](threat-models/index.md) | The adversary, the protected asset, and what the PET does not protect |
-| Evaluate a tool or platform | [Tool Reviews](tool-reviews/index.md) | Fit, evidence level, operational risks, first benchmark, and when not to use it |
-| Exercise a benchmark scorecard | [Benchmark Example Runs](benchmarks/example-runs.md) | A hypothetical workload, scorecard fields, failure modes, and measurement plan |
-| Find a useful research problem | [Fix My Itch](fix-my-itch/index.md) | A concrete problem, current workaround, success criteria, and a first contribution |
-| Judge whether a deployment claim is meaningful | [Deployments](deployments/index.md) | Deployment maturity, source quality, lessons, and unresolved caveats |
+Use the [reader paths](start-here/reader-paths.md) for a guided walkthrough, or check the
+[Evidence Policy](project-standards/evidence-policy.md) before relying on a claim.
 
 ## Opinionated Defaults
 
-- Federated learning does not provide privacy by itself.
-- Synthetic data is not automatically safe to release.
-- TEEs reduce exposure but add hardware, attestation, and side-channel assumptions.
-- Homomorphic encryption protects data during computation but is constrained by latency, operators, and model design.
-- MPC can be powerful, but many teams underestimate protocol, identity, and operations work.
-- Differential privacy is the clearest formal privacy tool, but the utility cost and budget accounting must be measured.
+These are starting points for review. The evidence supports the scoped properties
+below; it does not establish a universal PET ranking.
+
+- **Review FL updates as sensitive data.** Published gradient-reconstruction attacks show why keeping raw records local is insufficient. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Zhu et al., Deep Leakage from Gradients](https://arxiv.org/abs/1906.08935), 2019; the demonstrated attacks do not imply every training setup is equally vulnerable.)*
+- **Evaluate synthetic releases before sharing them.** Generated records can retain disclosure risk. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Giomi et al.](https://arxiv.org/abs/2211.10459), 2022, evaluates singling-out, linkability, and inference risks; attack tests are not a proof that no leakage remains.)*
+- **Review the selected TEE and its attestation workflow.** Hardware isolation has platform-specific limits. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. [Foreshadow](https://foreshadowattack.eu/), 2018, demonstrated attacks on Intel SGX; assess the current platform and mitigations separately.)*
+- **Check HE parameters and benchmark the actual model.** HE security relies on scheme and parameter choices. *(Evidence: Literature-backed. Source quality: Primary / official. [HE Security Standard](https://homomorphicencryption.org/standard/), 2018. Latency, operator fit, and accuracy for your model remain Needs evidence until measured.)*
+- **Budget for MPC participant operations.** Identity, availability, and collusion assumptions are part of the design review. *(Evidence: Expert judgment. Source quality: Unsourced / illustrative. Reviewed 2026-09-18. Coordination work motivates this default; a measured workload and operating plan can change it.)*
+- **Use DP when the release needs a quantified contribution guarantee.** Define adjacency, privacy unit, parameters, and accounting first. *(Evidence: Literature-backed. Source quality: Primary / official. [NIST SP 800-226](https://csrc.nist.gov/pubs/sp/800/226/final), 2025. Utility and parameter acceptability still need workload-specific evaluation.)*
 
 ## A Review Checklist For Any Page
 
@@ -127,9 +56,9 @@ questions:
 
 | Question | Why it matters |
 | --- | --- |
-| What is the allowed output? | Most PET failures come from revealing too much after a private computation. |
+| What is the allowed output? | A protected computation can still reveal sensitive information through its allowed output. |
 | Who is the adversary? | A design for a curious coordinator can fail immediately against a malicious participant. |
-| What assumption would break the claim? | Thresholds, attestation, local security, and budget accounting are often the real control plane. |
+| What assumption would break the claim? | Thresholds, attestation, local security, and budget accounting determine where the claim holds. |
 | What is the first benchmark? | Utility, latency, cost, and privacy evidence should be measured before procurement or launch. |
 | What would make us switch PETs? | A reversible decision is easier to govern than a technology commitment. |
 

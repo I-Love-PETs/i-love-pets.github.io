@@ -1,9 +1,10 @@
+---
+description: "Build a PET shortlist from permitted outputs and threat models, then test workload fit and the assumptions that could change your decision."
+---
+
 # Choose a PET
 
-!!! info "Review status"
-    Last reviewed: 2026-06-10
-    Evidence level: Expert judgment
-    Snapshot scope: Practical shortlisting guidance. Validate cost, maturity, and utility against the target workload before production decisions.
+--8<-- "decision-guidance.md"
 
 The right PET is usually the one that matches the **output you are allowed to reveal**, not the one with the strongest-sounding privacy claim.
 
@@ -14,9 +15,9 @@ Use this page to create a shortlist. Then write the threat model, benchmark the 
 | Situation | Primary PET | Supporting PETs | Avoid this trap |
 | --- | --- | --- | --- |
 | Several organizations need a shared model and data cannot centralize | Federated learning | Secure aggregation, DP, robust aggregation, TEEs for orchestration | Claiming privacy from FL alone |
-| Several organizations need an aggregate metric | Federated analytics or MPC | DP, thresholding, clean-room governance | Publishing small-cell outputs that reveal people or businesses |
+| Several organizations need an aggregate metric | Federated analytics or [MPC](../start-here/glossary.md#mpc) | DP, thresholding, clean-room governance | Publishing small-cell outputs that reveal people or businesses |
 | Parties need to find overlap without revealing nonmatches | PSI | DP on downstream counts, clean-room logging, legal controls | Treating the intersection itself as nonsensitive |
-| A service must run inference without seeing client inputs | HE or TEE confidential inference | Model compression, attestation, output controls | Choosing HE before checking operator support and latency |
+| A service must run inference without seeing client inputs | HE or TEE [confidential inference](../start-here/glossary.md#confidential-inference) | Model compression, attestation, output controls | Choosing HE before checking operator support and latency |
 | A team wants to publish data-like artifacts | DP synthetic data when a formal release claim is needed | Memorization tests, utility benchmarks, release review | Calling synthetic data safe because it is synthetic |
 | Sensitive documents must support RAG | Confidential RAG with tight access control | TEEs, redaction, audit logs, retrieval policy, output review | Hiding the runtime while leaking through retrieval or answers |
 
@@ -30,13 +31,15 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | --- | ---: | ---: | ---: | ---: | ---: | --- |
 | Federated learning | 3 | 1 | 4 | 3 | 2 | Can every participant run trustworthy local training? |
 | Secure aggregation | 4 | 1 | 4 | 3 | 2 | How many participants are needed per round? |
-| Differential privacy | 2 | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
+| [Differential privacy](../start-here/glossary.md#differential-privacy) | Varies. See the note below. | 5 | 2-4 | 4 | 3 | What privacy unit and budget are defensible? |
 | MPC | 5 | 2 | 4 | 2 | 1 | Who are the parties and what collusion is allowed? |
-| Homomorphic encryption | 5 | 2 | 3 | 1 | 2 | Is the computation narrow enough for HE? |
+| [Homomorphic encryption](../start-here/glossary.md#homomorphic-encryption) | 5 | 2 | 3 | 1 | 2 | Is the computation narrow enough for HE? |
 | TEEs | 4 | 2 | 4 | 4 | 3 | Is hardware trust and attestation acceptable? |
 | PSI | 5 for nonmatches | 2 | 5 | 4 | 3 | Is revealing the match set allowed? |
 | Synthetic data | 1-4 | 2-5 | 2-4 | 3 | 3 | How will you test memorization and downstream utility? |
 | Clean room | 2-4 | 2 | 4 | 3 | 3 | Is the main problem governance rather than cryptography? |
+
+[Central DP trusts a curator with pre-noise data](../pet-architectures/fl-differential-privacy.md#trust-boundaries). Local DP randomizes data before collection. Distributed DP can hide the pre-noise sum under separate assumptions about participation and collusion. Review those assumptions before comparing input confidentiality.
 
 ### Calibrate the shortlist
 
@@ -87,7 +90,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Test per-document authorization, provenance, prompt/log retention, enclave image updates, attestation verification, support access, and incident response. |
 | What to measure | Retrieval precision, authorization failures, prompt/log retention, answer leakage rate, attestation coverage, incident response path. |
 
-*(Evidence: Needs evidence, 2026-06-10 — no public benchmark covers the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
+*(Evidence: Needs evidence, 2026-06-10 — this guide does not yet cite a benchmark covering the full leakage surface of private RAG (retrieval, prompt, log, output). The "What can go wrong" guidance is expert judgment based on known attack surfaces; a measured evaluation for each channel is an open backlog item.)*
 
 ### A company wants to release a synthetic dataset
 
@@ -101,7 +104,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Define privacy unit, budget owner, release review, memorization tests, utility benchmarks, versioning, and downstream-use warnings. |
 | What to measure | Downstream task utility, nearest-neighbor similarity, membership inference risk, privacy budget, rare subgroup behavior. |
 
-*(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Statistical Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
+*(Evidence: Literature-backed, 2026-06-10 — membership inference risk from synthetic generators is documented; see Jordon et al., "Synthetic Data — what, why and how?", Royal Society 2022 (https://doi.org/10.48550/arXiv.2205.03257) and Carlini et al., "Extracting Training Data from Large Language Models", USENIX Security 2021. The claim that non-DP generators can copy training examples is Needs evidence for any specific generator; test before releasing.)*
 
 ### Two organizations want to find overlapping users
 
@@ -110,7 +113,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Recommended PET | Private set intersection. |
 | Alternative PETs | MPC if overlap is only one input to a richer joint computation; clean room if governance and workflow controls matter more than cryptographic nonmatch privacy. |
 | Why | PSI can hide nonmatching records while revealing an agreed match set or count. |
-| Tradeoffs | PSI is targeted and efficient, but it does not decide whether revealing the intersection is acceptable. Count-only outputs are safer but less useful. |
+| Tradeoffs | PSI is targeted and efficient, but it does not decide whether revealing the intersection is acceptable. Count-only output reveals less detail per query, but small or repeated queries can still expose membership. |
 | Failure modes | The match itself may be sensitive; one party can use repeated queries to learn more; weak identifiers create false matches; downstream use can violate expectations. |
 | Operational considerations | Define output type, repeated-query controls, match-use policy, identifier normalization, minimum cohorts, and audit logs. |
 | What to measure | Match precision, match recall, allowed output, repeated-query controls, minimum cohort size, identifier hygiene. |
@@ -127,7 +130,7 @@ These scores are **directional heuristics**: 1 is weak or expensive, 5 is strong
 | Operational considerations | Own key lifecycle, attestation verification, model update workflow, p95 latency benchmark, output policy, and support/debugging boundaries. |
 | What to measure | End-to-end latency, ciphertext size, accuracy loss, supported operators, attestation verification, output leakage. |
 
-*(Evidence: Expert judgment, 2026-06-10 — the latency and operator-support constraints on HE are widely noted in literature (e.g., Boura et al., "TFHE: Fast Fully Homomorphic Encryption Over the Torus", JoC 2020) but no single cross-workload benchmark for HE vs. TEE vs. client-side inference is publicly available. Needs evidence for specific model families.)*
+*(Evidence: Expert judgment, 2026-06-10 — Compare operator support, network overhead, and end-to-end latency on the actual model. Scheme-specific results such as [Chillotti et al. on TFHE](https://tfhe.github.io/tfhe/) do not rank HE, TEE, or client-side inference on this workload.)*
 
 ## Anti-Patterns
 

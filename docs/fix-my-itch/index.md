@@ -1,3 +1,8 @@
+---
+title: "Fix My Itch"
+description: "Find concrete PET research and engineering problems, current workarounds, success criteria, and a first contribution."
+---
+
 # Fix My Itch
 
 Fix My Itch is the part of I Love PETs for problems that practitioners keep hitting and researchers can actually make progress on.
@@ -6,7 +11,7 @@ The goal is not to list research areas. Each entry should describe a specific it
 
 ## Card Standard
 
-Every problem card should answer:
+Use these fields for new and substantially revised cards. Add prior work and a scoped remaining gap to older cards as they are reviewed.
 
 | Field | Standard |
 | --- | --- |
@@ -15,6 +20,8 @@ Every problem card should answer:
 | Why it matters | Who is blocked or harmed while this remains unsolved |
 | Current workaround | What teams actually do now |
 | Why the workaround is insufficient | The specific failure, not "more research is needed" |
+| Prior work | Sources for related approaches and which setting they address |
+| Remaining gap | The workload, assumption, or evaluation that existing work leaves open |
 | What good progress would look like | A measurable improvement or usable artifact |
 | Who benefits if solved | The practitioner, researcher, maintainer, buyer, auditor, or affected population that can use the result |
 | Why it is difficult | The technical, operational, incentive, measurement, or adoption reason the workaround persists |

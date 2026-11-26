@@ -25,6 +25,10 @@ What do people do today?
 
 Be explicit about the failure.
 
+## Prior Work and Remaining Gap
+
+Cite work that addresses the problem. State which setting it handles and which assumption, workload, or evaluation remains open. Use the site's Evidence Policy to label each claim. If a gap is plausible but unverified, mark it Needs evidence and explain how to check it.
+
 ## What Good Progress Would Look Like
 
 Define success in a way that can be evaluated.
@@ -50,6 +54,7 @@ A small, realistic starting point.
 
 - Is the problem concrete?
 - Is the current workaround described?
+- Is prior work cited and the remaining gap specific?
 - Is success measurable?
 - Is there a possible first contribution?
 - Is the difficulty level clear?

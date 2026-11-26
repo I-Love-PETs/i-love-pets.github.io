@@ -1,3 +1,7 @@
+---
+title: "Advertising Deployments"
+---
+
 # Advertising Deployments
 
 !!! warning "Deployment evidence"
@@ -39,6 +43,8 @@
 
 *(Evidence: Deployment-backed. Source quality: Primary / official vendor documentation. Reviewed 2026-06-17 — production framework evidence is strong; exact measurement utility depends on campaign setup and current Apple platform behavior.)*
 
+## Historical Platform Deployments
+
 ### Chrome Privacy Sandbox Attribution Reporting
 
 | Field | Entry |
@@ -47,14 +53,14 @@
 | Domain | Advertising |
 | Problem | Enable conversion measurement without third-party cookies. |
 | PETs used | Browser-mediated attribution, event-level and aggregate reports, noise for summary reports |
-| Deployment maturity | Production / evolving platform feature |
-| Source quality | Primary / official vendor documentation plus platform documentation |
-| What worked | The API is documented for web developers and supports attribution flows with privacy controls. |
-| Challenges | Adoption, debugging, noise, reporting limits, and ecosystem readiness remain major issues. |
+| Deployment maturity | Historical production feature. Google announced retirement on 2025-10-17. |
+| Source quality | Primary / official |
+| What worked | Chrome shipped browser-mediated conversion reporting with privacy controls. The documentation remains useful as a record of the design. |
+| Challenges | Google cited limited adoption and ecosystem feedback when announcing retirement. Google’s current feature status lists Chrome Attribution Reporting as deprecated and removed. Check the status page for platform-specific details. |
 | Lessons for builders | Platform PETs must be evaluated as product migrations: developer ergonomics and business utility can dominate cryptographic elegance. |
-| Source | [Privacy Sandbox Attribution Reporting overview](https://privacysandbox.google.com/private-advertising/attribution-reporting/web) and [MDN Attribution Reporting API](https://developer.mozilla.org/en-US/docs/Web/API/Attribution_Reporting_API) |
+| Source | [Google retirement announcement](https://privacysandbox.google.com/blog/update-on-plans-for-privacy-sandbox-technologies) and [Privacy Sandbox feature status](https://privacysandbox.google.com/overview/status) |
 
-*(Evidence: Deployment-backed. Source quality: Primary / official vendor documentation plus MDN platform documentation. Reviewed 2026-06-17 — browser support and ecosystem behavior are fast-moving; re-check before migration.)*
+*(Evidence: Deployment-backed. Source quality: Primary / official. Status checked 2026-11-25. The October 2025 announcement records the retirement decision. The feature status page tracks browser removal separately.)*
 
 ## Common Proposed Use Cases
 

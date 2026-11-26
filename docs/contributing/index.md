@@ -1,3 +1,7 @@
+---
+title: "Contributing"
+---
+
 # Contributing
 
 Contributions should make the guide more useful for decisions. Prefer a small, specific improvement over a broad shallow page.
@@ -60,3 +64,18 @@ Use the templates in this section for new patterns, use cases, architectures, Fi
 - [Architecture template](architecture-template.md)
 - [Fix My Itch template](fix-my-itch-template.md)
 - [Tool review template](tool-template.md)
+
+## v1.0 review gates
+
+Use the [pattern](pattern-template.md), [architecture](architecture-template.md),
+[tool](tool-template.md), or [use-case](use-case-template.md) template. Pattern and
+architecture pages require all six Decision framing fields, Does not protect,
+and Failure modes sections. Tool reviews and use cases keep the limits sections
+from their own templates: Protected Assets, Threat Model Support, When Not To Use,
+and Failure Modes for tool reviews; Failure Modes for use cases. Use the existing
+[evidence labels](../project-standards/evidence-policy.md) for all page types.
+
+Run the commands in the repository’s
+[CONTRIBUTING.md](https://github.com/I-Love-PETs/i-love-pets.github.io/blob/main/CONTRIBUTING.md)
+and record the [release-readiness review](../project-standards/version-history.md#v10-release-readiness-checks)
+for changes to navigation, styling, metadata, or diagrams.

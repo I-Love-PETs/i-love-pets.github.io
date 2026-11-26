@@ -1,3 +1,7 @@
+---
+title: "Tool Reviews"
+---
+
 # Tool Reviews
 
 !!! info "Review status"

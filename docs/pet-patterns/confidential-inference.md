@@ -1,4 +1,21 @@
+---
+description: "Confidential Inference: protected assets, adversaries, allowed outputs, leakage, assumptions, non-goals, and checks for a concrete design review."
+---
+
 # Confidential Inference
+
+## Decision framing
+
+| Field | Scope |
+| --- | --- |
+| Protected asset | Inference inputs and model data inside the selected TEE. |
+| Adversary | Infrastructure operators and other tenants outside the trusted runtime. |
+| Allowed output | Predictions delivered to authorized clients; state whether the model service may also see them. See [allowed output](../start-here/glossary.md#allowed-output). |
+| Leakage surface | Plaintext in the runtime, outputs, logs, request metadata, and hardware side channels. See [leakage](../start-here/glossary.md#leakage). |
+| Assumptions | Clients verify attestation and bind the secure channel to approved code; hardware and runtime controls are trusted. |
+| Non-goals | Hiding data from approved runtime code, eliminating all side channels, or preventing inference from predictions. |
+
+--8<-- "decision-guidance.md"
 
 ## Problem
 
@@ -10,7 +27,7 @@ Use TEEs when performance and model flexibility matter and hardware trust is acc
 
 ## When Not To Use
 
-Avoid this pattern when side-channel risk is unacceptable or when attestation cannot be made understandable to relying parties.
+Avoid this pattern when clients cannot verify the approved runtime before releasing inputs, or when the deployment cannot meet the hardware's threat assumptions. For example, if a party outside your trust boundary can physically access the host, require a defensible physical security boundary or evaluate client-side execution, [encrypted inference](../start-here/glossary.md#encrypted-inference), or MPC. See the tested platform examples under [Side Channels](../threat-models/side-channels.md).
 
 ## Typical Architecture
 
@@ -24,11 +41,19 @@ Infrastructure operators are not fully trusted. Hardware vendors and enclave imp
 
 Inputs and model data are protected in use, subject to hardware assumptions, enclave design, and side-channel controls.
 
+## Does not protect
+
+- Sensitive information intentionally revealed by predictions.
+- Compromised clients or approved runtime code that exports plaintext.
+- Side channels outside the selected hardware threat model.
+
 ## Tools And Building Blocks
 
 TEEs, remote attestation, confidential containers, key release services, access controls, and audit logging.
 
-## Common Failure Modes
+<span id="common-failure-modes"></span>
+
+## Failure modes
 
 Attestation confusion, enclave misconfiguration, side channels, logging plaintext, and weak output controls.
 
@@ -38,4 +63,7 @@ Attestation usability, multi-cloud portability, side-channel resilience, and com
 
 ## Related Pages
 
-Confidential RAG, TEEs, side channels, deployments.
+- [Confidential RAG](../pet-architectures/confidential-rag.md)
+- [TEE research problems](../fix-my-itch/tees.md)
+- [Side channels](../threat-models/side-channels.md)
+- [Deployments](../deployments/index.md)

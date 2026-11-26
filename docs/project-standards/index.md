@@ -1,3 +1,7 @@
+---
+title: "Project Standards"
+---
+
 # Project Standards
 
 I Love PETs is a curated field guide. Its value comes from judgment that readers can inspect, not from collecting every link.

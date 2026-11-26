@@ -1,14 +1,11 @@
 """Regression tests for SEO artifacts and broken links in built output."""
 
 import gzip
-import importlib.util
 import tempfile
 import unittest
 from pathlib import Path
 
-spec = importlib.util.spec_from_file_location("check_site", Path(__file__).parents[1] / "scripts/check_site.py")
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
+from scripts.check_site import check_site
 
 
 class SiteValidationTests(unittest.TestCase):
@@ -31,7 +28,7 @@ class SiteValidationTests(unittest.TestCase):
         (self.site / "sitemap.xml.gz").write_bytes(gzip.compress(xml.encode()))
 
     def check(self):
-        return module.check_site(self.site, self.url)
+        return check_site(self.site, self.url)
 
     def test_valid_site_in_subdirectory(self):
         self.assertEqual(self.check(), [])

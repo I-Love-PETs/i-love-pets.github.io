@@ -1,5 +1,7 @@
 # Healthcare
 
+--8<-- "decision-guidance.md"
+
 Healthcare PET decisions must account for patient confidentiality, clinical utility, institutional governance, rare cohorts, and uneven data quality.
 
 ## Scenario Playbook
@@ -30,6 +32,8 @@ Healthcare PET decisions must account for patient confidentiality, clinical util
 For multi-hospital model training, start with **cross-silo FL + secure aggregation**, then add **DP** only after testing utility at a defensible privacy budget.
 
 For healthcare metrics, start with **federated analytics + thresholds**, then add **DP** for public or repeated releases.
+
+These sketches assume raw records stay at the sites for federated training, and the coordinator follows the selected protocol. If the coordinator can deviate or the released model needs a patient-level contribution bound, revisit the training protocol and privacy accounting.
 
 ## Failure Modes
 

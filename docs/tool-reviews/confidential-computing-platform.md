@@ -17,8 +17,8 @@
 | --- | --- |
 | What it helps build | [Confidential inference](../pet-patterns/confidential-inference.md) and [confidential RAG](../pet-architectures/confidential-rag.md): process sensitive data (or run a model) inside an isolated, attested enclave |
 | PET family | TEE / confidential computing (a hardware-isolated execution environment with attestation) |
-| Best fit | Processing decrypted sensitive data on the cloud while excluding the parent OS, the operator, and other tenants — gated by cryptographic attestation |
-| Fit label | Strong fit (for operator/host exclusion); narrow on side-channel-hardened workloads |
+| Best fit | Processing decrypted sensitive data on the cloud while excluding the parent instance OS, its administrator, and other tenants — gated by cryptographic attestation |
+| Fit label | Strong fit for parent-instance isolation under the AWS/Nitro trust assumptions |
 | Evidence level | Deployment-backed (GA AWS service, KMS integration); Expert judgment / Needs evidence for side-channel resistance of *your* code |
 
 ## What It Helps Build
@@ -29,11 +29,11 @@ This is the substrate for the [confidential inference](../pet-patterns/confident
 
 ## Protected Assets
 
-The protected assets are the **plaintext data and code inside the enclave** — and, critically, **secrets released only to a verified enclave**. The headline mechanism: a [TEE](../fix-my-itch/tees.md) lets you process data *in the clear* (unlike HE/MPC) while keeping it out of reach of the host OS and operator. Via KMS attestation, decryption keys can be made releasable **only** to an enclave whose measurements match a policy, so even the parent-instance administrator cannot decrypt the data themselves ([Using cryptographic attestation with AWS KMS](https://docs.aws.amazon.com/enclaves/latest/user/kms.html)).
+The protected assets are the **plaintext data and code inside the enclave** — and, critically, **secrets released only to a verified enclave**. The headline mechanism: a [TEE](../fix-my-itch/tees.md) lets you process data *in the clear* (unlike HE/MPC) while keeping it out of reach of the parent instance OS and its administrator. Via KMS attestation, decryption keys can be made releasable **only** to an enclave whose measurements match a policy, so even the parent-instance administrator cannot decrypt the data themselves ([Using cryptographic attestation with AWS KMS](https://docs.aws.amazon.com/enclaves/latest/user/kms.html)).
 
 ## Threat Model Support
 
-- **In scope (the core value)**: the **platform/operator and the parent instance's own OS**. AWS KMS will perform `Decrypt`/`GenerateDataKey`/`GenerateRandom` for an enclave only when the signed attestation document's PCRs match the `kms:RecipientAttestation:ImageSha384` / `kms:RecipientAttestation:PCR` condition keys in the key policy — and the result is returned encrypted to the enclave's public key, so the parent never sees plaintext ([KMS condition keys for Nitro Enclaves](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-nitro-enclave.html)). The parent-instance admin is explicitly modelled as *not* trusted to perform crypto operations or change the key policy.
+- **In scope (the core value)**: the **parent instance OS and its administrator**, under the [AWS enclave isolation model](https://docs.aws.amazon.com/enclaves/latest/user/security.html). AWS KMS will perform `Decrypt`/`GenerateDataKey`/`GenerateRandom` for an enclave only when the signed attestation document's PCRs match the `kms:RecipientAttestation:ImageSha384` / `kms:RecipientAttestation:PCR` condition keys in the key policy — and the result is returned encrypted to the enclave's public key, so the parent never sees plaintext ([KMS condition keys for Nitro Enclaves](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-nitro-enclave.html)). The parent-instance admin is explicitly modelled as *not* trusted to perform crypto operations or change the key policy.
 - **Cross-tenant CPU side channels (largely mitigated by design)**: AWS allocates dedicated cores and does **not** share L1/L2 cache or CPU threads (no SMT sharing) across instances, which rules out the class of CPU side channels predicated on shared cores ([AWS Nitro side-channel design](https://docs.aws.amazon.com/whitepapers/latest/security-design-of-aws-nitro-system/the-ec2-approach-to-preventing-side-channels.html)).
 - **Application-level side channels (your responsibility)**: timing side channels in the code *running inside* the enclave remain a real threat; independent analysis stresses that enclave applications must process secrets in constant time ([Trail of Bits: Nitro Enclaves attack surface](https://blog.trailofbits.com/2024/09/24/notes-on-aws-nitro-enclaves-attack-surface/)).
 - **Trust assumptions / out of scope**: you must **trust AWS and the Nitro Hypervisor** (the hypervisor is assumed correct and non-malicious) — this is a fundamentally different trust model from HE/MPC, where no platform need be trusted. The enclave is a single trust zone: compromise of any component (e.g. via a supply-chain attack on what you put in the image) is total compromise. Attacks come from the parent instance and from any traffic the parent forwards.
@@ -42,7 +42,7 @@ The protected assets are the **plaintext data and code inside the enclave** — 
 
 Use Nitro Enclaves when:
 
-- you must process **decrypted** sensitive data or run a model in the cloud while excluding the host OS, the operator, and co-tenants;
+- you must process **decrypted** sensitive data or run a model in the cloud while excluding the parent instance OS, its administrator, and co-tenants;
 - you can accept **trusting AWS/Nitro** as part of your model;
 - you want keys/secrets released **only** to attested, measured code (KMS integration);
 - your workload tolerates the constraints: no inbound network, no persistent disk, communication only via `vsock`.
@@ -58,7 +58,7 @@ Avoid, or reconsider, when:
 
 ## Privacy Claims
 
-The defensible claim is **hardware-isolated, attested execution that excludes the host and operator**, with secret release gated by measured code. This is Deployment-backed: Nitro Enclaves is a generally available AWS service with documented, built-in KMS attestation. The claim is explicitly **conditional on trusting AWS/Nitro** and on the integrator writing side-channel-aware code and managing attestation correctly — AWS does not claim the enclave protects you from your own non-constant-time code or from a compromised enclave image.
+The defensible claim is **hardware-isolated, attested execution that excludes the parent instance OS and its administrator**, with secret release gated by measured code. This is Deployment-backed: Nitro Enclaves is a generally available AWS service with documented, built-in KMS attestation. The claim is explicitly **conditional on trusting AWS/Nitro** and on the integrator writing side-channel-aware code and managing attestation correctly — AWS does not claim the enclave protects you from your own non-constant-time code or from a compromised enclave image.
 
 ## Benchmarks Or Evidence
 
@@ -96,7 +96,7 @@ Per the framework's TEE row: **attestation verification, log review, side-channe
 
 ## Review Verdict
 
-**Recommend (with the trust caveat stated loudly).** AWS Nitro Enclaves is a defensible, GA, well-documented representative of the confidential-computing family, with genuine first-party attestation and KMS integration and credible independent scrutiny. It is a strong fit for excluding the host OS, operator, and co-tenants from plaintext processing — *provided you accept trusting AWS/Nitro and write side-channel-aware code.* It is the wrong tool when your requirement is "trust no platform" (use HE/MPC) or when application-level side channels dominate your threat model. Recommend for the confidential-inference / confidential-RAG patterns; watch the side-channel and attestation-lifecycle details.
+**Recommend (with the trust caveat stated loudly).** AWS Nitro Enclaves is a defensible, GA, well-documented representative of the confidential-computing family, with genuine first-party attestation and KMS integration and credible independent scrutiny. It is a strong fit for excluding the parent instance OS, its administrator, and co-tenants from plaintext processing — *provided you accept trusting AWS/Nitro and write side-channel-aware code.* It is the wrong tool when your requirement is "trust no platform" (use HE/MPC) or when application-level side channels dominate your threat model. Recommend for the confidential-inference / confidential-RAG patterns; watch the side-channel and attestation-lifecycle details.
 
 ## Related Pages
 

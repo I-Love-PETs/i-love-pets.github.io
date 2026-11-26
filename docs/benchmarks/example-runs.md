@@ -1,31 +1,12 @@
-# Example Benchmark Runs
+# Benchmark Exercises
 
-!!! info "Review status"
-    Last reviewed: 2026-09-16
+These five exercises show how to fill in the [benchmark scorecards](scorecards.md) for a specific workload. Each one identifies the controls to compare, what to measure, and failure modes to investigate. They report no measured results.
 
-    Evidence level: Needs evidence
+<span id="how-to-read-the-values"></span>
 
-    Source quality: Unsourced / illustrative
+## How to report a result
 
-    Snapshot scope: Hypothetical teaching values, not measured results. The reporting labels were checked; tool performance has not been verified.
-
-These are worked examples of the [scorecard templates](scorecards.md) applied to concrete workloads.
-Each example fills in the shared reporting template from `scorecards.md` and adds illustrative values, explicit tradeoffs, what to measure, and known failure modes.
-
-!!! warning "Hypothetical scorecard exercises"
-    The values on this page are **not measured production results**. They are hypothetical scorecard exercises created to show what a useful benchmark report should contain: workload, protected asset, threat model, metric, evidence level, source quality, and failure mode. Source quality for these values is **Unsourced / illustrative** unless a row explicitly names a source. Do not cite these numbers as evidence that a PET, tool, or architecture performs this way. Replace them with measured or literature-backed values before using a scorecard for procurement, deployment, publication, or policy.
-
-## How To Read The Values
-
-| Evidence level | Source quality | Meaning | Safe use |
-| --- | --- | --- | --- |
-| Needs evidence | Unsourced / illustrative | A metric the scorecard should include, but this example does not supply defensible evidence. | Treat as a gap to close before decision-making. |
-| Literature-backed | Peer-reviewed / academic or Primary / official | A value tied to a specific cited study or standard. | Use only with the cited workload and assumptions. |
-| Measured | Primary / official or Independent analysis | A value from a named benchmark run with workload, environment, and date. | Use after checking reproducibility and fit to your system. |
-
-The examples below retain their concrete values and label all unsourced quantitative values as **Needs evidence** (hypothetical examples) with **Unsourced / illustrative** source quality. The next useful improvement is replacing the most important values with sourced measurements.
-
-*(Evidence: Expert judgment. Source quality: Unsourced / illustrative. Reviewed 2026-06-17 — the numbers are retained only to show how a completed scorecard reads.)*
+Start each untested metric at **Needs evidence**. For a **Measured** result, record the workload, data shape, hardware, software versions, date, and who ran it. When citing a **Literature-backed** result, explain where its assumptions differ from your workload. Use the [Evidence Policy](../project-standards/evidence-policy.md) to label the source.
 
 ---
 
@@ -37,21 +18,21 @@ A legal or HR team runs a RAG system over a document corpus that is partitioned 
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Example value |
-| --- | --- | --- | --- |
-| Privacy claim | Prompt logging, retrieved-snippet exposure, citation leakage, answer leakage | Needs evidence | 0 leaked snippets in 200 adversarial probes when hard-filter applied pre-LLM; soft-filter (LLM instruction) leaked in ~4 % of cases |
-| Utility | Answer quality (RAGAS faithfulness + answer relevance) by access tier | Needs evidence | Authorised-tier: faithfulness 0.82, relevance 0.79; no degradation vs. unfiltered baseline for same-tier queries |
-| Cost | p50 / p95 / p99 end-to-end latency; cloud cost per 1 000 queries | Needs evidence | Hard-filter adds ~40 ms p50 overhead vs. unfiltered; TEE-based confidential retrieval adds ~200–400 ms p50 |
-| Robustness | Prompt injection inside authorised documents; stale-permission cache; deleted-document residual | Needs evidence | Injection success rate drops from ~30 % (no defence) to < 2 % with structured output parsing + input sanitisation |
-| Operations | Policy debugging trace; incident-response drill (answer sourced from restricted doc) | Needs evidence | Teams without traceable policy decisions took 3–5× longer to reproduce an unsafe-answer incident |
+| Category | What to measure | Evidence level |
+| --- | --- | --- |
+| Privacy claim | Prompt logging, retrieved-snippet exposure, citation leakage, answer leakage | Needs evidence |
+| Utility | Answer quality (RAGAS faithfulness + answer relevance) by access tier | Needs evidence |
+| Cost | p50 / p95 / p99 end-to-end latency; cloud cost per 1 000 queries | Needs evidence |
+| Robustness | Prompt injection inside authorised documents; stale-permission cache; deleted-document residual | Needs evidence |
+| Operations | Policy debugging trace; incident-response drill (answer sourced from restricted doc) | Needs evidence |
 
 ### Tradeoffs
 
 | Axis | Hard permission filter (pre-LLM) | Soft filter (LLM instruction) |
 | --- | --- | --- |
-| Privacy | Strong — restricted docs never enter context | Weak — restricted docs may appear in context |
-| Utility | May reduce recall for legitimate queries near tier boundaries | Higher recall, risk of leakage |
-| Latency | +30–50 ms for ACL lookup | Negligible |
+| Privacy boundary | The permission check runs before context assembly | Restricted documents can reach the model |
+| Utility | Measure recall on documents the user may read | Including unauthorized hits can make apparent recall misleading |
+| Latency | Include the authorization lookup in the timing | Measure the cost of the remaining checks |
 | Complexity | Requires ACL service integration | Simpler to implement, harder to audit |
 
 ### What to Measure
@@ -64,7 +45,7 @@ A legal or HR team runs a RAG system over a document corpus that is partitioned 
 
 ### Failure Modes
 
-- **Soft-filter bypass**: An LLM told "do not reveal restricted content" will comply in most cases but fails on adversarially crafted authorised documents that contain injection payloads.
+- **Soft-filter bypass**: An LLM told "do not reveal restricted content" can still disclose restricted content. Keep unauthorized documents out of the prompt and test how the system handles untrusted documents.
 - **Stale ACL cache**: Permissions revoked in the source system are still honoured by a cached retriever, allowing access to documents the user should no longer see.
 - **Citation side-channel**: Even when answer text is clean, a citation list can reveal that a restricted document exists and is relevant.
 - **Embedding leakage**: In shared-index architectures, an attacker with repeated query access can reconstruct approximate document embeddings and infer content.
@@ -79,28 +60,17 @@ A bank scores loan applications using a gradient-boosted tree model. The applica
 
 ### Scorecard
 
-| Category | HE approach | TEE approach | Evidence level |
-| --- | --- | --- | --- |
-| Privacy claim — client inputs | Client inputs are encrypted under client key; server never sees plaintext | Client inputs are plaintext inside TEE; platform operator cannot observe if attestation holds | Needs evidence |
-| Privacy claim — model weights | Model weights evaluated in HE ciphertext domain; client cannot extract them | Weights loaded inside TEE; no hardware-level extraction (assuming no microarchitectural side channel) | Needs evidence |
-| Utility — accuracy vs. plaintext | GBDT accuracy drops ~0 % if model is adapted to HE-friendly operators; severe degradation if not | Accuracy identical to plaintext baseline because the TEE executes an unmodified model | Needs evidence |
-| Cost — latency (100-feature record) | ~2–30 s per record depending on GBDT depth and HE scheme (CKKS/BFV) | ~5–50 ms per record; TEE overhead ~10–30 % vs. vanilla CPU | Needs evidence |
-| Cost — throughput | Low; HE is compute-intensive on server | High; TEE supports batch scoring at near-native speed | Needs evidence |
-| Cost — operational | HE library integration; key management; parameter tuning | TEE platform selection; attestation infrastructure; hardware procurement / cloud availability | Needs evidence |
-| Robustness — repeated-query leakage | HE is stateless per query; no membership signal from computation itself | Microarchitectural side channels (cache timing) are a known risk on co-hosted TEEs | Needs evidence |
-| Operations | Complex: HE parameters must match model structure; debugging is opaque | Moderate: standard MLOps pipelines work inside TEE; attestation adds a new failure path | Needs evidence |
+| Category | HE approach | TEE approach |
+| --- | --- | --- |
+| Client inputs | Verify ciphertext handling, parameters, and who controls decryption | Verify the channel to the approved workload, then assess host and physical access |
+| Model weights | Check whether the protocol hides model details from the decrypting client and what the scores reveal | Keep weights in the runtime and test what repeated scores reveal |
+| Accuracy | Compare the adapted model and ciphertext computation with plaintext | Compare the exact workload and image used in the TEE with plaintext |
+| Cost | Measure latency, throughput, ciphertext size, and key-management effort | Measure the same workload, including attestation and memory pressure |
+| Operations | Test key rotation, rejected requests, and decryption failures | Test failed attestation, upgrades, key release, and what the host can see |
 
 ### Tradeoffs
 
-| | HE | TEE |
-| --- | --- | --- |
-| Hardware trust required | None | Yes (Intel TDX, AMD SEV, ARM CCA or equivalent) |
-| Model compatibility | Must redesign for supported operators | Any model |
-| Latency | Seconds to minutes | Milliseconds |
-| Cryptographic guarantee | Unconditional under scheme assumptions | Conditional on hardware + microcode integrity |
-| Side-channel resistance | Strong (computation on ciphertext) | Needs careful mitigation |
-
-**Decision rule (from [Scorecards](scorecards.md)):** Use HE when the model is shallow and fits HE-supported operators and latency is acceptable. Use TEE when model flexibility matters and hardware trust is acceptable. For this hypothetical GBDT workload with a latency SLA under 100 ms, TEE is the practical choice.
+The HE confidentiality claim depends on computational assumptions, parameters, and implementation. It does not establish circuit privacy or side-channel resistance. A TEE's claim depends on the hardware, software, and attestation boundary. Compare both on the same workload before deciding whether either fits the latency target. See [Private Inference](../pet-patterns/private-inference.md) and [Side Channels](../threat-models/side-channels.md).
 
 ### What to Measure
 
@@ -113,9 +83,9 @@ A bank scores loan applications using a gradient-boosted tree model. The applica
 ### Failure Modes
 
 - **HE parameter mismatch**: choosing CKKS noise budget or polynomial degree incorrectly produces silently wrong scores rather than errors.
-- **TEE attestation not verified by client**: clients that skip attestation verification get no confidentiality guarantee despite using a TEE stack.
-- **Model extraction via repeated HE queries**: theoretically bounded but practically feasible for simple models if the adversary can submit arbitrary ciphertexts.
-- **Enclave memory limits**: large GBDT models may exceed enclave memory, forcing swapping that exposes data to the host OS.
+- **TEE attestation not verified by client**: if clients skip verification, they cannot establish that they are sending data to the approved workload.
+- **Model extraction via repeated HE queries**: encrypted inputs do not limit what a client can infer from repeated predictions.
+- **Enclave memory limits**: measure the performance cost of memory pressure. Check how the chosen platform protects paging and whether guest swap, logs, or crash dumps leave the protected boundary. The presence of paging alone does not establish plaintext exposure.
 
 ---
 
@@ -123,44 +93,41 @@ A bank scores loan applications using a gradient-boosted tree model. The applica
 
 ### Workload Description
 
-Six hospital sites collaboratively train a chest X-ray classification model (binary: abnormality present / absent). Each site holds 500–4 000 labelled images. Data never leaves each hospital. The coordinator is an honest-but-curious cloud service. Differential privacy (DP) with Gaussian noise is applied to model updates.
+Six hospital sites collaboratively train a chest X-ray classification model (binary: abnormality present / absent). Each site holds 500–4 000 labelled images. Raw images stay at each hospital. The coordinator follows the protocol but can inspect what it receives. Compare plain FL with secure aggregation and a trusted DP operator that applies noise before releasing aggregates to the coordinator.
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Example value |
-| --- | --- | --- | --- |
-| Privacy claim | Gradient leakage (DLG attack); membership inference on final model; DP accounting | Needs evidence | DLG attack reconstructed no recognisable images after secure aggregation + DP (δ=10⁻⁵, ε tracked per round); membership inference AUC 0.53 (near random) |
-| Utility — global | AUROC on held-out global test set | Needs evidence | FL + DP: 0.86 AUROC; centralised baseline: 0.89 AUROC; gap narrows with more rounds |
-| Utility — per-site | AUROC on each site's own test set | Needs evidence | Largest site (4 000 images): 0.88; smallest site (500 images): 0.79; local-only smallest-site: 0.71 |
-| Utility — subgroup | Demographic subgroup parity gap | Needs evidence | Not measured in this run — flagged as gap |
-| Cost | Rounds to convergence; communication per round; local GPU time | Needs evidence | 40 rounds to convergence; ~120 MB per round (FP32 ResNet-50 gradients); ~45 min local training per round per site |
-| Robustness | Non-IID label skew; one site dropout; one poisoned update (label flip) | Needs evidence | Dropout of one mid-size site: +2 rounds to convergence; Byzantine-robust aggregation (Krum) neutralised single poisoned update |
-| Operations | Participant onboarding time; monitoring dashboard | Needs evidence | Onboarding a new site required ~8 hours of data-engineering effort; training-code provenance logged per round |
+| Category | What to measure | Evidence level |
+| --- | --- | --- |
+| Privacy claim | Check what the protocol reveals and report membership inference at low false-positive rates. Specify adjacency, clipping, sampling, and total DP accounting. | Needs evidence |
+| Utility — global | AUROC on held-out global test set | Needs evidence |
+| Utility — per-site | AUROC on each site's own test set | Needs evidence |
+| Utility — subgroup | Demographic subgroup parity gap | Needs evidence |
+| Cost | Rounds to convergence; communication per round; local GPU time | Needs evidence |
+| Robustness | Non-IID label skew; one site dropout; one poisoned update (label flip) | Needs evidence |
+| Operations | Participant onboarding time; monitoring dashboard | Needs evidence |
 
 ### Tradeoffs
 
-| Axis | With DP (ε ≈ 8 per training run) | Without DP |
-| --- | --- | --- |
-| Privacy formal guarantee | Yes — bounded per-record contribution | No formal bound |
-| Utility (AUROC) | ~0.86 | ~0.88 (Hypothetical example) |
-| Compute overhead | +5–10 % for noise injection | None |
-| Auditability | DP budget must be tracked and communicated | No budget to track |
+Specify the protected unit before choosing the mechanism. Clipping whole site updates can bound site contributions under the matching adjacency and accountant. Patient-level privacy needs a patient-level bound, including any visits across sites. See [FL + Differential Privacy](../pet-architectures/fl-differential-privacy.md).
+
+For the baseline, use secure summation. If evaluating a defense such as Krum that needs separate updates, use a distinct test arm with an explicit trust boundary or a protocol that computes the robust function without exposing its inputs.
 
 ### What to Measure
 
 - DP accounting: per-round ε, total ε, δ, composition method (RDP, zCDP, or other).
 - Global and per-site metrics with confidence intervals, not just the mean.
-- Membership inference AUC on final model — a near-random AUC is necessary but not sufficient evidence of protection.
+- Membership inference on the final model. Report true-positive rate at low false-positive rates with uncertainty, following [Carlini et al. (IEEE S&P 2022)](https://arxiv.org/abs/2112.03570).
 - Communication cost: bytes sent and received per site per round.
 - Dropout recovery: how many additional rounds when one site is unavailable?
 - Subgroup performance across demographic groups represented in the data.
 
 ### Failure Modes
 
-- **DP noise destroys small-site utility**: sites with fewer than ~200 records may see catastrophic utility loss at privacy budgets that are acceptable for larger sites.
+- **DP noise destroys small-site utility**: check whether utility drops on smaller sites and report uncertainty with the site metrics.
 - **Non-IID drift**: heavy label imbalance across sites causes the global model to underperform every individual site's local model — a signal to reconsider the FL architecture.
-- **Round poisoning at scale**: a single Byzantine-robust aggregation method neutralises one poisoned update but may fail against coordinated multi-site attacks.
-- **Privacy budget burn-out**: without careful accounting, DP budget is exhausted before the model converges, forcing a choice between continuing without DP or stopping early.
+- **Round poisoning at scale**: an update can affect the aggregate and downstream model. Test the defense under its stated number of adversarial sites and report when it fails.
+- **Privacy budget burn-out**: without careful accounting, DP budget is exhausted before the model converges, stop or use a pre-approved budget plan. Continuing without the mechanism can invalidate the release claim.
 - **Subgroup erasure**: rare demographic subgroups present only at one small site can be effectively erased from the global model without any privacy attack occurring.
 
 ---
@@ -173,29 +140,24 @@ A national statistics office releases a DP synthetic version of a household inco
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Example value |
-| --- | --- | --- | --- |
-| Privacy claim | Nearest-neighbour distance ratio (NNDR); membership inference; DP accounting | Needs evidence | NNDR median 0.94 (synthetic records not close to real records); membership inference AUC 0.51; DP: ε = 3, δ = 10⁻⁶, Gaussian mechanism, zCDP composition |
-| Privacy claim — rare records | Rare-region subgroup (n < 50 in real data) memorisation probe | Needs evidence | No rare record reproduced verbatim; two rare combinations appeared in synthetic data but with plausible frequency distortion |
-| Utility — regression | Coefficients and standard errors for income ~ age + employment + region OLS | Needs evidence | Coefficient estimates within 8 % of real-data estimates; standard errors inflated ~15 % (synthetic variance is higher) |
-| Utility — cross-tabulations | Chi-squared statistics for key categorical pairs | Needs evidence | 18 / 20 cross-tabulations within acceptable range; 2 involving rare regions showed > 20 % relative error (flagged) |
-| Utility — rare subgroup | Income distribution for smallest region | Needs evidence | Distribution shape preserved; cell counts distorted by DP noise — not suitable for precise rare-group analysis |
-| Cost | Generation compute; parameter tuning iterations; privacy review | Needs evidence | ~4 hours training on A100; 6 tuning iterations; ~3 days reviewer time for release card |
-| Robustness | Distribution shift if real data updated; misuse outside intended tasks | Needs evidence | Longitudinal use (year-over-year comparison) explicitly flagged as out-of-scope in release card |
-| Operations | Release card completeness; residual-risk statement | Needs evidence | Release card covers: DP parameters, memorisation tests run, utility results, intended uses, prohibited uses, contact for questions |
+| Category | What to measure | Evidence level |
+| --- | --- | --- |
+| Privacy claim | Nearest-neighbour distance ratio (NNDR); membership inference; DP accounting | Needs evidence |
+| Privacy claim — rare records | Rare-region subgroup (n < 50 in real data) memorisation probe | Needs evidence |
+| Utility — regression | Coefficients and standard errors for income ~ age + employment + region OLS | Needs evidence |
+| Utility — cross-tabulations | Chi-squared statistics for key categorical pairs | Needs evidence |
+| Utility — rare subgroup | Income distribution for smallest region | Needs evidence |
+| Cost | Generation compute; parameter tuning iterations; privacy review | Needs evidence |
+| Robustness | Distribution shift if real data updated; misuse outside intended tasks | Needs evidence |
+| Operations | Release card completeness; residual-risk statement | Needs evidence |
 
 ### Release Gate Check
 
-Following the gate from [Scorecards](scorecards.md): this release states whether DP was applied (yes, ε = 3), what memorisation tests were run (NNDR + membership inference), what utility was measured (regression coefficients + cross-tabs), and what residual risk remains (rare-region cells). Gate passed with the two flagged cross-tabulations noted as known limits.
+Use the [scorecard release gate](scorecards.md). Require the implemented DP parameters and accounting, similarity and membership test results, downstream utility results, and a statement of residual risk before recording a release decision.
 
 ### Tradeoffs
 
-| ε (privacy budget) | Utility (regression R²) | Rare-group fidelity | Evidence level |
-| --- | --- | --- | --- |
-| ε = 1 | ~0.61 | Very poor | Needs evidence |
-| ε = 3 | ~0.74 | Poor for cells < 50 | Needs evidence |
-| ε = 10 | ~0.81 | Moderate | Needs evidence |
-| No DP (governance only) | ~0.83 | Good | Needs evidence |
+Compare candidate budgets against task-level and subgroup utility. Use public or proxy data for tuning or account for private selection. Report where utility falls below the release requirement.
 
 ### What to Measure
 
@@ -208,9 +170,9 @@ Following the gate from [Scorecards](scorecards.md): this release states whether
 ### Failure Modes
 
 - **Releasing without a release card**: researchers misuse the synthetic data for tasks it was not designed for (e.g. individual-level inference from a dataset synthesised for aggregate analysis).
-- **Overfitting to training data**: generative model memorises rare records, defeating DP if the noise level was insufficient for the tail of the distribution.
+- **Overfitting to training data**: the mechanism or accounting may be incorrect, or the parameters may give a weak bound. Correctly implemented DP still allows exact matches with some probability. Investigate matches separately and verify the formal guarantee.
 - **ε inflation through multiple releases**: releasing updated versions of the same synthetic dataset without tracking cumulative composition.
-- **Utility-privacy miscommunication**: a release that is DP-sound but has 30 % error on the key research variable is used uncritically because the DP label signals "private AND useful."
+- **Utility-privacy miscommunication**: users can mistake a valid privacy guarantee for evidence that the data are accurate enough for their task.
 
 ---
 
@@ -218,20 +180,20 @@ Following the gate from [Scorecards](scorecards.md): this release states whether
 
 ### Workload Description
 
-Two ad platforms and a retailer compute a joint conversion-rate metric (ad impressions → purchases) without revealing individual user records or platform-specific impression logs to each other. They use a two-party MPC protocol (secret sharing) with a semi-honest coordinator. The output is an aggregate conversion count, segmented by campaign and week.
+One ad platform and one retailer compute a joint conversion metric without revealing raw impression and purchase records to each other. The exercise uses a bilateral MPC protocol chosen to protect against one passive data party. No third party receives private inputs or occupies a compute role. The output is an aggregate conversion count, segmented by campaign and week.
 
 ### Scorecard
 
-| Category | What was measured | Evidence level | Example value |
-| --- | --- | --- | --- |
-| Privacy claim — input hiding | No party learns another party's raw impression or purchase records | Needs evidence | Verified by protocol audit; semi-honest threat model with no collusion assumed |
-| Privacy claim — output leakage | Small-cell suppression for cells with fewer than k records | Needs evidence | k = 50 applied; 3 of 24 campaign-week cells suppressed |
-| Privacy claim — differencing | Repeated queries with slightly shifted time windows | Needs evidence | No output-differential analysis run — flagged as gap |
-| Utility — metric accuracy | Conversion count vs. trusted centralised baseline (synthetic validation) | Needs evidence | Within 0.5 % of baseline for unsuppressed cells; suppressed cells represent ~8 % of total conversions |
-| Utility — decision impact | Campaign budget reallocation decisions made using MPC output vs. centralised | Needs evidence | Decision outcomes identical in 11 / 12 test scenarios; 1 borderline scenario affected by cell suppression |
-| Cost | End-to-end query time; coordinator effort; schema negotiation | Needs evidence | ~18 min for a weekly batch query over 3 parties; schema negotiation required ~6 hours at setup; ongoing governance ~2 hours per query cycle |
-| Robustness | One party unavailable; malformed input record; schema drift | Needs evidence | Protocol halts cleanly if a party is unavailable — no partial result leaked; malformed records rejected at ingestion; schema drift requires manual reconciliation |
-| Operations | Query governance log; allowed-output schema; incident path | Needs evidence | Every query logged with requesting party, timestamp, output schema, suppression count; incident path defined but untested |
+| Category | What to measure | Evidence level |
+| --- | --- | --- |
+| Privacy claim — input hiding | No party learns another party's raw impression or purchase records | Needs evidence |
+| Privacy claim — output leakage | Small-cell suppression for cells with fewer than k records | Needs evidence |
+| Privacy claim — differencing | Repeated queries with slightly shifted time windows | Needs evidence |
+| Utility — metric accuracy | Conversion count vs. trusted centralised baseline (synthetic validation) | Needs evidence |
+| Utility — decision impact | Campaign budget reallocation decisions made using MPC output vs. centralised | Needs evidence |
+| Cost | End-to-end query time; per-party operational effort; schema negotiation | Needs evidence |
+| Robustness | One party unavailable; malformed input record; schema drift | Needs evidence |
+| Operations | Query governance log; allowed-output schema; incident path | Needs evidence |
 
 ### Tradeoffs
 
@@ -239,8 +201,8 @@ Two ad platforms and a retailer compute a joint conversion-rate metric (ad impre
 | --- | --- | --- | --- |
 | Input confidentiality | Cryptographic (semi-honest) | Contractual | Contractual |
 | Setup complexity | High — schema alignment, protocol integration | Moderate | Low |
-| Query latency | Minutes (batch) | Minutes | Days (legal process) |
-| Collusion resistance | None against 2-of-3 collusion | None — TTP must be trusted | None |
+| Timing | Measure end-to-end batch latency | Include data transfer and approvals | Include data transfer and approvals |
+| Trust assumption | One passive party, under the selected protocol and output policy | Third party sees raw inputs | Recipients see whatever the agreement permits |
 | Cost per query | High at setup; low marginal | Moderate | Low compute, high legal |
 
 ### What to Measure
@@ -253,7 +215,7 @@ Two ad platforms and a retailer compute a joint conversion-rate metric (ad impre
 
 ### Failure Modes
 
-- **Collusion not modelled**: the semi-honest assumption fails if two of three parties collude; a deployment where the coordinator is a subsidiary of one data party is not actually semi-honest.
+- **Collusion not modelled**: a protocol that protects against passive parties does not cover deviations. Adding a compute party or a coordinator with access to inputs changes the trust model. Review its view and the tolerated coalitions before adopting that topology.
 - **Small-cell leakage through repeated queries**: even with k-suppression, an analyst with query access can reconstruct suppressed cells by querying with slightly different filters.
 - **Schema mismatch silently shifts metric**: if one party's event schema changes (e.g. a new impression type is added), the MPC output may be technically correct but meaningfully different from prior periods without any error being raised.
 - **Governance theatre**: a query governance log that nobody reviews gives the appearance of auditability without the substance.
@@ -270,7 +232,7 @@ The table below maps each example to the shared reporting template from [Scoreca
 | Protected asset | Prompts, retrieved snippets, answers, citations | Client features + model weights | Patient images, gradient updates | Individual survey records | Impression logs, purchase records |
 | Adversary | Curious platform operator; injection attacker | Curious server (HE) / curious host OS (TEE) | Curious coordinator; single Byzantine site | Reconstruction / membership inference attacker | Curious co-participant; differencing attacker |
 | Allowed output | Answers citing only authorised documents | Score value only | Global + per-site AUROC; no raw gradients | Aggregate statistics, regression coefficients | Aggregate conversion counts (k-suppressed) |
-| PET stack | Hard ACL filter + optional TEE retrieval | HE (CKKS/BFV) or TEE (Intel TDX / AMD SEV) | Federated SGD + secure aggregation + DP | DP generative model (Gaussian mechanism, ε = 3) | 2-party MPC secret sharing |
+| PET stack | Hard ACL filter + optional TEE retrieval | HE (CKKS/BFV) or TEE (Intel TDX / AMD SEV) | Federated SGD + secure aggregation + DP | DP generative model with a documented privacy unit and budget | Two-party MPC with a documented passive security model |
 | Evidence level | Needs evidence | Needs evidence | Needs evidence | Needs evidence | Needs evidence |
 | Source quality | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative | Unsourced / illustrative |
 | Key failure mode | Soft-filter bypass; citation side-channel | HE: parameter mismatch; TEE: attestation skipped | DP destroys small-site utility | Rare-subgroup utility loss; ε inflation | Collusion not modelled; differencing via repeated queries |
