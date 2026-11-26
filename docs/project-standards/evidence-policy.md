@@ -41,6 +41,7 @@ Deployment maturity is separate from source quality. A production system can sti
 | --- | --- |
 | Production | Used in a live public, commercial, clinical, civic, or institutional workflow |
 | Production, batch / periodic | Used in a real workflow, but run as a periodic release or recurring study rather than an always-on service |
+| Historical production | Used in a real workflow in the past. Continued use is no longer supported by current evidence or policy. |
 | Pilot | Tested with real organizations or real data, but not clearly sustained as a production workflow |
 | Demonstration experiment | Tested with real partners or realistic data to prove feasibility; operational adoption is not established |
 | Research prototype | Published experiment, demo, or study; may use real data but is primarily research evidence |

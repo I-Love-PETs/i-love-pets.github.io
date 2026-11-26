@@ -191,7 +191,7 @@ One ad platform and one retailer compute a joint conversion metric without revea
 | Privacy claim — differencing | Repeated queries with slightly shifted time windows | Needs evidence |
 | Utility — metric accuracy | Conversion count vs. trusted centralised baseline (synthetic validation) | Needs evidence |
 | Utility — decision impact | Campaign budget reallocation decisions made using MPC output vs. centralised | Needs evidence |
-| Cost | End-to-end query time; coordinator effort; schema negotiation | Needs evidence |
+| Cost | End-to-end query time; per-party operational effort; schema negotiation | Needs evidence |
 | Robustness | One party unavailable; malformed input record; schema drift | Needs evidence |
 | Operations | Query governance log; allowed-output schema; incident path | Needs evidence |
 

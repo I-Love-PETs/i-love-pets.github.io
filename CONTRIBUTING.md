@@ -80,8 +80,8 @@ use cases. Link terminology to stable glossary anchors and cite decision-critica
 claims near the claim.
 
 Shared editorial review text lives in `includes/decision-guidance.md`, outside
-`docs/`, and is expanded by the already-supported Snippets extension. Its relative
-links assume a page one section below `docs/`. Keep keys, thresholds, hardware,
+`docs/`, and is expanded by the already-supported Snippets extension. Its links
+are relative to the docs root, so the include works at any page depth. Keep keys, thresholds, hardware,
 privacy units, and other page-specific assumptions local. Missing includes fail
 the strict build. The source-link checker covers page-local links; the strict
 build and built-site checker also validate expanded include links.

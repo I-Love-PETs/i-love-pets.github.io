@@ -36,7 +36,7 @@ A defining design choice is the use of **invariants**: certain statistics the Bu
 
 ## Maturity
 
-**Production, batch / periodic.** Treat the files as separate releases. The [2021 redistricting files](https://www.census.gov/newsroom/press-releases/2021/2020-census-key-parameters.html) and the [2023 Demographic and Housing Characteristics File](https://www.census.gov/data/tables/2023/dec/2020-census-dhc.html) describe different products. Earlier [demonstration files](https://www.census.gov/newsroom/press-releases/2021/census-bureau-releases-latest-privacy-protection-demonstration-data.html) used 2010 Census data to illustrate the method. Check which release an evaluation used before carrying its accuracy findings forward.
+**Historical production.** The 2020 cycle produced multiple releases under the Disclosure Avoidance System. The [2021 redistricting files](https://www.census.gov/newsroom/press-releases/2021/2020-census-key-parameters.html) and the [2023 Demographic and Housing Characteristics File](https://www.census.gov/data/tables/2023/dec/2020-census-dhc.html) describe different products. Earlier [demonstration files](https://www.census.gov/newsroom/press-releases/2021/census-bureau-releases-latest-privacy-protection-demonstration-data.html) used 2010 Census data to illustrate the method. Check which release an evaluation used before carrying its accuracy findings forward.
 
 ## Privacy Claim
 
@@ -75,6 +75,6 @@ What DP did **not** do, and the criticisms it drew:
 ## Sources
 
 - U.S. Census Bureau, [The 2020 Census Disclosure Avoidance System TopDown Algorithm](https://www.census.gov/library/working-papers/2022/adrm/CED-WP-2022-002.html) (working paper, 2022).
-- Kenny et al., [The use of differential privacy for census data and its impact on redistricting](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/), PNAS, 2021 (April DAS 12.2 demonstration on 2010 data).
+- Kenny et al., [The use of differential privacy for census data and its impact on redistricting](https://pmc.ncbi.nlm.nih.gov/articles/PMC8494446/), *Science Advances* 7(41), 2021 (April DAS 12.2 demonstration on 2010 data).
 - [The 2020 US Census Differential Privacy Method Introduces Disproportionate Discrepancies](https://pmc.ncbi.nlm.nih.gov/articles/PMC11105149/) (final demonstration on 2010 data with the production redistricting epsilon settings).
 - [Alabama v. U.S. Dept. of Commerce, M.D. Ala., No. 3:21-cv-00211, court filing](https://storage.courtlistener.com/recap/gov.uscourts.almd.75040/gov.uscourts.almd.75040.27.0.pdf).

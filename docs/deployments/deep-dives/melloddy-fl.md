@@ -40,7 +40,7 @@ The [platform paper](https://ojs.aaai.org/index.php/AAAI/article/view/26847) des
 
 ## Limitations
 
-What FL plus secure aggregation did **not** fully protect, stated candidly by the project and independent analysts:
+The platform paper describes which artifacts each party can see. The separate DP experiment tested a different privacy control. Read each finding within that scope:
 
 - **The aggregate and shared trunk may still reveal information.** Inference from the artifacts visible to partners remains a separate threat. The [platform paper](https://ojs.aaai.org/index.php/AAAI/article/view/26847) describes the participation and trust assumptions.
 - **The DP utility result is from a separate experiment.** In their study of inference and attribution risks, [Pejó et al. (§6.1)](https://arxiv.org/abs/2205.06506) evaluated record-level DP in a centralized experiment on ChEMBL. They reported substantial accuracy loss at the tested privacy setting. This does not establish a consortium decision to reject DP. *(Evidence: Literature-backed. Source quality: Peer-reviewed / academic. The linked version is a preprint.)*
@@ -49,7 +49,7 @@ What FL plus secure aggregation did **not** fully protect, stated candidly by th
 
 ## Builder Lessons
 
-- **Separate "we did not share raw data" from "the data is private."** MELLODDY's honesty is the lesson: FL keeps raw data home and secure aggregation hides individual updates, but neither bounds what the shared model leaks. Name the residual leakage explicitly.
+- **Separate "we did not share raw data" from "the data is private."** In MELLODDY, raw data stayed local and secure aggregation limited access to individual updates. Partners could still observe the aggregate and shared trunk. Evaluate what those artifacts reveal.
 - **Test the privacy and utility tradeoff for your own tasks.** If you need a formal contribution bound, define the privacy unit and budget before measuring utility. The ChEMBL experiment is one tradeoff under specific settings.
 - **Cross-competitor FL is as much governance as engineering.** A distributed ledger (Substra) was used partly to make the *process* auditable and trustworthy among rivals, mirroring the Boston MPC lesson that trust and orchestration dominate raw crypto performance.
 - **Shared task definitions and data harmonization come first.** Cross-silo FL across companies needs agreed task definitions and an agreement about what model improvements may reveal, before any training runs.

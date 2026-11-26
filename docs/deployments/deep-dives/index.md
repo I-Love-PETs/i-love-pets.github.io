@@ -33,8 +33,8 @@ These studies were chosen because they span different PET families, threat model
 
 | Deep dive | PET family | Maturity | Source quality | Why it is worth studying |
 | --- | --- | --- | --- | --- |
-| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Production, batch / periodic | Primary / official plus independent analysis | Historical use of DP in official statistics, with documented utility tradeoffs and a subsequent change in policy |
-| [Boston Wage-Gap MPC](boston-wage-gap-mpc.md) | Secure multi-party computation | Ongoing batch program, repeated since 2015 | Primary / official plus third-party case study | A rare long-running civic MPC deployment where the hard part was trust and usability, not crypto |
+| [US Census Differential Privacy](us-census-dp.md) | Differential privacy | Historical production | Primary / official plus independent analysis | Historical use of DP in official statistics, with documented utility tradeoffs and a subsequent change in policy |
+| [Boston Wage-Gap MPC](boston-wage-gap-mpc.md) | Secure multi-party computation | Recurring batch program, first report listed: 2016 | Primary / official plus third-party case study | A rare long-running civic MPC deployment where the hard part was trust and usability, not crypto |
 | [Ads Data Hub & Clean Rooms](ads-data-hub-clean-rooms.md) | Aggregation plus query controls (clean room) | Commercial production | Primary / official vendor documentation | A dominant commercial pattern that is often loosely called "privacy-preserving" |
 | [MELLODDY Federated Learning](melloddy-fl.md) | Federated learning plus secure aggregation | Completed consortium project | Primary / official plus peer-reviewed / academic | An industrial-scale cross-pharma experiment that separates the server and participant views |
 | [EXAM COVID-19 Federated Learning](exam-covid-fl.md) | Federated learning | Research prototype / demonstration experiment | Peer-reviewed / academic | A strong healthcare feasibility study that separates "raw data stayed local" from clinical production evidence |
